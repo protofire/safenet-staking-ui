@@ -1,0 +1,9 @@
+[
+  {
+    "address": "0x1111111111111111111111111111111111111111",
+    "commission": 0.05,
+    "is_active": true,
+    "label": "E2E Validator",
+    "participation_rate_14d": 0.98
+  }
+]
