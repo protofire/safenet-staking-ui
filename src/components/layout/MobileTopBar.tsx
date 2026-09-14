@@ -1,3 +1,4 @@
+import { LOGO_SRC } from '@/config/app'
 import { WalletChrome } from '@/components/layout/WalletChrome'
 import { cn } from '@/lib/utils'
 
@@ -11,7 +12,7 @@ export function MobileTopBar({ className }: { className?: string }) {
     >
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <img
-          src="/logo.svg"
+          src={LOGO_SRC}
           alt=""
           width={24}
           height={24}

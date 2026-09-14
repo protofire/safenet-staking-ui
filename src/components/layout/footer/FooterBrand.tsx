@@ -1,4 +1,4 @@
-import { APP_BRAND_NAME } from '@/config/app'
+import { APP_BRAND_NAME, LOGO_SRC } from '@/config/app'
 
 export function FooterBrand({
   brandName = APP_BRAND_NAME,
@@ -11,7 +11,7 @@ export function FooterBrand({
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight text-text">
         <img
-          src="/logo.svg"
+          src={LOGO_SRC}
           alt=""
           width={32}
           height={32}

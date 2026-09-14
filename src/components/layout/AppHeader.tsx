@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router'
 
-import { APP_VERSION } from '@/config/app'
+import { APP_VERSION, LOGO_SRC } from '@/config/app'
 import { WalletChrome } from '@/components/layout/WalletChrome'
 import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
@@ -18,7 +18,7 @@ export function AppHeader() {
       <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-5 px-6 lg:gap-8 lg:px-12">
         <div className="flex shrink-0 items-center gap-2">
           <img
-            src="/logo.svg"
+            src={LOGO_SRC}
             alt=""
             width={32}
             height={32}
