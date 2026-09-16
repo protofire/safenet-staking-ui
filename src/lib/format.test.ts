@@ -6,7 +6,7 @@ import {
   formatCountdown,
   formatDurationFromSeconds,
   formatTokenAmount,
-  formatTokenAmountRaw,
+  formatTokenAmountPrecise,
   formatTxHashShort,
   formatUnstakingDelayCompact,
   formatUnstakingDelayStat,
@@ -18,35 +18,89 @@ import {
 
 const SAFE = 10n ** 18n
 
-describe('formatTokenAmountRaw', () => {
-  it('formats whole token amounts without decimals', () => {
-    expect(formatTokenAmountRaw(1_000n * SAFE)).toBe('1000')
+describe('formatTokenAmount', () => {
+  it('formats zero', () => {
+    expect(formatTokenAmount(0n)).toBe('0')
   })
 
-  it('truncates rather than rounds to maxDecimals', () => {
-    expect(formatTokenAmountRaw(1_23456789n * 10n ** 10n)).toBe('1.2345')
+  it('floors tiny amounts below 0.00001 SAFE', () => {
+    expect(formatTokenAmount(1n)).toBe('< 0.00001')
+    expect(formatTokenAmount(1_678_630_000_000n)).toBe('< 0.00001')
+    expect(formatTokenAmount(123_450_000_000n)).toBe('< 0.00001')
   })
 
-  it('drops the fractional part when maxDecimals is 0', () => {
-    expect(formatTokenAmountRaw(15n * 10n ** 17n, 18, 0)).toBe('1')
+  it('shows amounts at and above the floor threshold', () => {
+    expect(formatTokenAmount(10_000_000_000_000n)).toBe('0.00001')
+    expect(formatTokenAmount(49_999_999_999_999n)).toBe('0.00005')
+    expect(formatTokenAmount(999_990_000_000_000_000n)).toBe('0.99999')
   })
 
-  it('respects custom token decimals', () => {
-    expect(formatTokenAmountRaw(1_500_000n, 6)).toBe('1.5')
+  it('uses 5 decimals below 1', () => {
+    expect(formatTokenAmount(123_456_789n * 10n ** 9n)).toBe('0.12346')
+    expect(formatTokenAmount(999_995n * 10n ** 12n)).toBe('1')
+  })
+
+  it('uses 4 decimals from 1 to under 1,000', () => {
+    expect(formatTokenAmount(1_500_000_000_000_000_000n)).toBe('1.5')
+    expect(formatTokenAmount(123_123_456n * 10n ** 12n)).toBe('123.1235')
+    expect(formatTokenAmount(999_999_960_000_000_000_000n)).toBe('1,000')
+  })
+
+  it('uses 2 decimals from 1,000 to under one million', () => {
+    expect(formatTokenAmount(1_000_123_456n * 10n ** 12n)).toBe('1,000.12')
+    expect(formatTokenAmount(123_456_789n * 10n ** 14n)).toBe('12,345.68')
+    expect(formatTokenAmount(999_999_994n * 10n ** 15n)).toBe('999,999.99')
+  })
+
+  it('formats whole token amounts without fractional digits', () => {
+    expect(formatTokenAmount(1_500_000_000_000_000_000_000n)).toBe('1,500')
+    expect(formatTokenAmount(999_999n * SAFE)).toBe('999,999')
+  })
+
+  it('uses compact notation from one million up', () => {
+    expect(formatTokenAmount(999_999_995_000_000_000_000_000n)).toBe('1M')
+    expect(formatTokenAmount(1_000_000n * SAFE)).toBe('1M')
+    expect(formatTokenAmount(1_234_567n * SAFE)).toBe('1.23M')
+    expect(formatTokenAmount(123_456_789n * 10n ** 16n)).toBe('1.23M')
+    expect(formatTokenAmount(2_500_000_000n * SAFE)).toBe('2.5B')
+  })
+
+  it('routes explicit precision to the precise formatter', () => {
+    expect(formatTokenAmount(1_239_000_000_000_000_000n, 18, 2)).toBe('1.24')
   })
 })
 
-describe('formatTokenAmount', () => {
-  it('adds thousands separators', () => {
-    expect(formatTokenAmount(1_234_567n * SAFE)).toBe('1,234,567')
+describe('formatTokenAmountPrecise', () => {
+  it('shows full precision with trailing zeros trimmed', () => {
+    expect(formatTokenAmountPrecise(1_678_630_000_000n)).toBe('0.00000167863')
+    expect(formatTokenAmountPrecise(1n)).toBe('0.000000000000000001')
   })
 
-  it('keeps separators only in the whole part', () => {
-    expect(formatTokenAmount(123_456_789n * 10n ** 16n)).toBe('1,234,567.89')
+  it('preserves digits that float64 would lose', () => {
+    expect(formatTokenAmountPrecise(16_000_000_000_020_475n)).toBe('0.016000000000020475')
   })
 
   it('formats zero', () => {
-    expect(formatTokenAmount(0n)).toBe('0')
+    expect(formatTokenAmountPrecise(0n)).toBe('0')
+  })
+
+  it('rounds half-up to the requested precision and delimits the whole part', () => {
+    expect(formatTokenAmountPrecise(1_234_567_895n * 10n ** 15n, 18, 2)).toBe('1,234,567.9')
+    expect(formatTokenAmountPrecise(999_995n * 10n ** 13n, 18, 4)).toBe('10')
+    expect(formatTokenAmountPrecise(15n * 10n ** 17n, 18, 0)).toBe('2')
+  })
+
+  it('keeps full precision when precision is not below the token decimals', () => {
+    expect(formatTokenAmountPrecise(1_500_000n, 6, 6)).toBe('1.5')
+    expect(formatTokenAmountPrecise(1_500_000n, 6, 9)).toBe('1.5')
+  })
+})
+
+describe('formatTokenAmount with custom decimals', () => {
+  it('floors and formats relative to the token decimals', () => {
+    expect(formatTokenAmount(9n, 6)).toBe('< 0.00001')
+    expect(formatTokenAmount(10n, 6)).toBe('0.00001')
+    expect(formatTokenAmount(1_500_000n, 6)).toBe('1.5')
   })
 })
 

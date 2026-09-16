@@ -32,7 +32,6 @@ export function WalletSafeBalance({ className }: { className?: string }) {
         'inline-flex items-center gap-1.5 font-mono text-xs leading-none tabular-nums text-text-muted',
         className,
       )}
-      title="SAFE token balance"
     >
       <img
         src={safeTokenPng}
@@ -46,9 +45,7 @@ export function WalletSafeBalance({ className }: { className?: string }) {
         <span>…</span>
       ) : (
         <>
-          <span className="text-text">
-            {formatTokenAmount(balanceWei ?? 0n, 18, 4)}
-          </span>
+          <span className="text-text">{formatTokenAmount(balanceWei ?? 0n)}</span>
           <span>SAFE</span>
         </>
       )}

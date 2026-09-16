@@ -1,17 +1,58 @@
 import { formatUnits, parseEther } from 'viem'
 
-export function formatTokenAmountRaw(amount: bigint, decimals = 18, maxDecimals = 4): string {
-  const formatted = formatUnits(amount, decimals)
-  const parts = formatted.split('.')
-  const whole = parts[0] ?? '0'
-  const decimal = parts[1]
-  if (!decimal || maxDecimals === 0) return whole
-  return `${whole}.${decimal.slice(0, maxDecimals)}`
+const LOCALE = 'en-US'
+const FLOOR_DECIMALS = 5
+const DISPLAY_FLOOR_LABEL = '< 0.00001'
+const COMPACT_THRESHOLD = 1_000_000
+
+type TierDecimals = 5 | 4 | 2
+
+const numberFormat = (maximumFractionDigits: number) =>
+  new Intl.NumberFormat(LOCALE, { maximumFractionDigits })
+const tierNumberFormats: Record<TierDecimals, Intl.NumberFormat> = {
+  5: numberFormat(5),
+  4: numberFormat(4),
+  2: numberFormat(2),
+}
+const compactNumberFormat = new Intl.NumberFormat(LOCALE, {
+  notation: 'compact',
+  compactDisplay: 'short',
+  maximumFractionDigits: 2,
+})
+
+function tierDecimals(amount: bigint, scale: bigint): TierDecimals {
+  if (amount < scale) return 5
+  if (amount < 1_000n * scale) return 4
+  return 2
 }
 
-export function formatTokenAmount(amount: bigint, decimals = 18, maxDecimals = 4): string {
-  const raw = formatTokenAmountRaw(amount, decimals, maxDecimals)
-  return formatAmountInputDisplay(raw)
+function roundToPrecision(amount: bigint, decimals: number, precision: number): string {
+  if (precision >= decimals) return formatUnits(amount, decimals)
+  const factor = 10n ** BigInt(decimals - precision)
+  return formatUnits((amount + factor / 2n) / factor, precision)
+}
+
+export function formatTokenAmountPrecise(
+  amount: bigint,
+  decimals = 18,
+  precision?: number,
+): string {
+  const units =
+    precision === undefined
+      ? formatUnits(amount, decimals)
+      : roundToPrecision(amount, decimals, precision)
+  return formatAmountInputDisplay(units)
+}
+
+export function formatTokenAmount(amount: bigint, decimals = 18, precision?: number): string {
+  if (precision !== undefined) return formatTokenAmountPrecise(amount, decimals, precision)
+
+  const scale = 10n ** BigInt(decimals)
+  if (amount > 0n && amount * 10n ** BigInt(FLOOR_DECIMALS) < scale) return DISPLAY_FLOOR_LABEL
+
+  const tier = tierDecimals(amount, scale)
+  const n = Number(roundToPrecision(amount, decimals, tier))
+  return n >= COMPACT_THRESHOLD ? compactNumberFormat.format(n) : tierNumberFormats[tier].format(n)
 }
 
 export function sanitizeAmountInput(value: string): string {

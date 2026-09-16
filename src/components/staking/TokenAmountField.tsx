@@ -1,10 +1,6 @@
-import {
-  formatAmountInputDisplay,
-  formatTokenAmountRaw,
-  isValidAmountInput,
-  sanitizeAmountInput,
-} from '@/lib/format'
+import { formatAmountInputDisplay, isValidAmountInput, sanitizeAmountInput } from '@/lib/format'
 import { cn } from '@/lib/utils'
+import { formatUnits } from 'viem'
 
 type TokenAmountFieldProps = {
   inputId: string
@@ -66,9 +62,7 @@ export function TokenAmountField({
           type="button"
           disabled={maxDisabled || maxAmount === undefined}
           className="shrink-0 rounded-sm border border-primary px-2 py-1 font-mono text-xs font-medium uppercase tracking-[0.16em] text-primary hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50"
-          onClick={() =>
-            maxAmount !== undefined && onChange(formatTokenAmountRaw(maxAmount, 18, 18))
-          }
+          onClick={() => maxAmount !== undefined && onChange(formatUnits(maxAmount, 18))}
         >
           MAX
         </button>

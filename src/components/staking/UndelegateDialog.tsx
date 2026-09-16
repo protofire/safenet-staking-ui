@@ -77,7 +77,7 @@ export function UndelegateDialog({ validator, open, onOpenChange }: UndelegateDi
     staked !== undefined &&
     parsedAmount <= staked
 
-  const stakedLabel = staked !== undefined ? formatTokenAmount(staked, 18, 4) : '—'
+  const stakedLabel = staked !== undefined ? formatTokenAmount(staked) : '—'
 
   const submitting = isSigningTx || isConfirmingTx || isSafeQueued || isSuccess
   const withdrawalSimulation = useInitiateWithdrawalSimulation(

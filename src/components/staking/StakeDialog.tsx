@@ -143,11 +143,11 @@ export function StakeDialog({ validator, open, onOpenChange }: StakeDialogProps)
 
   const delegLabel =
     stakeOnValidatorWei !== undefined && typeof stakeOnValidatorWei === 'bigint'
-      ? formatTokenAmount(stakeOnValidatorWei, 18, 4)
+      ? formatTokenAmount(stakeOnValidatorWei)
       : '—'
 
   const walletBalanceLabel =
-    balanceValue !== undefined ? formatTokenAmount(balanceValue, 18, 4) : '—'
+    balanceValue !== undefined ? formatTokenAmount(balanceValue) : '—'
 
   useSafeQueuedToast(isStakeSafeQueued)
   useResetOnWalletChange(() => handleOpenChange(false))

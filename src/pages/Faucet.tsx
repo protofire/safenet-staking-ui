@@ -163,7 +163,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
 
   const balanceLabel =
     balanceWei !== undefined && !balancePending
-      ? formatTokenAmount(balanceWei, tokenDecimals, 4)
+      ? formatTokenAmount(balanceWei, tokenDecimals)
       : null
 
   const cooldownLabel =
@@ -173,12 +173,12 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
 
   const perDripLabel =
     dripAmountWei !== undefined && dripAmountWei > 0n && !dripAmountPending
-      ? formatTokenAmount(dripAmountWei, tokenDecimals, 4)
+      ? formatTokenAmount(dripAmountWei, tokenDecimals)
       : null
 
   const poolLabel =
     poolWei !== undefined && !poolPending
-      ? formatTokenAmount(poolWei, tokenDecimals, 4)
+      ? formatTokenAmount(poolWei, tokenDecimals)
       : null
 
   const busy = isSigningTx || isConfirmingTx || isSafeQueued
