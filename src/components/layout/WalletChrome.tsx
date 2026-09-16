@@ -1,6 +1,7 @@
 import { ConnectWalletButton } from '@/components/layout/ConnectWalletButton'
 import { NetworkBadge } from '@/components/layout/NetworkBadge'
 import { ThemeToggleButton } from '@/components/layout/ThemeToggleButton'
+import { WalletEthBalance } from '@/components/layout/WalletEthBalance'
 import { WalletSafeBalance } from '@/components/layout/WalletSafeBalance'
 import { cn } from '@/lib/utils'
 
@@ -28,9 +29,15 @@ export function WalletChrome({ layout }: WalletChromeProps) {
           {...(isDesktop ? { className: 'hidden lg:inline-flex' } : {})}
         />
         {isDesktop ? (
-          <WalletSafeBalance className="hidden xl:inline-flex" />
+          <>
+            <WalletEthBalance className="hidden xl:inline-flex" />
+            <WalletSafeBalance className="hidden xl:inline-flex" />
+          </>
         ) : (
-          <WalletSafeBalance className="hidden sm:inline-flex" />
+          <>
+            <WalletEthBalance className="hidden sm:inline-flex" />
+            <WalletSafeBalance className="hidden sm:inline-flex" />
+          </>
         )}
       </div>
 

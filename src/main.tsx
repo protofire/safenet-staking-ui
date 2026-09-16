@@ -26,7 +26,7 @@ if (isFrameAncestorAllowed()) {
         <ErrorBoundary>
           <WagmiProvider config={wagmiConfig}>
             <QueryClientProvider client={queryClient}>
-              <ConnectKitProvider>
+              <ConnectKitProvider options={{ hideBalance: true }}>
                 <SafeAppAutoConnect />
                 <App />
                 <Toaster richColors closeButton />
