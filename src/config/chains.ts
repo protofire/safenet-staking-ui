@@ -11,6 +11,12 @@ export const chainsByEnvId = {
 
 export const chain: Chain = chainsByEnvId[env.VITE_CHAIN_ID]
 
+export function getChainDisplayName(chainId: number | undefined): string {
+  if (chainId === undefined) return 'Unknown chain'
+  const known = Object.values(chainsByEnvId).find((c) => c.id === chainId)
+  return known?.name ?? 'Wrong network'
+}
+
 const httpTransportOptions = { batch: { wait: 50 } } as const
 
 function createFallbackTransport(chainId: SupportedChainId, primary: string): Transport {
