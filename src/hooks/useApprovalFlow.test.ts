@@ -114,14 +114,15 @@ describe('useApprovalFlow', () => {
     await waitFor(() => expect(result.current.approvedInSession).toBe(true))
   })
 
-  it('omits the toast id when no tx hash is known', () => {
+  it('omits the toast id when no tx hash is known', async () => {
     mockAllowance({ isApproved: true })
 
-    renderFlow()
+    const { result } = renderFlow()
 
     expect(toastSuccess).toHaveBeenCalledWith('Approval confirmed', {
       description: 'You can now stake your SAFE tokens.',
     })
+    await waitFor(() => expect(result.current.approvedInSession).toBe(true))
   })
 
   it('shows the formatted error and hides the approval type on failure', () => {

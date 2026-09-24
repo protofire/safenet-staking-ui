@@ -21,7 +21,7 @@ export function TestProviders({ children }: { children: ReactNode }) {
   return (
     <MemoryRouter>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <WagmiProvider config={wagmiConfig}>
+        <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
           <QueryClientProvider client={queryClient}>
             <ConnectKitProvider>{children}</ConnectKitProvider>
           </QueryClientProvider>
