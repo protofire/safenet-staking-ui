@@ -1,5 +1,13 @@
 # Safenet Staking UI
 
+## Goal
+
+Safenet Staking UI by Protofire is an alternative interface for staking SAFE on Safenet. Development was supported by a grant from Safe Foundation (https://forum.safefoundation.org/t/rfp-safenet-beta-staking-ui-call-for-operators/6992).
+
+This is an independent project and not an official Safe product. It uses the same Safenet staking and rewards contracts as the official Safenet Staking app, so on-chain behavior (staking, unstaking, withdrawals, Merkle reward claims) is the same.
+
+## About
+
 Single-page app built with **TypeScript**, **Vite**, and **React** (strict compiler settings, ESM, `react-jsx`). It is a static deployment target for a SAFE-token staking dApp.
 
 Current version: **0.2.0**.
@@ -35,7 +43,7 @@ pnpm dev
 
 ## Environment
 
-Copy [`.env.example`](./.env.example) to `.env` before `pnpm dev` or `pnpm build`. The example is configured for mainnet. `VITE_CHAIN_ID`, `VITE_RPC_URL`, `VITE_VALIDATOR_INFO_URL`, `VITE_SAFE_TOKEN_ADDRESS` and `VITE_STAKING_CONTRACT_ADDRESS` are required; the app refuses to start when any of them is missing or malformed. The remaining variables disable optional UI when omitted. Only Ethereum mainnet and Sepolia are supported.
+Copy [`.env.example`](./.env.example) to `.env` before `pnpm dev` or `pnpm build`. The example is configured for mainnet.
 
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
@@ -49,10 +57,6 @@ Copy [`.env.example`](./.env.example) to `.env` before `pnpm dev` or `pnpm build
 | `VITE_FAUCET_CONTRACT_ADDRESS` | no | Faucet contract (Sepolia only); when set, enables the faucet page. |
 | `VITE_WALLETCONNECT_PROJECT_ID` | no | WalletConnect Cloud project id. When unset, WalletConnect wallets are not offered. |
 
-> **Note on `VITE_*` exposure.** Vite inlines every `VITE_*` value into the production JS bundle, so anything you set is shipped to every client that loads the dApp. Only put public, non-secret values here:
->
-> - `VITE_RPC_URL` must be a public, keyless RPC endpoint (e.g. [PublicNode](https://publicnode.com/) URLs like `https://ethereum-sepolia-rpc.publicnode.com`). Do **not** paste an Alchemy/Infura/QuickNode URL with an embedded API key — it will be public and quota-stealable. If you need a paid provider, front it with an unauthenticated proxy you rate-limit by origin/IP. Sepolia builds also use `https://ethereum-rpc.publicnode.com` for mainnet ENS reads in the wallet UI. If the configured RPC fails, reads fall back to the public endpoints listed in [`src/config/rpcFallbacks.ts`](./src/config/rpcFallbacks.ts); these are also added to the CSP `connect-src` at build time.
-> - `VITE_WALLETCONNECT_PROJECT_ID` is public-by-design (WalletConnect Cloud projects are identified, not authenticated, by this id).
 
 ## Scripts
 
