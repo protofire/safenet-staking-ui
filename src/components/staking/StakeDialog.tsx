@@ -152,25 +152,25 @@ export function StakeDialog({ validator, open, onOpenChange }: StakeDialogProps)
   useResetOnWalletChange(() => handleOpenChange(false))
 
   useTxSuccessNotify(isStaked, () => {
-    toast.success('Staking successful', {
-      description: `Staked ${amount || '0'} SAFE to ${validatorLabel}`,
+    toast.success('Stake confirmed', {
+      description: `${amount || '0'} SAFE is now staked to ${validatorLabel}.`,
     })
   })
 
   useTxSuccessNotify(isBatchSuccess, () => {
-    toast.success('Delegation successful', {
-      description: `Approved and staked ${amount || '0'} SAFE to ${validatorLabel}`,
+    toast.success('Approval and stake confirmed', {
+      description: `${amount || '0'} SAFE approved and staked to ${validatorLabel}.`,
     })
   })
 
-  useTxErrorToast(stakeError, 'Staking failed')
-  useTxErrorToast(batchError, 'Delegation failed')
+  useTxErrorToast(stakeError, 'Stake did not go through')
+  useTxErrorToast(batchError, 'Approve and stake did not go through')
 
   useEffect(() => {
     if (!isBatchReverted) return
 
-    toast.error('Transaction reverted', {
-      description: 'The batch transaction was reverted onchain.',
+    toast.error('Batch reverted onchain', {
+      description: 'The network rejected the approve-and-stake batch. Nothing was staked.',
     })
     resetBatch()
   }, [isBatchReverted, resetBatch])

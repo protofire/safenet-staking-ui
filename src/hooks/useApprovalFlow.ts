@@ -31,8 +31,8 @@ export function useApprovalFlow(parsedAmount: bigint) {
   useEffect(() => {
     if (!isApproved) return
 
-    toast.success('Approval confirmed', {
-      description: 'You can now stake your SAFE tokens.',
+    toast.success('SAFE approved for staking', {
+      description: 'The staking contract can now spend your SAFE. Continue to stake.',
       ...(approvalTxHash ? { id: approvalTxHash } : {}),
     })
     resetApproval()
@@ -42,7 +42,7 @@ export function useApprovalFlow(parsedAmount: bigint) {
   useEffect(() => {
     if (!approvalError) return
 
-    toast.error('Approval failed', {
+    toast.error('Approval did not go through', {
       description: formatContractError(approvalError),
     })
   }, [approvalError])
@@ -50,7 +50,7 @@ export function useApprovalFlow(parsedAmount: bigint) {
   useEffect(() => {
     if (!isSafeApprovalQueued) return
 
-    toast.success('Transaction queued in Safe', {
+    toast.success('Queued in your Safe', {
       description:
         'Your transaction was sent to Safe Wallet for signing. Return here after it is executed.',
     })

@@ -258,8 +258,8 @@ describe('UndelegateDialog', () => {
       mockWithdrawal({ isSafeQueued: true })
       rerender()
 
-      expect(screen.getByRole('dialog', { name: 'Transaction queued in Safe' })).toBeInTheDocument()
-      expect(toast.success).toHaveBeenCalledWith('Transaction queued in Safe', expect.anything())
+      expect(screen.getByRole('dialog', { name: 'Queued in your Safe' })).toBeInTheDocument()
+      expect(toast.success).toHaveBeenCalledWith('Queued in your Safe', expect.anything())
     })
 
     it('confirms success with the amount and validator', () => {
@@ -286,7 +286,7 @@ describe('UndelegateDialog', () => {
       mockWithdrawal({ error: new Error('execution reverted') })
       rerender()
 
-      expect(toast.error).toHaveBeenCalledWith('Unstaking failed', {
+      expect(toast.error).toHaveBeenCalledWith('Unstake did not go through', {
         description: 'execution reverted',
       })
       expect(startButton()).toBeEnabled()

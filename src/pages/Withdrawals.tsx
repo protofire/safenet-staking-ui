@@ -327,19 +327,19 @@ export default function Withdrawals() {
   })
 
   useTxSuccessNotify(isClaimOk, () => {
-    toast.success('Withdrawal claimed', {
+    toast.success('Withdrawal received', {
       description: claimTxHash ? formatTxHashShort(claimTxHash) : undefined,
     })
   })
 
   useTxSuccessNotify(isBatchOk, () => {
-    toast.success('Withdrawals claimed', {
+    toast.success('Withdrawals received', {
       description: batchTxHash ? formatTxHashShort(batchTxHash) : undefined,
     })
   })
 
-  useTxErrorToast(claimError, 'Claim failed')
-  useTxErrorToast(batchError, 'Batch claim failed')
+  useTxErrorToast(claimError, 'Withdrawal claim did not go through')
+  useTxErrorToast(batchError, 'Batch withdrawal claim did not go through')
 
   const cooldownPhrase = withdrawDelayBn ? formatCooldownForBlurb(withdrawDelayBn) : null
 

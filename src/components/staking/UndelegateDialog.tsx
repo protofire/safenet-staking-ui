@@ -95,7 +95,7 @@ export function UndelegateDialog({ validator, open, onOpenChange }: UndelegateDi
       description: `${amount || '0'} SAFE queued after ${validatorLabel}. Claim from Withdrawals when the cooldown ends.`,
     })
   })
-  useTxErrorToast(txError, 'Unstaking failed')
+  useTxErrorToast(txError, 'Unstake did not go through')
 
   const progress = submitting
     ? {

@@ -10,7 +10,7 @@ export const TX_PROGRESS_COPY = {
     description: 'Submitted to network.',
   },
   'safe-queued': {
-    title: 'Transaction queued in Safe',
+    title: 'Queued in your Safe',
     description:
       'Your transaction was sent to Safe Wallet for signing. Return here after it is executed.',
   },

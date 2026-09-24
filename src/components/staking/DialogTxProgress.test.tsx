@@ -37,7 +37,7 @@ describe('DialogTxProgress', () => {
   it('explains the Safe queue without a hash', () => {
     render(<DialogTxProgress phase="safe-queued" txHash={TX_HASH} />)
 
-    expect(screen.getByText('Transaction queued in Safe')).toBeInTheDocument()
+    expect(screen.getByText('Queued in your Safe')).toBeInTheDocument()
     expect(hashLink()).not.toBeInTheDocument()
   })
 

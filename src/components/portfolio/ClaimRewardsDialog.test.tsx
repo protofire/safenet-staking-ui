@@ -198,7 +198,7 @@ describe('ClaimRewardsDialog', () => {
     rerender()
 
     expect(toastSuccess).toHaveBeenCalledTimes(1)
-    expect(toastSuccess).toHaveBeenCalledWith('Transaction queued in Safe', expect.anything())
+    expect(toastSuccess).toHaveBeenCalledWith('Queued in your Safe', expect.anything())
   })
 
   it('toasts claim failures', () => {
@@ -206,7 +206,7 @@ describe('ClaimRewardsDialog', () => {
 
     renderDialog()
 
-    expect(toastError).toHaveBeenCalledWith('Claim failed', {
+    expect(toastError).toHaveBeenCalledWith('Rewards claim did not go through', {
       description: 'execution reverted',
     })
   })
@@ -219,8 +219,8 @@ describe('ClaimRewardsDialog', () => {
     rerender(buildModel({}, { claimable: 0n, canClaim: false }))
 
     expect(dialog()).toHaveTextContent('Claimed 5,000 SAFE to your wallet.')
-    expect(toastSuccess).toHaveBeenCalledWith('Rewards claimed', {
-      description: 'Claimed 5,000 SAFE',
+    expect(toastSuccess).toHaveBeenCalledWith('Rewards received', {
+      description: '5,000 SAFE was sent to your wallet.',
     })
 
     fireEvent.click(within(dialog()).getByRole('button', { name: 'Done' }))

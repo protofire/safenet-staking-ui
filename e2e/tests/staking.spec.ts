@@ -35,7 +35,7 @@ test.describe('staking', () => {
 
     await expect(dialog.getByRole('button', { name: 'Stake', exact: true })).toHaveCount(0)
     await dialog.getByRole('button', { name: 'Approve SAFE' }).click()
-    await expect(page.getByText('Approval confirmed')).toBeVisible()
+    await expect(page.getByText('SAFE approved for staking')).toBeVisible()
 
     await dialog.getByRole('button', { name: 'Stake', exact: true }).click()
     await expect(dialog.getByRole('heading', { name: 'Transaction confirmed' })).toBeVisible()
@@ -85,7 +85,7 @@ test.describe('staking', () => {
     await dialog.getByLabel('Amount').fill('100')
     await dialog.getByRole('button', { name: 'Use unlimited approval instead' }).click()
     await dialog.getByRole('button', { name: 'Approve unlimited' }).click()
-    await expect(page.getByText('Approval confirmed')).toBeVisible()
+    await expect(page.getByText('SAFE approved for staking')).toBeVisible()
     expect(chain.state.allowance).toBe(maxUint256)
 
     await dialog.getByRole('button', { name: 'Stake', exact: true }).click()
@@ -118,7 +118,7 @@ test.describe('staking', () => {
     await dialog.getByLabel('Amount').fill('50')
     await dialog.getByRole('button', { name: 'Stake', exact: true }).click()
 
-    await expect(page.getByText('Staking failed')).toBeVisible({ timeout: 15_000 })
+    await expect(page.getByText('Stake did not go through')).toBeVisible({ timeout: 15_000 })
     await expect(dialog.getByRole('heading', { name: 'Transaction confirmed' })).toHaveCount(0)
     await expect(dialog.getByRole('button', { name: 'Stake', exact: true })).toBeEnabled()
     expect(chain.sent.map((tx) => tx.status)).toEqual(['reverted'])
@@ -162,7 +162,7 @@ test.describe('staking with a batching wallet', () => {
     await dialog.getByLabel('Amount').fill('100')
     await dialog.getByRole('button', { name: 'Approve & stake' }).click()
 
-    await expect(page.getByText('Transaction reverted')).toBeVisible()
+    await expect(page.getByText('Batch reverted onchain')).toBeVisible()
     await expect(dialog.getByRole('heading', { name: 'Transaction confirmed' })).toHaveCount(0)
     await expect(dialog.getByRole('button', { name: 'Approve & stake' })).toBeEnabled()
     expect(chain.sent.map((tx) => tx.status)).toEqual(['reverted', 'reverted'])

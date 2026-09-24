@@ -26,7 +26,7 @@ describe('txProgressTitle', () => {
   it.each([
     ['signing', 'Confirm in your wallet'],
     ['confirming', 'Waiting for confirmation'],
-    ['safe-queued', 'Transaction queued in Safe'],
+    ['safe-queued', 'Queued in your Safe'],
     ['success', 'Transaction confirmed'],
   ] as const)('titles the %s phase', (phase, title) => {
     expect(txProgressTitle(phase)).toBe(title)

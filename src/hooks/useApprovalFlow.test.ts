@@ -106,8 +106,8 @@ describe('useApprovalFlow', () => {
     rerender({ parsedAmount: 20n })
 
     expect(result.current.approvalType).toBeNull()
-    expect(toastSuccess).toHaveBeenCalledWith('Approval confirmed', {
-      description: 'You can now stake your SAFE tokens.',
+    expect(toastSuccess).toHaveBeenCalledWith('SAFE approved for staking', {
+      description: 'The staking contract can now spend your SAFE. Continue to stake.',
       id: '0xabc',
     })
     expect(resetApproval).toHaveBeenCalledTimes(1)
@@ -119,8 +119,8 @@ describe('useApprovalFlow', () => {
 
     const { result } = renderFlow()
 
-    expect(toastSuccess).toHaveBeenCalledWith('Approval confirmed', {
-      description: 'You can now stake your SAFE tokens.',
+    expect(toastSuccess).toHaveBeenCalledWith('SAFE approved for staking', {
+      description: 'The staking contract can now spend your SAFE. Continue to stake.',
     })
     await waitFor(() => expect(result.current.approvedInSession).toBe(true))
   })
@@ -135,7 +135,7 @@ describe('useApprovalFlow', () => {
     rerender({ parsedAmount: 20n })
 
     expect(result.current.approvalType).toBeNull()
-    expect(toastError).toHaveBeenCalledWith('Approval failed', {
+    expect(toastError).toHaveBeenCalledWith('Approval did not go through', {
       description: 'Execution reverted.',
     })
     expect(result.current.approvedInSession).toBe(false)
@@ -146,7 +146,7 @@ describe('useApprovalFlow', () => {
 
     renderFlow()
 
-    expect(toastSuccess).toHaveBeenCalledWith('Transaction queued in Safe', {
+    expect(toastSuccess).toHaveBeenCalledWith('Queued in your Safe', {
       description:
         'Your transaction was sent to Safe Wallet for signing. Return here after it is executed.',
     })

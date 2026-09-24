@@ -66,12 +66,12 @@ export function ClaimRewardsDialog({ open, onOpenChange, model }: ClaimRewardsDi
   )
 
   useTxSuccessNotify(isSuccess, () => {
-    toast.success('Rewards claimed', {
-      description: `Claimed ${formatTokenAmount(claimedAmountRef.current)} SAFE`,
+    toast.success('Rewards received', {
+      description: `${formatTokenAmount(claimedAmountRef.current)} SAFE was sent to your wallet.`,
     })
   })
   useSafeQueuedToast(isSafeQueued)
-  useTxErrorToast(error, 'Claim failed')
+  useTxErrorToast(error, 'Rewards claim did not go through')
   useResetOnWalletChange(() => handleOpenChange(false))
 
   function handleClaim() {

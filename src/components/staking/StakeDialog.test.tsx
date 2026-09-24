@@ -436,8 +436,8 @@ describe('StakeDialog', () => {
       mockStake({ isSafeQueued: true })
       rerender()
 
-      expect(screen.getByRole('dialog', { name: 'Transaction queued in Safe' })).toBeInTheDocument()
-      expect(toast.success).toHaveBeenCalledWith('Transaction queued in Safe', expect.anything())
+      expect(screen.getByRole('dialog', { name: 'Queued in your Safe' })).toBeInTheDocument()
+      expect(toast.success).toHaveBeenCalledWith('Queued in your Safe', expect.anything())
     })
 
     it('confirms success with the amount and validator, then closes on Done', () => {
@@ -449,8 +449,8 @@ describe('StakeDialog', () => {
 
       expect(screen.getByRole('dialog', { name: 'Transaction confirmed' })).toBeInTheDocument()
       expect(screen.getByText('Staked 5 SAFE to Test Validator.')).toBeInTheDocument()
-      expect(toast.success).toHaveBeenCalledWith('Staking successful', {
-        description: 'Staked 5 SAFE to Test Validator',
+      expect(toast.success).toHaveBeenCalledWith('Stake confirmed', {
+        description: '5 SAFE is now staked to Test Validator.',
       })
 
       fireEvent.click(button('Done'))
@@ -465,7 +465,7 @@ describe('StakeDialog', () => {
       mockStake({ error: new Error('execution reverted') })
       rerender()
 
-      expect(toast.error).toHaveBeenCalledWith('Staking failed', {
+      expect(toast.error).toHaveBeenCalledWith('Stake did not go through', {
         description: 'execution reverted',
       })
       expect(button('Stake')).toBeEnabled()
@@ -476,7 +476,7 @@ describe('StakeDialog', () => {
 
       renderDialog()
 
-      expect(toast.error).toHaveBeenCalledWith('Transaction reverted', expect.anything())
+      expect(toast.error).toHaveBeenCalledWith('Batch reverted onchain', expect.anything())
       expect(resetBatch).toHaveBeenCalled()
     })
   })
