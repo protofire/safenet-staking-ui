@@ -88,17 +88,13 @@ describe('parseFaqMarkdown edge cases', () => {
     expect(doc.sections[0]?.items[0]?.question).toBe('Is it opt-in!')
   })
 
-  // Known bug: a question before the first section is carried into that section and
-  // swallows its intro text. Remove `.fails` once the parser drops orphan questions.
-  it.fails('drops questions that appear before any section', () => {
+  it('drops questions that appear before any section', () => {
     const doc = parseFaqMarkdown('**Orphan?**\n\nlost\n\n## Sec\n\nintro\n\n**Real?**\n\nyes')
 
     expect(doc.sections[0]?.items.map((i) => i.question)).toEqual(['Real?'])
   })
 
-  // Known bug: a whitespace-only question is skipped without clearing its answer lines,
-  // so they leak into the next question's answer.
-  it.fails('does not leak lines from a blank question into the next answer', () => {
+  it('does not leak lines from a blank question into the next answer', () => {
     const doc = parseFaqMarkdown('## Sec\n\n**  **\n\ngarbage\n\n**Real?**\n\nyes')
 
     expect(doc.sections[0]?.items[0]?.answer).toBe('yes')

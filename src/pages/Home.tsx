@@ -190,12 +190,6 @@ export default function Home() {
               Claim rewards
             </Button>
           </div>
-
-          {/* <div className="pt-1">
-            <a href="#" className="eyebrow font-medium transition-opacity hover:opacity-80">
-              Learn how staking works
-            </a>
-          </div> */}
         </div>
       </section>
     </main>

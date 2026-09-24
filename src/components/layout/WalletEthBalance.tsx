@@ -7,11 +7,6 @@ import { useWalletReady } from '@/hooks/useWalletReady'
 import { formatTokenAmount } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
-/**
- * Native (gas) balance of the connected wallet on the app's configured chain.
- * Replaces ConnectKit's built-in balance line, which rounds to 2 decimals and
- * shows "0.00 ETH" for any balance under 0.005 ETH (BUG-02).
- */
 export function WalletEthBalance({ className }: { className?: string }) {
   const { address, isConnected } = useWalletReady()
   const queryClient = useQueryClient()

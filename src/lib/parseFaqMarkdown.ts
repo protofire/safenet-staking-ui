@@ -36,11 +36,11 @@ export function parseFaqMarkdown(markdown: string): FaqDocument {
   let itemIndex = 0
 
   function flushItem() {
-    if (!currentSection || !currentQuestion) return
-
-    const question = cleanMarkdownText(currentQuestion)
+    const question = cleanMarkdownText(currentQuestion ?? '')
     const answer = answerLines.join('\n').trim()
-    if (!question) return
+    currentQuestion = null
+    answerLines = []
+    if (!currentSection || !question) return
 
     itemIndex += 1
     currentSection.items.push({
@@ -48,8 +48,6 @@ export function parseFaqMarkdown(markdown: string): FaqDocument {
       question,
       answer,
     })
-    currentQuestion = null
-    answerLines = []
   }
 
   function flushSection() {
