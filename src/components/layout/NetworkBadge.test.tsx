@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { NetworkBadge } from './NetworkBadge'
 import { chain } from '@/config/chains'
-import { TEST_ACCOUNT } from '@/test/fixtures'
+import { stubConnectedAccount } from '@/test/wagmiStubs'
 
 const { useAccount } = vi.hoisted(() => ({ useAccount: vi.fn() }))
 
@@ -11,7 +11,7 @@ vi.mock('wagmi', () => ({ useAccount }))
 
 describe('NetworkBadge', () => {
   it('shows the deployment chain when the wallet matches', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: chain.id })
+    useAccount.mockReturnValue(stubConnectedAccount())
 
     render(<NetworkBadge />)
 
@@ -19,7 +19,7 @@ describe('NetworkBadge', () => {
   })
 
   it('names the wallet chain when it differs from the app chain', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: 1 })
+    useAccount.mockReturnValue(stubConnectedAccount({ chainId: 1 }))
 
     render(<NetworkBadge />)
 
@@ -28,7 +28,7 @@ describe('NetworkBadge', () => {
   })
 
   it('shows a wrong-network label for unrecognised wallet chains', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: 999999 })
+    useAccount.mockReturnValue(stubConnectedAccount({ chainId: 999999 }))
 
     render(<NetworkBadge variant="pill" />)
 

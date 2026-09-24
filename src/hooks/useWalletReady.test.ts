@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { useWalletReady } from './useWalletReady'
 import { chain } from '@/config/chains'
 import { TEST_ACCOUNT } from '@/test/fixtures'
+import { stubConnectedAccount, stubDisconnectedAccount } from '@/test/wagmiStubs'
 
 const { useAccount } = vi.hoisted(() => ({ useAccount: vi.fn() }))
 
@@ -11,7 +12,7 @@ vi.mock('wagmi', () => ({ useAccount }))
 
 describe('useWalletReady', () => {
   it('is ready when connected to the configured chain', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: chain.id })
+    useAccount.mockReturnValue(stubConnectedAccount())
 
     const { result } = renderHook(() => useWalletReady())
 
@@ -24,7 +25,7 @@ describe('useWalletReady', () => {
   })
 
   it('reports a wrong network when connected elsewhere', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: 1 })
+    useAccount.mockReturnValue(stubConnectedAccount({ chainId: 1 }))
 
     const { result } = renderHook(() => useWalletReady())
 
@@ -33,7 +34,7 @@ describe('useWalletReady', () => {
   })
 
   it('is neither ready nor wrong network while disconnected', () => {
-    useAccount.mockReturnValue({ isConnected: false, address: undefined, chainId: undefined })
+    useAccount.mockReturnValue(stubDisconnectedAccount())
 
     const { result } = renderHook(() => useWalletReady())
 
@@ -42,7 +43,7 @@ describe('useWalletReady', () => {
   })
 
   it('does not flag wrong network before the wallet reports a chain', () => {
-    useAccount.mockReturnValue({ isConnected: true, address: TEST_ACCOUNT, chainId: undefined })
+    useAccount.mockReturnValue(stubConnectedAccount({ chainId: undefined }))
 
     const { result } = renderHook(() => useWalletReady())
 

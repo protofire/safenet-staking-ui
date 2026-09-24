@@ -9,6 +9,7 @@ import {
   useContractTx,
 } from './useContractTx'
 import { erc20Abi } from '@/abi/erc20Abi'
+import { stubConnectedAccount, stubDisconnectedAccount } from '@/test/wagmiStubs'
 
 const {
   toastInfo,
@@ -52,7 +53,9 @@ const writeContract = vi.fn()
 const sendCalls = vi.fn()
 
 function mockConnector(type: 'injected' | 'safe' | undefined) {
-  useAccount.mockReturnValue({ connector: type ? { type } : undefined })
+  useAccount.mockReturnValue(
+    type ? stubConnectedAccount({ connectorType: type }) : stubDisconnectedAccount(),
+  )
 }
 
 function mockWrite(overrides: Record<string, unknown> = {}) {

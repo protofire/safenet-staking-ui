@@ -56,18 +56,19 @@ Copy [`.env.example`](./.env.example) to `.env` before `pnpm dev` or `pnpm build
 
 ## Scripts
 
-| Script              | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `pnpm dev`          | Vite dev server                                   |
-| `pnpm build`        | Typecheck (project references) + production build |
-| `pnpm preview`      | Serve `dist/` locally                             |
-| `pnpm typecheck`    | `tsc -b --noEmit`                                 |
-| `pnpm lint`         | ESLint, zero warnings                             |
-| `pnpm format`       | Format sources with oxfmt                         |
-| `pnpm format:check` | Check formatting without writing                  |
-| `pnpm test`         | Vitest (unit/component tests)                     |
-| `pnpm test:watch`   | Vitest watch mode                                 |
-| `pnpm test:e2e`     | Playwright (uses `vite preview` via config)       |
+| Script               | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| `pnpm dev`           | Vite dev server                                   |
+| `pnpm build`         | Typecheck (project references) + production build |
+| `pnpm preview`       | Serve `dist/` locally                             |
+| `pnpm typecheck`     | `tsc -b --noEmit`                                 |
+| `pnpm lint`          | ESLint, zero warnings                             |
+| `pnpm format`        | Format sources with oxfmt                         |
+| `pnpm format:check`  | Check formatting without writing                  |
+| `pnpm test`          | Vitest (unit/component tests)                     |
+| `pnpm test:watch`    | Vitest watch mode                                 |
+| `pnpm test:coverage` | Vitest with V8 coverage (report in `coverage/`)   |
+| `pnpm test:e2e`      | Playwright (uses `vite preview` via config)       |
 
 ## Formatting
 
@@ -81,6 +82,6 @@ If a dependency legitimately needs an install script (e.g. native addons), use `
 
 ## E2E / CI
 
-Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. There is no CI workflow in this repository yet; run `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening a pull request.
+Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. There is no CI workflow in this repository yet; run `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening a pull request. The Husky pre-commit hook runs `lint`, `format:check` and `test`.
 
 E2E tests never touch a real wallet or chain. [`e2e/mocks/`](./e2e/mocks) provides an injected EIP-1193 wallet stub, a JSON-RPC mock that decodes `eth_call` (including multicall) against the app's ABIs, and route interception for the validator feed and the reward proofs in [`e2e/fixtures/`](./e2e/fixtures). Nothing in `e2e/` ships in the production bundle.

@@ -28,3 +28,4 @@ test-results
 *.sw?
 
 .pnpm-store
+coverage

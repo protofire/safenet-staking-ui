@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { useRewards } from './useRewards'
 import { buildRewardProof, SAFE, TEST_ACCOUNT, TEST_MERKLE_ROOT } from '@/test/fixtures'
+import { stubConnectedAccount, stubDisconnectedAccount } from '@/test/wagmiStubs'
 
 const { useAccount, useReadContract, useRewardProof, MERKLE_DROP } = vi.hoisted(() => ({
   useAccount: vi.fn(),
@@ -40,7 +41,7 @@ function mockReads({ cumulativeClaimed, merkleRoot, claimedLoading = false }: Re
 describe('useRewards', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    useAccount.mockReturnValue({ address: TEST_ACCOUNT })
+    useAccount.mockReturnValue(stubConnectedAccount())
     useRewardProof.mockReturnValue({ data: buildRewardProof(), isLoading: false })
     mockReads({ cumulativeClaimed: 400n * SAFE, merkleRoot: TEST_MERKLE_ROOT })
   })
@@ -126,17 +127,33 @@ describe('useRewards', () => {
     })
   })
 
-  it('only reads the contract once a proof exists', () => {
+  function readsEnabled() {
+    const calls = useReadContract.mock.calls as [
+      { functionName: string; query: { enabled: boolean } },
+    ][]
+    return Object.fromEntries(calls.map(([opts]) => [opts.functionName, opts.query.enabled]))
+  }
+
+  it('does not read the contract while the proof is loading', () => {
     useRewardProof.mockReturnValue({ data: undefined, isLoading: true })
 
     renderHook(() => useRewards())
 
-    const calls = useReadContract.mock.calls as [
-      { functionName: string; query: { enabled: boolean } },
-    ][]
-    expect(new Set(calls.map(([opts]) => opts.functionName))).toEqual(
-      new Set(['cumulativeClaimed', 'merkleRoot']),
-    )
-    expect(calls.every(([opts]) => opts.query.enabled === false)).toBe(true)
+    expect(readsEnabled()).toEqual({ cumulativeClaimed: false, merkleRoot: false })
+  })
+
+  it('reads the contract once a proof exists', () => {
+    renderHook(() => useRewards())
+
+    expect(readsEnabled()).toEqual({ cumulativeClaimed: true, merkleRoot: true })
+    expect(useRewardProof).toHaveBeenCalledWith(TEST_ACCOUNT, true)
+  })
+
+  it('does not read the claimed total without a connected account', () => {
+    useAccount.mockReturnValue(stubDisconnectedAccount())
+
+    renderHook(() => useRewards())
+
+    expect(readsEnabled().cumulativeClaimed).toBe(false)
   })
 })

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { TX_PROGRESS_COPY, resolveTxProgressPhase, txProgressTitle } from './txProgress'
+import { resolveTxProgressPhase, txProgressTitle } from './txProgress'
 
 describe('resolveTxProgressPhase', () => {
   it('prefers success over every other flag', () => {
@@ -23,9 +23,12 @@ describe('resolveTxProgressPhase', () => {
 })
 
 describe('txProgressTitle', () => {
-  it('returns the copy title for each phase', () => {
-    for (const phase of Object.keys(TX_PROGRESS_COPY) as (keyof typeof TX_PROGRESS_COPY)[]) {
-      expect(txProgressTitle(phase)).toBe(TX_PROGRESS_COPY[phase].title)
-    }
+  it.each([
+    ['signing', 'Confirm in your wallet'],
+    ['confirming', 'Waiting for confirmation'],
+    ['safe-queued', 'Transaction queued in Safe'],
+    ['success', 'Transaction confirmed'],
+  ] as const)('titles the %s phase', (phase, title) => {
+    expect(txProgressTitle(phase)).toBe(title)
   })
 })

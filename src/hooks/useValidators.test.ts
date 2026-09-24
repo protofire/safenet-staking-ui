@@ -5,7 +5,7 @@ import { useValidators } from './useValidators'
 import { env } from '@/config/env'
 import { buildRawValidator, TEST_VALIDATOR } from '@/test/fixtures'
 import { server } from '@/test/msw'
-import { renderHookWithQuery, waitFor } from '@/test/test-utils'
+import { renderHookWithQuery, waitFor } from '@/test/testUtils'
 
 const url = env.VITE_VALIDATOR_INFO_URL
 

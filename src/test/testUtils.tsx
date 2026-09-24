@@ -1,27 +1,19 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import {
   render,
   renderHook,
   type RenderHookOptions,
   type RenderOptions,
 } from '@testing-library/react'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 
-import { TestProviders } from './providers'
+import { createTestQueryClient, TestProviders } from './providers'
 
 export * from '@testing-library/react'
-
-export function createTestQueryClient() {
-  return new QueryClient({
-    defaultOptions: {
-      queries: { retry: false, gcTime: 0, staleTime: 0 },
-      mutations: { retry: false },
-    },
-  })
-}
+export { createTestQueryClient }
 
 export function QueryWrapper({ children }: { children: ReactNode }) {
-  const queryClient = createTestQueryClient()
+  const [queryClient] = useState(createTestQueryClient)
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 }
 

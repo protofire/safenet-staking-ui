@@ -62,44 +62,31 @@ describe('parseEnv', () => {
     })
   })
 
-  it('throws when a required variable is missing', () => {
-    expect(() =>
-      parseEnv({
-        VITE_CHAIN_ID: '11155111',
-      }),
-    ).toThrow()
-  })
-
   it('throws on an invalid VITE_CHAIN_ID', () => {
-    expect(() =>
-      parseEnv({
-        VITE_CHAIN_ID: '5',
-        VITE_RPC_URL: 'https://ethereum-sepolia-rpc.publicnode.com',
-      }),
-    ).toThrow()
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_CHAIN_ID: '5' })).toThrow(/VITE_CHAIN_ID/)
   })
 
-  it('throws when VITE_VALIDATOR_INFO_URL is omitted', () => {
-    expect(() =>
-      parseEnv({
-        VITE_CHAIN_ID: '11155111',
-        VITE_RPC_URL: 'https://ethereum-sepolia-rpc.publicnode.com',
-      }),
-    ).toThrow()
+  it('throws when VITE_RPC_URL is omitted or not a URL', () => {
+    expect(() => parseEnv(omit(BASE_SEPOLIA_ENV, 'VITE_RPC_URL'))).toThrow(/VITE_RPC_URL/)
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_RPC_URL: 'not-a-url' })).toThrow(
+      /VITE_RPC_URL/,
+    )
   })
 
-  it('throws when VITE_VALIDATOR_INFO_URL is empty', () => {
-    expect(() =>
-      parseEnv({
-        VITE_CHAIN_ID: '11155111',
-        VITE_RPC_URL: 'https://ethereum-sepolia-rpc.publicnode.com',
-        VITE_VALIDATOR_INFO_URL: '',
-      }),
-    ).toThrow()
+  it('throws when VITE_VALIDATOR_INFO_URL is omitted or empty', () => {
+    expect(() => parseEnv(omit(BASE_SEPOLIA_ENV, 'VITE_VALIDATOR_INFO_URL'))).toThrow(
+      /VITE_VALIDATOR_INFO_URL/,
+    )
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_VALIDATOR_INFO_URL: '' })).toThrow(
+      /VITE_VALIDATOR_INFO_URL/,
+    )
   })
 
-  it('uses explicit VITE_VALIDATOR_INFO_URL when set', () => {
-    expect(parseEnv({ ...BASE_SEPOLIA_ENV }).VITE_VALIDATOR_INFO_URL).toBe(VALIDATOR_INFO_TEST_URL)
+  it('drops a blank VITE_WALLETCONNECT_PROJECT_ID', () => {
+    expect(
+      parseEnv({ ...BASE_SEPOLIA_ENV, VITE_WALLETCONNECT_PROJECT_ID: '  ' })
+        .VITE_WALLETCONNECT_PROJECT_ID,
+    ).toBeUndefined()
   })
 
   it('throws when VITE_STAKING_CONTRACT_ADDRESS is omitted or empty', () => {

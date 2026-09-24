@@ -16,12 +16,11 @@ vi.mock('@safe-global/safe-apps-sdk', () => ({
 
 describe('isSafeApp', () => {
   afterEach(() => {
-    vi.stubGlobal('parent', window)
+    vi.unstubAllGlobals()
     getInfo.mockReset()
   })
 
   it('returns false when not in an iframe', async () => {
-    vi.stubGlobal('parent', window)
     await expect(isSafeApp()).resolves.toBe(false)
     expect(getInfo).not.toHaveBeenCalled()
   })
