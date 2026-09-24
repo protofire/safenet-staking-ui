@@ -1,12 +1,11 @@
 import { encodeFunctionData, type Address } from 'viem'
 
-import { stakingAbi } from '@/abi/stakingAbi'
-import { erc20Abi } from '@/abi/erc20Abi'
-import { chain } from '@/config/chains'
-import { getContractAddresses } from '@/config/contracts'
-
 import { useBatchContractTx, useContractTx, type TxInvalidation } from './useContractTx'
 import { useTxSimulation } from './useTxSimulation'
+import { erc20Abi } from '@/abi/erc20Abi'
+import { stakingAbi } from '@/abi/stakingAbi'
+import { chain } from '@/config/chains'
+import { getContractAddresses } from '@/config/contracts'
 
 const addresses = getContractAddresses(chain.id)
 

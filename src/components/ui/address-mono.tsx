@@ -1,6 +1,5 @@
-import { getExplorerAddressUrl } from '@/lib/explorer'
-
 import { MonoValue } from '@/components/ui/mono-value'
+import { getExplorerAddressUrl } from '@/lib/explorer'
 
 export function AddressMono({
   value,

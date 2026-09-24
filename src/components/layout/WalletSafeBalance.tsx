@@ -1,10 +1,9 @@
 import { useReadContract } from 'wagmi'
 
 import { erc20Abi } from '@/abi/erc20Abi'
+import safeTokenPng from '@/assets/safe-token.png'
 import { chain } from '@/config/chains'
 import { getSafeTokenAddress } from '@/config/contracts'
-import safeTokenPng from '@/assets/safe-token.png'
-
 import { useWalletReady } from '@/hooks/useWalletReady'
 import { formatTokenAmount } from '@/lib/format'
 import { cn } from '@/lib/utils'

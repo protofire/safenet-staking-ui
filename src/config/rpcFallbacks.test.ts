@@ -22,10 +22,7 @@ describe('buildRpcUrls', () => {
 
 describe('getRpcConnectOrigins', () => {
   it('returns unique origins for primary and config fallback RPC URLs', () => {
-    const origins = getRpcConnectOrigins(
-      '11155111',
-      'https://ethereum-sepolia-rpc.publicnode.com',
-    )
+    const origins = getRpcConnectOrigins('11155111', 'https://ethereum-sepolia-rpc.publicnode.com')
 
     expect(origins).toContain('https://ethereum-sepolia-rpc.publicnode.com')
     expect(origins).toContain('https://public.1rpc.io')

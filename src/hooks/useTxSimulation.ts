@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { useSimulateContract } from 'wagmi'
 import type { Abi, Address, ContractFunctionName } from 'viem'
-
-import { chain } from '@/config/chains'
-import { classifySimulationError } from '@/lib/contractErrors'
+import { useSimulateContract } from 'wagmi'
 
 import type { ContractWriteParams } from './useContractTx'
+import { chain } from '@/config/chains'
+import { classifySimulationError } from '@/lib/contractErrors'
 
 export const TX_SIMULATION_DEBOUNCE_MS = 400
 

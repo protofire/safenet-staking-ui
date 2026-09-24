@@ -25,10 +25,7 @@ function isHttpUrl(value: string): value is `https://${string}` {
   }
 }
 
-export function buildRpcUrls(
-  primary: string,
-  chainId: SupportedChainId,
-): `https://${string}`[] {
+export function buildRpcUrls(primary: string, chainId: SupportedChainId): `https://${string}`[] {
   const urls: `https://${string}`[] = []
   const seen = new Set<string>()
 

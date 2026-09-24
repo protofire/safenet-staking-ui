@@ -17,9 +17,7 @@ test.describe('portfolio rewards', () => {
     await installMockFeeds(page)
   })
 
-  test('shows the claimable amount from the proof and on-chain claimed total', async ({
-    page,
-  }) => {
+  test('shows the claimable amount from the proof and on-chain claimed total', async ({ page }) => {
     await installMockRpc(page, { ...DEFAULT_CHAIN_STATE, cumulativeClaimed: 400n * SAFE })
     await page.goto('/#/portfolio')
 

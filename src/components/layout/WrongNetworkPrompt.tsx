@@ -1,5 +1,4 @@
 import { chain } from '@/config/chains'
-
 import { useWalletReady } from '@/hooks/useWalletReady'
 
 export function WrongNetworkPrompt({ className }: { className?: string }) {

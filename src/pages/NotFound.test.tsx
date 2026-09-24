@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { TestProviders } from '@/test/providers'
-
 import NotFound from './NotFound'
+import { TestProviders } from '@/test/providers'
 
 describe('NotFound', () => {
   it('renders its heading', () => {

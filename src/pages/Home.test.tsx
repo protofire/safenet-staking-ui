@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
-import { TestProviders } from '@/test/providers'
-
 import Home from './Home'
+import { TestProviders } from '@/test/providers'
 
 describe('Home', () => {
   it('renders hero and primary stake action', () => {

@@ -1,12 +1,11 @@
 import { getAddress } from 'viem'
 import type { Address, Hex } from 'viem'
 
+import { useContractTx, type TxInvalidation } from './useContractTx'
+import { IDLE_SIMULATION, useTxSimulation } from './useTxSimulation'
 import { merkleDropAbi } from '@/abi/merkleDropAbi'
 import { chain } from '@/config/chains'
 import { getContractAddresses } from '@/config/contracts'
-
-import { useContractTx, type TxInvalidation } from './useContractTx'
-import { IDLE_SIMULATION, useTxSimulation } from './useTxSimulation'
 
 const merkleDrop = getContractAddresses(chain.id).merkleDrop
 

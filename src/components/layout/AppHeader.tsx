@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router'
 
-import { APP_VERSION, LOGO_SRC } from '@/config/app'
 import { WalletChrome } from '@/components/layout/WalletChrome'
+import { APP_VERSION, LOGO_SRC } from '@/config/app'
 import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
 
@@ -26,19 +26,12 @@ export function AppHeader() {
             className="size-8 shrink-0"
           />
           <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-bold tracking-tight text-text">
-              SafeNet Staking UI
-            </span>
-            <span className="font-mono text-xs tabular-nums text-text-muted">
-              v{APP_VERSION}
-            </span>
+            <span className="text-sm font-bold tracking-tight text-text">SafeNet Staking UI</span>
+            <span className="font-mono text-xs tabular-nums text-text-muted">v{APP_VERSION}</span>
           </div>
         </div>
 
-        <nav
-          className="flex flex-1 items-center justify-center gap-2 lg:gap-4"
-          aria-label="Main"
-        >
+        <nav className="flex flex-1 items-center justify-center gap-2 lg:gap-4" aria-label="Main">
           <NavLink to="/" end className={navLinkClass}>
             Home
           </NavLink>

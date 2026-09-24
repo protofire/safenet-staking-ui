@@ -1,5 +1,5 @@
-import type { FooterLink } from './types'
 import { FooterLinkItem } from './FooterLinkItem'
+import type { FooterLink } from './types'
 import { cn } from '@/lib/utils'
 
 export function FooterLegalNav({

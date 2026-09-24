@@ -1,8 +1,8 @@
 import { ChevronDown, Search } from 'lucide-react'
 import { useId } from 'react'
 
-import type { ValidatorSort, ValidatorStatusFilter } from '@/lib/validators'
 import { cn } from '@/lib/utils'
+import type { ValidatorSort, ValidatorStatusFilter } from '@/lib/validators'
 
 const SEGMENTS: { id: ValidatorStatusFilter; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -66,7 +66,10 @@ function SortControl({
         ))}
       </select>
       <ChevronDown
-        className={cn('size-3 text-text-muted', compact ? 'pointer-events-none' : 'pointer-events-none absolute right-3')}
+        className={cn(
+          'size-3 text-text-muted',
+          compact ? 'pointer-events-none' : 'pointer-events-none absolute right-3',
+        )}
         aria-hidden
       />
     </label>

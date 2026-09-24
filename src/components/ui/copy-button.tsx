@@ -44,12 +44,22 @@ export function CopyButton({
       onClick={onCopy}
       title={copied ? 'Copied' : 'Copy'}
       aria-label={ariaLabel}
-      className={cn(iconActionClass, compact ? iconActionSizes.compact : iconActionSizes.default, className)}
+      className={cn(
+        iconActionClass,
+        compact ? iconActionSizes.compact : iconActionSizes.default,
+        className,
+      )}
     >
       {copied ? (
-        <Check className={cn(compact ? 'size-3' : 'size-3.5', 'text-success', iconClassName)} aria-hidden />
+        <Check
+          className={cn(compact ? 'size-3' : 'size-3.5', 'text-success', iconClassName)}
+          aria-hidden
+        />
       ) : (
-        <Copy className={cn(compact ? 'size-3' : 'size-3.5', 'opacity-70', iconClassName)} aria-hidden />
+        <Copy
+          className={cn(compact ? 'size-3' : 'size-3.5', 'opacity-70', iconClassName)}
+          aria-hidden
+        />
       )}
     </button>
   )

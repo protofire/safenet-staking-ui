@@ -1,25 +1,21 @@
 import { useModal } from 'connectkit'
 import { useEffect } from 'react'
 import { toast } from 'sonner'
-import { sepolia } from 'wagmi/chains'
 import { useBlock, useReadContract } from 'wagmi'
+import { sepolia } from 'wagmi/chains'
 
 import { erc20Abi } from '@/abi/erc20Abi'
 import { faucetAbi } from '@/abi/faucetAbi'
 import { AddressMono } from '@/components/ui/address-mono'
-import { TxHashMono } from '@/components/ui/tx-hash-mono'
 import { Button } from '@/components/ui/button'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { TxHashMono } from '@/components/ui/tx-hash-mono'
 import { chain } from '@/config/chains'
 import { getFaucetContractAddress } from '@/config/contracts'
 import { useFaucetDrip } from '@/hooks/useFaucetDrip'
 import { useTxErrorToast } from '@/hooks/useTxErrorToast'
 import { useWalletReady } from '@/hooks/useWalletReady'
-import {
-  formatCountdown,
-  formatDurationFromSeconds,
-  formatTokenAmount,
-} from '@/lib/format'
+import { formatCountdown, formatDurationFromSeconds, formatTokenAmount } from '@/lib/format'
 import { TX_PROGRESS_COPY } from '@/lib/txProgress'
 import { cn } from '@/lib/utils'
 
@@ -36,10 +32,10 @@ function FaucetUnavailable() {
         <CardFooter className="flex-col items-stretch gap-2 text-sm text-text-muted">
           <p>The faucet is only available on Sepolia.</p>
           <p>
-            Run this app with <span className="font-mono text-text">VITE_CHAIN_ID=11155111</span>,
-            a Sepolia RPC and{' '}
-            <span className="font-mono text-text">VITE_FAUCET_CONTRACT_ADDRESS</span> set to use
-            the faucet.
+            Run this app with <span className="font-mono text-text">VITE_CHAIN_ID=11155111</span>, a
+            Sepolia RPC and{' '}
+            <span className="font-mono text-text">VITE_FAUCET_CONTRACT_ADDRESS</span> set to use the
+            faucet.
           </p>
         </CardFooter>
       </Card>
@@ -132,23 +128,12 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
     (nextDripAt === 0n || nextDripAt <= blockTs)
 
   const waitSeconds =
-    blockTs !== undefined &&
-    nextDripAt !== undefined &&
-    nextDripAt > 0n &&
-    blockTs < nextDripAt
+    blockTs !== undefined && nextDripAt !== undefined && nextDripAt > 0n && blockTs < nextDripAt
       ? Number(nextDripAt - blockTs)
       : 0
 
-  const {
-    drip,
-    isSigningTx,
-    isConfirmingTx,
-    isSuccess,
-    isSafeQueued,
-    error,
-    reset,
-    txHash,
-  } = useFaucetDrip(faucetAddr)
+  const { drip, isSigningTx, isConfirmingTx, isSuccess, isSafeQueued, error, reset, txHash } =
+    useFaucetDrip(faucetAddr)
 
   useEffect(() => {
     if (!isSuccess) return
@@ -177,9 +162,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
       : null
 
   const poolLabel =
-    poolWei !== undefined && !poolPending
-      ? formatTokenAmount(poolWei, tokenDecimals)
-      : null
+    poolWei !== undefined && !poolPending ? formatTokenAmount(poolWei, tokenDecimals) : null
 
   const busy = isSigningTx || isConfirmingTx || isSafeQueued
   const poolEmpty = poolWei !== undefined && poolWei === 0n
@@ -200,11 +183,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
   }
 
   const readyData =
-    Boolean(tokenAddr) &&
-    !dripAmountPending &&
-    !cooldownPending &&
-    !nextDripPending &&
-    !poolPending
+    Boolean(tokenAddr) && !dripAmountPending && !cooldownPending && !nextDripPending && !poolPending
 
   const actionDisabled =
     busy ||
@@ -270,11 +249,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
             <dt className="text-text-muted">Your balance</dt>
             <dd
               className="min-w-0 truncate text-right font-mono tabular-nums text-text"
-              title={
-                balanceLabel !== null && symbol
-                  ? `${balanceLabel} ${symbol}`
-                  : undefined
-              }
+              title={balanceLabel !== null && symbol ? `${balanceLabel} ${symbol}` : undefined}
             >
               {balancePending && balanceLabel === null ? (
                 '…'
@@ -318,12 +293,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
             ) : null}
           </dl>
 
-          <Button
-            type="button"
-            className="w-full"
-            disabled={actionDisabled}
-            onClick={handleDrip}
-          >
+          <Button type="button" className="w-full" disabled={actionDisabled} onClick={handleDrip}>
             {!isConnected
               ? 'Connect wallet'
               : busy

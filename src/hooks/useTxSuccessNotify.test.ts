@@ -40,7 +40,8 @@ describe('useTxSuccessNotify', () => {
     const first = vi.fn()
     const second = vi.fn()
     const { rerender } = renderHook(
-      ({ isSuccess, cb }: { isSuccess: boolean; cb: () => void }) => useTxSuccessNotify(isSuccess, cb),
+      ({ isSuccess, cb }: { isSuccess: boolean; cb: () => void }) =>
+        useTxSuccessNotify(isSuccess, cb),
       { initialProps: { isSuccess: false, cb: first } },
     )
 

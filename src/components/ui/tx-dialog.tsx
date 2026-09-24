@@ -15,8 +15,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useWalletReady } from '@/hooks/useWalletReady'
-import { cn } from '@/lib/utils'
 import { txProgressTitle, type TxProgressPhase } from '@/lib/txProgress'
+import { cn } from '@/lib/utils'
 
 export type TxDialogProgress = {
   phase: TxProgressPhase
@@ -64,7 +64,7 @@ export function TxDialog({
     onOpenChange(next)
   }
 
-  const headerTitle = progress ? progressTitle ?? txProgressTitle(progress.phase) : title
+  const headerTitle = progress ? (progressTitle ?? txProgressTitle(progress.phase)) : title
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -88,13 +88,19 @@ export function TxDialog({
               <DialogTxProgress
                 phase={progress.phase}
                 txHash={progress.txHash}
-                {...(progress.description !== undefined ? { description: progress.description } : {})}
+                {...(progress.description !== undefined
+                  ? { description: progress.description }
+                  : {})}
               />
               {progress.children}
             </DialogBody>
             {progress.phase === 'success' ? (
               <DialogFooter className="sm:justify-end">
-                <Button type="button" className="font-semibold" onClick={() => handleOpenChange(false)}>
+                <Button
+                  type="button"
+                  className="font-semibold"
+                  onClick={() => handleOpenChange(false)}
+                >
                   Done
                 </Button>
               </DialogFooter>

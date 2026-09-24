@@ -1,8 +1,7 @@
-import { chain, getChainDisplayName } from '@/config/chains'
 import { Pill } from '@/components/ui/pill'
-import { cn } from '@/lib/utils'
-
+import { chain, getChainDisplayName } from '@/config/chains'
 import { useWalletReady } from '@/hooks/useWalletReady'
+import { cn } from '@/lib/utils'
 
 type NetworkBadgeProps = {
   variant?: 'pill' | 'badge'

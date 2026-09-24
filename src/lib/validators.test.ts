@@ -1,13 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildValidator } from '@/test/fixtures'
-
 import {
   applyValidatorSearch,
   applyValidatorSort,
   applyValidatorStatusFilter,
   countValidatorsByStatus,
 } from './validators'
+import { buildValidator } from '@/test/fixtures'
 
 const alpha = buildValidator({
   address: '0xAAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAaA',

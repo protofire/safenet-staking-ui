@@ -44,15 +44,15 @@ describe('isUserRejection', () => {
 
   it('detects EIP-1193 and ethers rejection codes', () => {
     expect(isUserRejection(Object.assign(new Error('x'), { code: 4001 }))).toBe(true)
-    expect(isUserRejection(Object.assign(new Error('x'), { code: 'ACTION_REJECTED' }))).toBe(
-      true,
-    )
+    expect(isUserRejection(Object.assign(new Error('x'), { code: 'ACTION_REJECTED' }))).toBe(true)
   })
 
   it('detects rejection messages from Safe and WalletConnect', () => {
     expect(isUserRejection(new Error('Transaction was rejected'))).toBe(true)
     expect(isUserRejection(new Error('User rejected methods.'))).toBe(true)
-    expect(isUserRejection(new Error('MetaMask Tx Signature: User denied transaction signature.'))).toBe(true)
+    expect(
+      isUserRejection(new Error('MetaMask Tx Signature: User denied transaction signature.')),
+    ).toBe(true)
   })
 
   it('does not flag other failures', () => {

@@ -2,14 +2,13 @@ import { renderHook } from '@testing-library/react'
 import { UserRejectedRequestError, encodeFunctionData } from 'viem'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { erc20Abi } from '@/abi/erc20Abi'
-
 import {
   SAFE_TX_FAILED_ERROR,
   TX_REJECTED_TOAST,
   useBatchContractTx,
   useContractTx,
 } from './useContractTx'
+import { erc20Abi } from '@/abi/erc20Abi'
 
 const {
   toastInfo,
@@ -208,9 +207,9 @@ describe('useContractTx with a regular wallet', () => {
     expect(invalidateQueries).toHaveBeenCalledWith({ queryKey: ['validators'] })
     expect(predicateMatches(['readContract', { functionName: 'stakes' }])).toBe(true)
     expect(predicateMatches(['readContract', { functionName: 'balanceOf' }])).toBe(false)
-    expect(
-      predicateMatches(['readContracts', { contracts: [{ functionName: 'stakes' }] }]),
-    ).toBe(true)
+    expect(predicateMatches(['readContracts', { contracts: [{ functionName: 'stakes' }] }])).toBe(
+      true,
+    )
     expect(predicateMatches(['validators'])).toBe(false)
   })
 
@@ -426,7 +425,10 @@ describe('useBatchContractTx', () => {
     capabilities = { [CHAIN_ID]: { atomicBatch: { supported: true } } },
     capabilitiesError = false,
     ...calls
-  }: Parameters<typeof mockCalls>[0] & { capabilities?: unknown; capabilitiesError?: boolean } = {}) {
+  }: Parameters<typeof mockCalls>[0] & {
+    capabilities?: unknown
+    capabilitiesError?: boolean
+  } = {}) {
     useCapabilities.mockReturnValue({ data: capabilities, isError: capabilitiesError })
     mockCalls(calls)
   }

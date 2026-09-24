@@ -1,6 +1,5 @@
-import { faucetAbi } from '@/abi/faucetAbi'
-
 import { useContractTx, type TxInvalidation } from './useContractTx'
+import { faucetAbi } from '@/abi/faucetAbi'
 
 const FAUCET_INVALIDATION: TxInvalidation = {
   functionNames: [

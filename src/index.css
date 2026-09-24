@@ -1,15 +1,15 @@
-@import "./styles/tokens.css";
-@import "@fontsource-variable/onest/wght.css";
-@import "@fontsource-variable/geist-mono/wght.css";
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import './styles/tokens.css';
+@import '@fontsource-variable/onest/wght.css';
+@import '@fontsource-variable/geist-mono/wght.css';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   color-scheme: light;
-  font-feature-settings: "ss01";
+  font-feature-settings: 'ss01';
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -107,7 +107,7 @@ p {
 }
 
 code {
-  font-family: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
+  font-family: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
   display: inline-flex;
   border-radius: var(--r-sm);
@@ -124,7 +124,7 @@ code {
 @theme inline {
   --font-heading: var(--font-ui);
   --font-sans: var(--font-ui);
-  --font-mono: "Geist Mono Variable", "Geist Mono", ui-monospace, monospace;
+  --font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
   --color-bg: var(--bg);
   --color-bg-sunken: var(--bg-sunken);
   --color-surface: var(--surface);

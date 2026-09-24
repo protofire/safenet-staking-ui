@@ -41,7 +41,7 @@
   --r-xl: 14px;
   --r-pill: 999px;
 
-  --font-ui: "Onest Variable", "Onest", system-ui, sans-serif;
+  --font-ui: 'Onest Variable', 'Onest', system-ui, sans-serif;
 }
 
 .dark {
@@ -86,7 +86,7 @@ body {
 body {
   margin: 0;
   font-family: var(--font-ui);
-  font-feature-settings: "ss01";
+  font-feature-settings: 'ss01';
   font-size: var(--font-size-base, 16px);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -95,7 +95,7 @@ body {
 }
 
 .eyebrow {
-  font-family: "Geist Mono Variable", "Geist Mono", monospace;
+  font-family: 'Geist Mono Variable', 'Geist Mono', monospace;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;

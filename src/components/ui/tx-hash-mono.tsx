@@ -1,6 +1,5 @@
-import { getExplorerTxUrl } from '@/lib/explorer'
-
 import { MonoValue } from '@/components/ui/mono-value'
+import { getExplorerTxUrl } from '@/lib/explorer'
 
 export function TxHashMono({
   value,

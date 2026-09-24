@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/vitest'
 import '@total-typescript/ts-reset'
-
 import { afterAll, afterEach, beforeAll } from 'vitest'
 
 import { server } from './msw'

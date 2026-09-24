@@ -4,12 +4,7 @@ import { useLocation, useNavigate } from 'react-router'
 import { env } from '@/config/env'
 import { cn } from '@/lib/utils'
 
-export type MobileTabId =
-  | 'dashboard'
-  | 'validators'
-  | 'portfolio'
-  | 'withdrawals'
-  | 'faucet'
+export type MobileTabId = 'dashboard' | 'validators' | 'portfolio' | 'withdrawals' | 'faucet'
 
 type TabDef = { id: MobileTabId; label: string; path: string; icon: ReactNode }
 
@@ -20,11 +15,7 @@ const TABS: TabDef[] = [
     path: '/',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path
-          d="M3 12L12 4l9 8M5 10v10h14V10"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
+        <path d="M3 12L12 4l9 8M5 10v10h14V10" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
   },
@@ -62,11 +53,7 @@ const TABS: TabDef[] = [
     path: '/withdrawals',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path
-          d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
+        <path d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
   },
@@ -82,12 +69,7 @@ const TABS: TabDef[] = [
           strokeWidth="1.5"
           strokeLinejoin="round"
         />
-        <path
-          d="M9 14h6"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
+        <path d="M9 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -135,13 +117,9 @@ export function MobileTabBar({ className }: { className?: string }) {
               on ? 'text-primary' : 'text-text-muted',
             )}
           >
-            {on ? (
-              <span className="absolute top-0 right-[20%] left-[20%] h-px bg-primary" />
-            ) : null}
+            {on ? <span className="absolute top-0 right-[20%] left-[20%] h-px bg-primary" /> : null}
             {t.icon}
-            <span className="font-mono text-[9px] tracking-[0.12em] uppercase">
-              {t.label}
-            </span>
+            <span className="font-mono text-[9px] tracking-[0.12em] uppercase">{t.label}</span>
           </button>
         )
       })}

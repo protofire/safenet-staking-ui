@@ -2,23 +2,20 @@ import { useCallback, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import type { Address } from 'viem'
 
+import { TokenAmountField } from '@/components/staking/TokenAmountField'
 import { AddressMono } from '@/components/ui/address-mono'
 import { Button } from '@/components/ui/button'
-import { TokenAmountField } from '@/components/staking/TokenAmountField'
 import { TxCheckNotice } from '@/components/ui/tx-check-notice'
 import { TxDialog } from '@/components/ui/tx-dialog'
 import { useResetOnWalletChange } from '@/hooks/useResetOnWalletChange'
-import { useUserStakeOnValidator, useWithdrawDelay } from '@/hooks/useStakingReads'
-import {
-  useInitiateWithdrawal,
-  useInitiateWithdrawalSimulation,
-} from '@/hooks/useStakingWrites'
 import { useSafeQueuedToast } from '@/hooks/useSafeQueuedToast'
+import { useUserStakeOnValidator, useWithdrawDelay } from '@/hooks/useStakingReads'
+import { useInitiateWithdrawal, useInitiateWithdrawalSimulation } from '@/hooks/useStakingWrites'
 import { useTxErrorToast } from '@/hooks/useTxErrorToast'
 import { useTxSuccessNotify } from '@/hooks/useTxSuccessNotify'
-import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
 import { useValidators } from '@/hooks/useValidators'
 import { useWalletReady } from '@/hooks/useWalletReady'
+import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
 import {
   formatTokenAmount,
   formatUnstakingDelayCompact,
@@ -64,18 +61,12 @@ export function UndelegateDialog({ validator, open, onOpenChange }: UndelegateDi
   const { data: withdrawDelay } = useWithdrawDelay()
   const { data: stakeWei } = useUserStakeOnValidator(validator)
 
-  const staked =
-    stakeWei !== undefined && typeof stakeWei === 'bigint' ? stakeWei : undefined
+  const staked = stakeWei !== undefined && typeof stakeWei === 'bigint' ? stakeWei : undefined
   const hasStake = staked !== undefined && staked > 0n
-  const insufficientStaked =
-    staked !== undefined && parsedAmount > 0n && parsedAmount > staked
+  const insufficientStaked = staked !== undefined && parsedAmount > 0n && parsedAmount > staked
 
   const canUndelegate =
-    walletReady &&
-    hasStake &&
-    parsedAmount > 0n &&
-    staked !== undefined &&
-    parsedAmount <= staked
+    walletReady && hasStake && parsedAmount > 0n && staked !== undefined && parsedAmount <= staked
 
   const stakedLabel = staked !== undefined ? formatTokenAmount(staked) : '—'
 

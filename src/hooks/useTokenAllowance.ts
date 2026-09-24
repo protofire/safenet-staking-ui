@@ -1,11 +1,10 @@
-import { useAccount, useReadContract } from 'wagmi'
 import { maxUint256 } from 'viem'
+import { useAccount, useReadContract } from 'wagmi'
 
+import { useContractTx, type TxInvalidation } from './useContractTx'
 import { erc20Abi } from '@/abi/erc20Abi'
 import { chain } from '@/config/chains'
 import { getContractAddresses } from '@/config/contracts'
-
-import { useContractTx, type TxInvalidation } from './useContractTx'
 
 const ALLOWANCE_INVALIDATION: TxInvalidation = {
   functionNames: ['allowance'],

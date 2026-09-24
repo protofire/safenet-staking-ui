@@ -1,6 +1,3 @@
-import { APP_BRAND_NAME, APP_COPYRIGHT } from '@/config/app'
-import { cn } from '@/lib/utils'
-
 import {
   buildFooterColumns,
   LEGAL_LINKS,
@@ -8,14 +5,15 @@ import {
   RESOURCE_LINKS,
 } from './footer/constants'
 import { FooterBrand } from './footer/FooterBrand'
-import { FooterCopyright } from './footer/FooterCopyright'
 import { FooterColumns } from './footer/FooterColumns'
+import { FooterCopyright } from './footer/FooterCopyright'
 import { FooterLegalNav } from './footer/FooterLegalNav'
 import { FooterMeta } from './footer/FooterMeta'
 import type { FooterColumn } from './footer/types'
+import { APP_BRAND_NAME, APP_COPYRIGHT } from '@/config/app'
+import { cn } from '@/lib/utils'
 
-const DEFAULT_DESCRIPTION =
-  'A non-custodial interface for delegating SAFE to curated validators.'
+const DEFAULT_DESCRIPTION = 'A non-custodial interface for delegating SAFE to curated validators.'
 
 interface FooterProps {
   brandName?: string

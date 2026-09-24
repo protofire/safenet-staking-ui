@@ -17,12 +17,7 @@ export function WalletChrome({ layout }: WalletChromeProps) {
   const isDesktop = layout === 'desktop'
 
   return (
-    <div
-      className={cn(
-        'flex shrink-0 items-center',
-        isDesktop ? 'gap-3' : 'gap-2',
-      )}
-    >
+    <div className={cn('flex shrink-0 items-center', isDesktop ? 'gap-3' : 'gap-2')}>
       <div className="flex items-center gap-2">
         <NetworkBadge
           variant={isDesktop ? 'badge' : 'pill'}
@@ -45,10 +40,7 @@ export function WalletChrome({ layout }: WalletChromeProps) {
 
       <div className="flex items-center gap-2">
         <ThemeToggleButton className="text-text-muted hover:text-text" />
-        <ConnectWalletButton
-          size={isDesktop ? 'default' : 'sm'}
-          showChevron={isDesktop}
-        />
+        <ConnectWalletButton size={isDesktop ? 'default' : 'sm'} showChevron={isDesktop} />
       </div>
     </div>
   )

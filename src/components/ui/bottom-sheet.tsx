@@ -1,10 +1,4 @@
-import {
-  type ReactNode,
-  type TouchEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type ReactNode, type TouchEvent, useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -97,11 +91,8 @@ export function BottomSheet({
         style={{
           height,
           transform: `translateY(${dragY}px)`,
-          transition:
-            dragY === 0 ? 'transform 220ms cubic-bezier(.2,.8,.2,1)' : 'none',
-          paddingBottom: safeAreaBottom
-            ? 'max(env(safe-area-inset-bottom), 16px)'
-            : undefined,
+          transition: dragY === 0 ? 'transform 220ms cubic-bezier(.2,.8,.2,1)' : 'none',
+          paddingBottom: safeAreaBottom ? 'max(env(safe-area-inset-bottom), 16px)' : undefined,
         }}
         className={cn(
           'absolute right-0 bottom-0 left-0',
@@ -125,4 +116,3 @@ export function BottomSheet({
     </div>
   )
 }
-

@@ -4,9 +4,9 @@ import { TX_PROGRESS_COPY, resolveTxProgressPhase, txProgressTitle } from './txP
 
 describe('resolveTxProgressPhase', () => {
   it('prefers success over every other flag', () => {
-    expect(
-      resolveTxProgressPhase({ isSuccess: true, isSafeQueued: true, isSigning: true }),
-    ).toBe('success')
+    expect(resolveTxProgressPhase({ isSuccess: true, isSafeQueued: true, isSigning: true })).toBe(
+      'success',
+    )
   })
 
   it('prefers safe-queued over signing', () => {

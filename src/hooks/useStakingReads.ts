@@ -1,5 +1,5 @@
-import { useReadContract, useAccount, useReadContracts } from 'wagmi'
 import type { Address } from 'viem'
+import { useReadContract, useAccount, useReadContracts } from 'wagmi'
 
 import { stakingAbi } from '@/abi/stakingAbi'
 import { chain } from '@/config/chains'

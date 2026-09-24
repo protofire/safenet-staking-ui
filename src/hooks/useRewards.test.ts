@@ -1,9 +1,8 @@
 import { renderHook } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { buildRewardProof, SAFE, TEST_ACCOUNT, TEST_MERKLE_ROOT } from '@/test/fixtures'
-
 import { useRewards } from './useRewards'
+import { buildRewardProof, SAFE, TEST_ACCOUNT, TEST_MERKLE_ROOT } from '@/test/fixtures'
 
 const { useAccount, useReadContract, useRewardProof, MERKLE_DROP } = vi.hoisted(() => ({
   useAccount: vi.fn(),

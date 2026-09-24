@@ -1,5 +1,5 @@
-import type { FooterColumn } from './types'
 import { FooterLinkItem } from './FooterLinkItem'
+import type { FooterColumn } from './types'
 
 export function FooterColumns({ columns }: { columns: FooterColumn[] }) {
   return (

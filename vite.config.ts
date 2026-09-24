@@ -5,13 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 
-import {
-  getRpcConnectOrigins,
-} from './src/config/rpcFallbacks'
+import { getRpcConnectOrigins } from './src/config/rpcFallbacks'
 
-const pkg = JSON.parse(
-  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
-) as { version: string }
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
+  version: string
+}
 
 const WALLETCONNECT_CONNECT_ORIGINS = [
   'wss://relay.walletconnect.com',
@@ -48,10 +46,7 @@ export function buildCsp(env: Record<string, string>, dev: boolean): string {
       connectSrc.add(origin)
     }
     if (chainId === '11155111') {
-      for (const origin of getRpcConnectOrigins(
-        '1',
-        'https://ethereum-rpc.publicnode.com',
-      )) {
+      for (const origin of getRpcConnectOrigins('1', 'https://ethereum-rpc.publicnode.com')) {
         connectSrc.add(origin)
       }
     }

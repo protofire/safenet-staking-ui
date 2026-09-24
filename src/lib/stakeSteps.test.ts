@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  approvalProgressDescription,
-  resolveStakeSteps,
-  stakeStepTitle,
-} from './stakeSteps'
+import { approvalProgressDescription, resolveStakeSteps, stakeStepTitle } from './stakeSteps'
 
 describe('resolveStakeSteps', () => {
   it('hides the stepper when no approval is involved', () => {
@@ -74,9 +70,7 @@ describe('approvalProgressDescription', () => {
     expect(approvalProgressDescription('12.5', 'exact')).toBe(
       'Allow the staking contract to use 12.5 SAFE.',
     )
-    expect(approvalProgressDescription('', null)).toBe(
-      'Allow the staking contract to use 0 SAFE.',
-    )
+    expect(approvalProgressDescription('', null)).toBe('Allow the staking contract to use 0 SAFE.')
   })
 
   it('describes an unlimited approval', () => {

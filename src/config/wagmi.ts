@@ -2,10 +2,9 @@ import { getDefaultConfig } from 'connectkit'
 import { type CreateConfigParameters, createConfig } from 'wagmi'
 import { injected, safe, walletConnect } from 'wagmi/connectors'
 
-import { SAFE_ALLOWED_DOMAINS } from '@/lib/safe'
-
 import { getWagmiTransports, wagmiChains } from './chains'
 import { env } from './env'
+import { SAFE_ALLOWED_DOMAINS } from '@/lib/safe'
 
 function buildConnectors(): NonNullable<CreateConfigParameters['connectors']> {
   const wc = env.VITE_WALLETCONNECT_PROJECT_ID

@@ -2,20 +2,20 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { toast } from 'sonner'
 import type { Address } from 'viem'
 
+import { TokenAmountField } from '@/components/staking/TokenAmountField'
 import { AddressMono } from '@/components/ui/address-mono'
 import { Button } from '@/components/ui/button'
-import { TokenAmountField } from '@/components/staking/TokenAmountField'
 import { TxCheckNotice } from '@/components/ui/tx-check-notice'
 import { TxDialog } from '@/components/ui/tx-dialog'
 import { TxStepper } from '@/components/ui/tx-stepper'
 import { useApprovalFlow } from '@/hooks/useApprovalFlow'
-import { useBatchStake, useStake, useStakeSimulation } from '@/hooks/useStakingWrites'
 import { useResetOnWalletChange } from '@/hooks/useResetOnWalletChange'
 import { useSafeQueuedToast } from '@/hooks/useSafeQueuedToast'
+import { useUserStakeOnValidator, useWithdrawDelay } from '@/hooks/useStakingReads'
+import { useBatchStake, useStake, useStakeSimulation } from '@/hooks/useStakingWrites'
 import { useTokenBalance } from '@/hooks/useTokenBalance'
 import { useTxErrorToast } from '@/hooks/useTxErrorToast'
 import { useTxSuccessNotify } from '@/hooks/useTxSuccessNotify'
-import { useUserStakeOnValidator, useWithdrawDelay } from '@/hooks/useStakingReads'
 import { useValidators } from '@/hooks/useValidators'
 import { useWalletReady } from '@/hooks/useWalletReady'
 import {
@@ -146,8 +146,7 @@ export function StakeDialog({ validator, open, onOpenChange }: StakeDialogProps)
       ? formatTokenAmount(stakeOnValidatorWei)
       : '—'
 
-  const walletBalanceLabel =
-    balanceValue !== undefined ? formatTokenAmount(balanceValue) : '—'
+  const walletBalanceLabel = balanceValue !== undefined ? formatTokenAmount(balanceValue) : '—'
 
   useSafeQueuedToast(isStakeSafeQueued)
   useResetOnWalletChange(() => handleOpenChange(false))
@@ -182,14 +181,13 @@ export function StakeDialog({ validator, open, onOpenChange }: StakeDialogProps)
     isSafeQueued,
     isSigning: isSigningTx || isBatchSigning || isSigningApproval,
   })
-  const progressTxHash =
-    txSucceeded
-      ? stakeTxHash ?? batchTxHash
-      : isSigningApproval || isConfirmingApproval
-        ? approvalTxHash
-        : isBatchSigning || isBatchConfirming
-          ? batchTxHash
-          : stakeTxHash
+  const progressTxHash = txSucceeded
+    ? (stakeTxHash ?? batchTxHash)
+    : isSigningApproval || isConfirmingApproval
+      ? approvalTxHash
+      : isBatchSigning || isBatchConfirming
+        ? batchTxHash
+        : stakeTxHash
   const progressDescription = txSucceeded
     ? `Staked ${amount || '0'} SAFE to ${validatorLabel}.`
     : isSigningApproval || isConfirmingApproval

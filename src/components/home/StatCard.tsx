@@ -13,9 +13,7 @@ export function StatCard({ label, value, hint }: StatCardProps) {
         {value}
       </span>
       <span className="text-sm text-text-muted">{label}</span>
-      {hint ? (
-        <span className="text-sm leading-snug text-text-muted/90">{hint}</span>
-      ) : null}
+      {hint ? <span className="text-sm leading-snug text-text-muted/90">{hint}</span> : null}
     </div>
   )
 }

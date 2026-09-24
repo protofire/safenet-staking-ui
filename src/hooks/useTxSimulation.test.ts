@@ -6,9 +6,8 @@ import {
 } from 'viem'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { erc20Abi } from '@/abi/erc20Abi'
-
 import { TX_SIMULATION_DEBOUNCE_MS, useTxSimulation } from './useTxSimulation'
+import { erc20Abi } from '@/abi/erc20Abi'
 
 const { useSimulateContract } = vi.hoisted(() => ({ useSimulateContract: vi.fn() }))
 
@@ -19,15 +18,22 @@ const TOKEN = '0x0000000000000000000000000000000000000002'
 const SPENDER = '0x0000000000000000000000000000000000000001'
 
 function params(amount: bigint) {
-  return { address: TOKEN, abi: erc20Abi, functionName: 'approve', args: [SPENDER, amount] } as const
+  return {
+    address: TOKEN,
+    abi: erc20Abi,
+    functionName: 'approve',
+    args: [SPENDER, amount],
+  } as const
 }
 
-function mockQuery(state: Partial<{
-  isPending: boolean
-  isFetching: boolean
-  isError: boolean
-  error: unknown
-}>) {
+function mockQuery(
+  state: Partial<{
+    isPending: boolean
+    isFetching: boolean
+    isError: boolean
+    error: unknown
+  }>,
+) {
   useSimulateContract.mockReturnValue({
     isPending: false,
     isFetching: false,
@@ -92,9 +98,10 @@ describe('useTxSimulation', () => {
   })
 
   it('debounces argument changes and reports checking meanwhile', () => {
-    const { result, rerender } = renderHook(({ amount }: { amount: bigint }) =>
-      useTxSimulation(params(amount)),
-    { initialProps: { amount: 1n } })
+    const { result, rerender } = renderHook(
+      ({ amount }: { amount: bigint }) => useTxSimulation(params(amount)),
+      { initialProps: { amount: 1n } },
+    )
 
     rerender({ amount: 2n })
 

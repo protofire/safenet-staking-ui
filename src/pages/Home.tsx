@@ -1,6 +1,6 @@
 import { useModal } from 'connectkit'
-import { formatUnits } from 'viem'
 import { useNavigate } from 'react-router'
+import { formatUnits } from 'viem'
 import { useReadContract } from 'wagmi'
 
 import { stakingAbi } from '@/abi/stakingAbi'
@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button'
 import { InfoStatSkeletonRow } from '@/components/ui/states'
 import { chain } from '@/config/chains'
 import { getMerkleDropAddress, getStakingContractAddress } from '@/config/contracts'
-import { useTokenBalance } from '@/hooks/useTokenBalance'
 import { useUserTotalStake } from '@/hooks/useStakingReads'
+import { useTokenBalance } from '@/hooks/useTokenBalance'
 import { useWalletReady } from '@/hooks/useWalletReady'
 import { formatCooldownForBlurb, formatTokenAmount, formatUnstakingDelayStat } from '@/lib/format'
 
@@ -91,7 +91,9 @@ export default function Home() {
   const cooldownPhrase =
     withdrawDelaySeconds !== undefined ? formatCooldownForBlurb(withdrawDelaySeconds) : ''
   const totalStakedFormatted =
-    totalStakedWei !== undefined ? formatTotalStakedLabel(totalStakedWei) : { display: '—' as const }
+    totalStakedWei !== undefined
+      ? formatTotalStakedLabel(totalStakedWei)
+      : { display: '—' as const }
   const protocolStatsLoading = totalStakedPending || withdrawDelayPending
 
   return (
@@ -119,7 +121,9 @@ export default function Home() {
                       '—'
                     ) : (
                       <>
-                        <span title={totalStakedFormatted.title}>{totalStakedFormatted.display}</span>{' '}
+                        <span title={totalStakedFormatted.title}>
+                          {totalStakedFormatted.display}
+                        </span>{' '}
                         <span className="text-base font-normal text-text-muted">SAFE</span>
                       </>
                     )
@@ -194,7 +198,6 @@ export default function Home() {
           </div> */}
         </div>
       </section>
-
     </main>
   )
 }

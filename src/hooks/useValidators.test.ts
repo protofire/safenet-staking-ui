@@ -1,12 +1,11 @@
 import { HttpResponse, http, type JsonBodyType } from 'msw'
 import { describe, expect, it } from 'vitest'
 
+import { useValidators } from './useValidators'
 import { env } from '@/config/env'
 import { buildRawValidator, TEST_VALIDATOR } from '@/test/fixtures'
 import { server } from '@/test/msw'
 import { renderHookWithQuery, waitFor } from '@/test/test-utils'
-
-import { useValidators } from './useValidators'
 
 const url = env.VITE_VALIDATOR_INFO_URL
 
@@ -50,9 +49,7 @@ describe('useValidators', () => {
     const { result } = renderHookWithQuery(() => useValidators())
 
     await waitFor(() => expect(result.current.isError).toBe(true))
-    expect(result.current.error?.message).toBe(
-      'Failed to load validators: unexpected data format.',
-    )
+    expect(result.current.error?.message).toBe('Failed to load validators: unexpected data format.')
   })
 
   it('rejects a payload that is not an array', async () => {

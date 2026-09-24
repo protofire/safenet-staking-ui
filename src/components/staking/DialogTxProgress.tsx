@@ -1,5 +1,5 @@
-import type { Hex } from 'viem'
 import { CircleCheck } from 'lucide-react'
+import type { Hex } from 'viem'
 
 import { TxHashMono } from '@/components/ui/tx-hash-mono'
 import { TX_PROGRESS_COPY, type TxProgressPhase } from '@/lib/txProgress'

@@ -1,8 +1,6 @@
 import { z } from 'zod'
 
-export function walletConnectProjectIdFromEnv(
-  envValue: string | undefined,
-): string | undefined {
+export function walletConnectProjectIdFromEnv(envValue: string | undefined): string | undefined {
   const trimmed = envValue?.trim()
   return trimmed !== undefined && trimmed.length > 0 ? trimmed : undefined
 }

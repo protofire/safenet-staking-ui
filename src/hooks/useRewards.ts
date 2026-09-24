@@ -1,10 +1,9 @@
 import { useAccount, useReadContract } from 'wagmi'
 
+import { useRewardProof } from './useRewardProof'
 import { merkleDropAbi } from '@/abi/merkleDropAbi'
 import { chain } from '@/config/chains'
 import { getContractAddresses } from '@/config/contracts'
-
-import { useRewardProof } from './useRewardProof'
 
 const merkleDrop = getContractAddresses(chain.id).merkleDrop
 
@@ -55,8 +54,7 @@ export function useRewards() {
   }
 
   const cumulativeAmount = BigInt(proof.cumulativeAmount)
-  const claimable =
-    cumulativeAmount > cumulativeClaimed ? cumulativeAmount - cumulativeClaimed : 0n
+  const claimable = cumulativeAmount > cumulativeClaimed ? cumulativeAmount - cumulativeClaimed : 0n
   const rootStale = !!onChainRoot && onChainRoot !== proof.merkleRoot
 
   return {

@@ -1,8 +1,7 @@
+import type { FooterColumn, FooterLink } from './types'
 import { chain } from '@/config/chains'
 import { getStakingContractAddress } from '@/config/contracts'
 import { getExplorerAddressUrl } from '@/lib/explorer'
-
-import type { FooterColumn, FooterLink } from './types'
 
 const HELP_SUPPORT_HREF = 'https://safe-support.protofire.io/'
 const GITHUB_HREF = 'https://github.com/protofire/safenet-staking-ui'
@@ -50,11 +49,7 @@ export function buildFooterColumns(): FooterColumn[] {
     },
     {
       head: 'Resources',
-      links: [
-        ...RESOURCE_LINKS,
-        { label: 'Github', href: GITHUB_HREF },
-        ...STAKING_CONTRACT_LINKS,
-      ],
+      links: [...RESOURCE_LINKS, { label: 'Github', href: GITHUB_HREF }, ...STAKING_CONTRACT_LINKS],
     },
     {
       head: 'Legal',

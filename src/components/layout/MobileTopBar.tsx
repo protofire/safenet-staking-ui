@@ -1,5 +1,5 @@
-import { LOGO_SRC } from '@/config/app'
 import { WalletChrome } from '@/components/layout/WalletChrome'
+import { LOGO_SRC } from '@/config/app'
 import { cn } from '@/lib/utils'
 
 export function MobileTopBar({ className }: { className?: string }) {

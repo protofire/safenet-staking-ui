@@ -1,5 +1,5 @@
-import { mainnet, sepolia } from 'wagmi/chains'
 import { describe, expect, it } from 'vitest'
+import { mainnet, sepolia } from 'wagmi/chains'
 
 import { chainsByEnvId, getChainDisplayName } from './chains'
 

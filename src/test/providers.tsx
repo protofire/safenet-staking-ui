@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConnectKitProvider } from 'connectkit'
 import { ThemeProvider } from 'next-themes'
+import type { ReactNode } from 'react'
 import { MemoryRouter } from 'react-router'
 import { WagmiProvider } from 'wagmi'
 

@@ -26,10 +26,14 @@ const markdownComponents: Components = {
   p: ({ children }) => <p className="mt-4 text-base leading-relaxed text-text-muted">{children}</p>,
   strong: ({ children }) => <strong className="font-semibold text-text">{children}</strong>,
   ol: ({ children }) => (
-    <ol className="mt-4 list-decimal space-y-2 pl-6 text-base leading-relaxed text-text-muted">{children}</ol>
+    <ol className="mt-4 list-decimal space-y-2 pl-6 text-base leading-relaxed text-text-muted">
+      {children}
+    </ol>
   ),
   ul: ({ children }) => (
-    <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-relaxed text-text-muted">{children}</ul>
+    <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-relaxed text-text-muted">
+      {children}
+    </ul>
   ),
   li: ({ children }) => <li>{children}</li>,
 }

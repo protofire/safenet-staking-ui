@@ -1,11 +1,10 @@
 import { HttpResponse, http } from 'msw'
 import { describe, expect, it } from 'vitest'
 
+import { useRewardProof } from './useRewardProof'
 import { buildRewardProof, TEST_ACCOUNT } from '@/test/fixtures'
 import { server } from '@/test/msw'
 import { renderHookWithQuery, waitFor } from '@/test/test-utils'
-
-import { useRewardProof } from './useRewardProof'
 
 const PROOF_URL =
   'https://example.com/rewards/proofs/0f/aa/12/50/0x0faa1250a0cf6988fa25ba24e06dc85079174264.json'

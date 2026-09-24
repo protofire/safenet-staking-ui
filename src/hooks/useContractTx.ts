@@ -1,14 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import {
-  useAccount,
-  useCallsStatus,
-  useCapabilities,
-  useSendCalls,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from 'wagmi'
-import {
   encodeFunctionData,
   type Abi,
   type Address,
@@ -16,6 +8,14 @@ import {
   type EncodeFunctionDataParameters,
   type Hex,
 } from 'viem'
+import {
+  useAccount,
+  useCallsStatus,
+  useCapabilities,
+  useSendCalls,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from 'wagmi'
 
 import { chain } from '@/config/chains'
 import { queryClient } from '@/config/queryClient'
@@ -206,8 +206,8 @@ export function useContractTx(invalidation: TxInvalidation) {
   }
 
   const rawError = isSafe
-    ? safeTx.error ?? (safeTx.isReverted ? SAFE_TX_FAILED_ERROR : null)
-    : writeError ?? receiptError
+    ? (safeTx.error ?? (safeTx.isReverted ? SAFE_TX_FAILED_ERROR : null))
+    : (writeError ?? receiptError)
   const isRejected = isUserRejection(rawError) || (isSafe && safeTx.isCancelled)
   const error = isRejected ? null : rawError
 

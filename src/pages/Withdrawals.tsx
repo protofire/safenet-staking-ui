@@ -3,27 +3,32 @@ import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useBlock } from 'wagmi'
 
-import { ClaimWithdrawalDialog } from '@/components/withdrawals/ClaimWithdrawalDialog'
 import { ConnectWalletPrompt } from '@/components/layout/ConnectWalletPrompt'
 import { Button } from '@/components/ui/button'
 import { Pill } from '@/components/ui/pill'
 import { ProgressBar } from '@/components/ui/progress-bar'
 import { WithdrawalQueueSkeleton } from '@/components/ui/states'
+import { ClaimWithdrawalDialog } from '@/components/withdrawals/ClaimWithdrawalDialog'
 import { chain } from '@/config/chains'
+import { useResetOnWalletChange } from '@/hooks/useResetOnWalletChange'
+import { useSafeQueuedToast } from '@/hooks/useSafeQueuedToast'
 import { useWithdrawDelay } from '@/hooks/useStakingReads'
 import {
   useBatchClaimWithdrawals,
   useClaimWithdrawal,
   useClaimWithdrawalSimulation,
 } from '@/hooks/useStakingWrites'
-import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
-import { useResetOnWalletChange } from '@/hooks/useResetOnWalletChange'
-import { useSafeQueuedToast } from '@/hooks/useSafeQueuedToast'
 import { useTxErrorToast } from '@/hooks/useTxErrorToast'
 import { IDLE_SIMULATION } from '@/hooks/useTxSimulation'
 import { useTxSuccessNotify } from '@/hooks/useTxSuccessNotify'
 import { useWalletReady } from '@/hooks/useWalletReady'
-import { formatCooldownForBlurb, formatCountdown, formatTokenAmount, formatTxHashShort } from '@/lib/format'
+import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
+import {
+  formatCooldownForBlurb,
+  formatCountdown,
+  formatTokenAmount,
+  formatTxHashShort,
+} from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 type QueueEntry = { amount: bigint; claimableAt: bigint }
@@ -336,9 +341,7 @@ export default function Withdrawals() {
   useTxErrorToast(claimError, 'Claim failed')
   useTxErrorToast(batchError, 'Batch claim failed')
 
-  const cooldownPhrase = withdrawDelayBn
-    ? formatCooldownForBlurb(withdrawDelayBn)
-    : null
+  const cooldownPhrase = withdrawDelayBn ? formatCooldownForBlurb(withdrawDelayBn) : null
 
   const isBusyClaim = isClaimSigning || isClaimConfirming
   const isBusyBatch = isBatchSigning || isBatchConfirming
@@ -354,7 +357,11 @@ export default function Withdrawals() {
   const [claimSnapshot, setClaimSnapshot] = useState({ totalWei: 0n, count: 0 })
 
   const claimDialogSigning =
-    claimDialogMode === 'single' ? isClaimSigning : claimDialogMode === 'batch' ? isBatchSigning : false
+    claimDialogMode === 'single'
+      ? isClaimSigning
+      : claimDialogMode === 'batch'
+        ? isBatchSigning
+        : false
   const claimDialogConfirming =
     claimDialogMode === 'single'
       ? isClaimConfirming
@@ -362,17 +369,20 @@ export default function Withdrawals() {
         ? isBatchConfirming
         : false
   const claimDialogTxHash =
-    claimDialogMode === 'single' ? claimTxHash : claimDialogMode === 'batch' ? batchTxHash : undefined
+    claimDialogMode === 'single'
+      ? claimTxHash
+      : claimDialogMode === 'batch'
+        ? batchTxHash
+        : undefined
 
   const claimDialogSucceeded =
     claimDialogMode === 'single' ? isClaimOk : claimDialogMode === 'batch' ? isBatchOk : false
 
-  const claimDialogSuccessDescription =
-    claimDialogSucceeded
-      ? claimDialogMode === 'batch'
-        ? `Claimed ${claimSnapshot.count} withdrawals (${formatTokenAmount(claimSnapshot.totalWei)} SAFE).`
-        : `Claimed ${formatTokenAmount(claimSnapshot.totalWei)} SAFE to your wallet.`
-      : undefined
+  const claimDialogSuccessDescription = claimDialogSucceeded
+    ? claimDialogMode === 'batch'
+      ? `Claimed ${claimSnapshot.count} withdrawals (${formatTokenAmount(claimSnapshot.totalWei)} SAFE).`
+      : `Claimed ${formatTokenAmount(claimSnapshot.totalWei)} SAFE to your wallet.`
+    : undefined
 
   const openClaimDialog = (mode: 'single' | 'batch') => {
     setClaimDialogMode(mode)
@@ -401,14 +411,9 @@ export default function Withdrawals() {
     isBusyBatch
 
   const singleHeaderDisabled =
-    !isConnected ||
-    !address ||
-    maturePrefix === 0 ||
-    isBusyClaim ||
-    isBusyBatch
+    !isConnected || !address || maturePrefix === 0 || isBusyClaim || isBusyBatch
 
-  const claimDialogSafeQueued =
-    claimDialogMode === 'single' ? isClaimSafeQueued : isBatchSafeQueued
+  const claimDialogSafeQueued = claimDialogMode === 'single' ? isClaimSafeQueued : isBatchSafeQueued
   const claimSimulation = useClaimWithdrawalSimulation(
     claimDialogOpen && claimDialogMode === 'single' && !isBusyClaim && !claimDialogSucceeded,
   )
@@ -445,123 +450,119 @@ export default function Withdrawals() {
     </>
   )
 
-
   return (
-      <main className="mx-auto w-full max-w-[1240px] flex-1 px-6 py-8 pb-32 md:pb-8 lg:px-8">
-        <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-          <header className="max-w-[540px]">
-            <h1 className="m-0 text-xl font-semibold tracking-tight text-text md:text-[28px] md:leading-tight">
-              Withdrawal queue
-            </h1>
-            <p className="mt-2 max-w-prose text-base leading-relaxed text-text-muted">
-              Withdrawals are released after
-              {cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown. The queue is
-              FIFO — only the head withdrawal can be claimed at a time.
-            </p>
-          </header>
-          <div className="hidden shrink-0 flex-col items-start gap-1.5 md:flex md:items-end">
+    <main className="mx-auto w-full max-w-[1240px] flex-1 px-6 py-8 pb-32 md:pb-8 lg:px-8">
+      <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+        <header className="max-w-[540px]">
+          <h1 className="m-0 text-xl font-semibold tracking-tight text-text md:text-[28px] md:leading-tight">
+            Withdrawal queue
+          </h1>
+          <p className="mt-2 max-w-prose text-base leading-relaxed text-text-muted">
+            Withdrawals are released after
+            {cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown. The queue is FIFO —
+            only the head withdrawal can be claimed at a time.
+          </p>
+        </header>
+        <div className="hidden shrink-0 flex-col items-start gap-1.5 md:flex md:items-end">
+          {claimHeaderActions}
+        </div>
+      </div>
+
+      {!isConnected && (
+        <ConnectWalletPrompt
+          variant="inline"
+          suffixMessage="to view and claim withdrawals for your address."
+          className="mb-6"
+        />
+      )}
+
+      {isConnected && isError && (
+        <p className="mb-4 text-sm text-danger" role="alert">
+          {error instanceof Error ? error.message : 'Could not load withdrawal queue.'}
+        </p>
+      )}
+
+      {isConnected && queue.length === 0 && !isPending && !isError && (
+        <div className="flex flex-col items-center rounded-lg border border-border bg-surface px-6 py-12 text-center md:py-14">
+          <p className="text-sm font-semibold text-text">Your withdrawal queue is empty.</p>
+          <p className="mt-6 max-w-prose text-center text-base text-balance text-text-muted">
+            Initiate a withdrawal from any validator to start the cooldown
+            {cooldownPhrase ? ` (about ${cooldownPhrase})` : ''}.
+          </p>
+          <Button
+            type="button"
+            className="mt-6 font-semibold"
+            onClick={() => navigate('/validators')}
+          >
+            Explore validators
+          </Button>
+        </div>
+      )}
+
+      {isConnected &&
+        (isPending || (isFetching && queue.length === 0 && rawQueue === undefined)) &&
+        !isError && <WithdrawalQueueSkeleton count={4} />}
+
+      {isConnected && queue.length > 0 && !isError && block?.timestamp === undefined && (
+        <WithdrawalQueueSkeleton count={queue.length} />
+      )}
+
+      {isConnected && queue.length > 0 && !isError && block?.timestamp !== undefined && (
+        <div
+          className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface md:overflow-x-auto"
+          role="list"
+          aria-label="Withdrawal queue"
+        >
+          {queue.map((w, idx) => (
+            <div key={`${w.claimableAt}-${w.amount}`} role="listitem">
+              <WithdrawalQueueRow
+                w={w}
+                idx={idx}
+                isHead={idx === 0}
+                isLast={idx === queue.length - 1}
+                now={block.timestamp}
+                withdrawDelayBn={withdrawDelayBn}
+                maturePrefix={maturePrefix}
+                walletSupportsAtomicBatch={walletSupportsAtomicBatch}
+                isBusyClaim={isBusyClaim}
+                isBusyBatch={isBusyBatch}
+                onClaimSingle={() => openClaimDialog('single')}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+      {claimDialogMode ? (
+        <ClaimWithdrawalDialog
+          open={claimDialogOpen}
+          onOpenChange={handleClaimDialogOpenChange}
+          mode={claimDialogMode}
+          matureCount={claimDialogSucceeded ? claimSnapshot.count : maturePrefix}
+          totalAmountWei={claimDialogSucceeded ? claimSnapshot.totalWei : claimDialogTotalWei}
+          isSigning={claimDialogSigning}
+          isConfirming={claimDialogConfirming}
+          isSafeQueued={claimDialogSafeQueued}
+          showSuccess={claimDialogSucceeded}
+          {...(claimDialogSuccessDescription !== undefined
+            ? { successDescription: claimDialogSuccessDescription }
+            : {})}
+          txHash={claimDialogTxHash}
+          simulation={claimDialogMode === 'single' ? claimSimulation : IDLE_SIMULATION}
+          onSubmit={() => {
+            setClaimSnapshot({ totalWei: claimDialogTotalWei, count: maturePrefix })
+            if (claimDialogMode === 'single') claimWithdrawal()
+            else batchClaimWithdrawals(maturePrefix)
+          }}
+        />
+      ) : null}
+
+      {isConnected ? (
+        <div className="fixed inset-x-0 bottom-mobile-tab-bar z-20 border-t border-border bg-bg/95 px-4 py-3 backdrop-blur-sm md:hidden">
+          <div className="mx-auto flex max-w-[1240px] flex-col items-stretch gap-1.5">
             {claimHeaderActions}
           </div>
         </div>
-
-        {!isConnected && (
-          <ConnectWalletPrompt
-            variant="inline"
-            suffixMessage="to view and claim withdrawals for your address."
-            className="mb-6"
-          />
-        )}
-
-        {isConnected && isError && (
-          <p className="mb-4 text-sm text-danger" role="alert">
-            {error instanceof Error ? error.message : 'Could not load withdrawal queue.'}
-          </p>
-        )}
-
-        {isConnected && queue.length === 0 && !isPending && !isError && (
-          <div className="flex flex-col items-center rounded-lg border border-border bg-surface px-6 py-12 text-center md:py-14">
-            <p className="text-sm font-semibold text-text">Your withdrawal queue is empty.</p>
-            <p className="mt-6 max-w-prose text-center text-base text-balance text-text-muted">
-              Initiate a withdrawal from any validator to start the cooldown
-              {cooldownPhrase ? ` (about ${cooldownPhrase})` : ''}.
-            </p>
-            <Button
-              type="button"
-              className="mt-6 font-semibold"
-              onClick={() => navigate('/validators')}
-            >
-              Explore validators
-            </Button>
-          </div>
-        )}
-
-        {isConnected &&
-          (isPending || (isFetching && queue.length === 0 && rawQueue === undefined)) &&
-          !isError && <WithdrawalQueueSkeleton count={4} />}
-
-        {isConnected &&
-          queue.length > 0 &&
-          !isError &&
-          block?.timestamp === undefined && <WithdrawalQueueSkeleton count={queue.length} />}
-
-        {isConnected && queue.length > 0 && !isError && block?.timestamp !== undefined && (
-          <div
-            className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface md:overflow-x-auto"
-            role="list"
-            aria-label="Withdrawal queue"
-          >
-            {queue.map((w, idx) => (
-              <div key={`${w.claimableAt}-${w.amount}`} role="listitem">
-                <WithdrawalQueueRow
-                  w={w}
-                  idx={idx}
-                  isHead={idx === 0}
-                  isLast={idx === queue.length - 1}
-                  now={block.timestamp}
-                  withdrawDelayBn={withdrawDelayBn}
-                  maturePrefix={maturePrefix}
-                  walletSupportsAtomicBatch={walletSupportsAtomicBatch}
-                  isBusyClaim={isBusyClaim}
-                  isBusyBatch={isBusyBatch}
-                  onClaimSingle={() => openClaimDialog('single')}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-        {claimDialogMode ? (
-          <ClaimWithdrawalDialog
-            open={claimDialogOpen}
-            onOpenChange={handleClaimDialogOpenChange}
-            mode={claimDialogMode}
-            matureCount={claimDialogSucceeded ? claimSnapshot.count : maturePrefix}
-            totalAmountWei={claimDialogSucceeded ? claimSnapshot.totalWei : claimDialogTotalWei}
-            isSigning={claimDialogSigning}
-            isConfirming={claimDialogConfirming}
-            isSafeQueued={claimDialogSafeQueued}
-            showSuccess={claimDialogSucceeded}
-            {...(claimDialogSuccessDescription !== undefined
-              ? { successDescription: claimDialogSuccessDescription }
-              : {})}
-            txHash={claimDialogTxHash}
-            simulation={claimDialogMode === 'single' ? claimSimulation : IDLE_SIMULATION}
-            onSubmit={() => {
-              setClaimSnapshot({ totalWei: claimDialogTotalWei, count: maturePrefix })
-              if (claimDialogMode === 'single') claimWithdrawal()
-              else batchClaimWithdrawals(maturePrefix)
-            }}
-          />
-        ) : null}
-
-        {isConnected ? (
-          <div
-            className="fixed inset-x-0 bottom-mobile-tab-bar z-20 border-t border-border bg-bg/95 px-4 py-3 backdrop-blur-sm md:hidden"
-          >
-            <div className="mx-auto flex max-w-[1240px] flex-col items-stretch gap-1.5">
-              {claimHeaderActions}
-            </div>
-          </div>
-        ) : null}
-      </main>
+      ) : null}
+    </main>
   )
 }

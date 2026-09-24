@@ -99,21 +99,19 @@ describe('parseEnv', () => {
   })
 
   it('uses explicit VITE_VALIDATOR_INFO_URL when set', () => {
-    expect(parseEnv({ ...BASE_SEPOLIA_ENV }).VITE_VALIDATOR_INFO_URL).toBe(
-      VALIDATOR_INFO_TEST_URL,
-    )
+    expect(parseEnv({ ...BASE_SEPOLIA_ENV }).VITE_VALIDATOR_INFO_URL).toBe(VALIDATOR_INFO_TEST_URL)
   })
 
   it('throws when VITE_STAKING_CONTRACT_ADDRESS is omitted or empty', () => {
     expect(() => parseEnv(omit(BASE_SEPOLIA_ENV, 'VITE_STAKING_CONTRACT_ADDRESS'))).toThrow(
       /VITE_STAKING_CONTRACT_ADDRESS/,
     )
-    expect(() =>
-      parseEnv({ ...BASE_SEPOLIA_ENV, VITE_STAKING_CONTRACT_ADDRESS: '' }),
-    ).toThrow(/VITE_STAKING_CONTRACT_ADDRESS/)
-    expect(() =>
-      parseEnv({ ...BASE_SEPOLIA_ENV, VITE_STAKING_CONTRACT_ADDRESS: '   ' }),
-    ).toThrow(/VITE_STAKING_CONTRACT_ADDRESS/)
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_STAKING_CONTRACT_ADDRESS: '' })).toThrow(
+      /VITE_STAKING_CONTRACT_ADDRESS/,
+    )
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_STAKING_CONTRACT_ADDRESS: '   ' })).toThrow(
+      /VITE_STAKING_CONTRACT_ADDRESS/,
+    )
   })
 
   it('throws when VITE_SAFE_TOKEN_ADDRESS is omitted or empty', () => {
@@ -184,12 +182,12 @@ describe('parseEnv', () => {
   })
 
   it('rejects malformed optional contract addresses', () => {
-    expect(() =>
-      parseEnv({ ...BASE_SEPOLIA_ENV, VITE_MERKLE_DROP_ADDRESS: '0xabc' }),
-    ).toThrow(/VITE_MERKLE_DROP_ADDRESS/)
-    expect(() =>
-      parseEnv({ ...BASE_SEPOLIA_ENV, VITE_FAUCET_CONTRACT_ADDRESS: 'nope' }),
-    ).toThrow(/VITE_FAUCET_CONTRACT_ADDRESS/)
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_MERKLE_DROP_ADDRESS: '0xabc' })).toThrow(
+      /VITE_MERKLE_DROP_ADDRESS/,
+    )
+    expect(() => parseEnv({ ...BASE_SEPOLIA_ENV, VITE_FAUCET_CONTRACT_ADDRESS: 'nope' })).toThrow(
+      /VITE_FAUCET_CONTRACT_ADDRESS/,
+    )
   })
 
   it('requires VITE_REWARDS_BASE_URL when VITE_MERKLE_DROP_ADDRESS is set', () => {

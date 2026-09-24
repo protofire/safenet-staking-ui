@@ -61,11 +61,7 @@ export function PortfolioRewardsShell({
       />
 
       {merkleDrop ? (
-        <ClaimRewardsDialog
-          open={claimOpen}
-          onOpenChange={setClaimOpen}
-          model={model}
-        />
+        <ClaimRewardsDialog open={claimOpen} onOpenChange={setClaimOpen} model={model} />
       ) : null}
     </>
   )

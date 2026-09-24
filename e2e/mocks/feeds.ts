@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import type { Page } from '@playwright/test'
 
 import { E2E_ENV } from '../env'

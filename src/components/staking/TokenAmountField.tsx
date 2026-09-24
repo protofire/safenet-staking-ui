@@ -1,6 +1,7 @@
+import { formatUnits } from 'viem'
+
 import { formatAmountInputDisplay, isValidAmountInput, sanitizeAmountInput } from '@/lib/format'
 import { cn } from '@/lib/utils'
-import { formatUnits } from 'viem'
 
 type TokenAmountFieldProps = {
   inputId: string
@@ -72,12 +73,9 @@ export function TokenAmountField({
         className="flex flex-wrap items-center justify-between gap-2 pt-1 text-sm text-text-muted"
       >
         <span>
-          {hintLabel}:{' '}
-          <span className="font-mono tabular-nums text-text">{hintValue} SAFE</span>
+          {hintLabel}: <span className="font-mono tabular-nums text-text">{hintValue} SAFE</span>
         </span>
-        {errorMessage ? (
-          <span className="font-medium text-danger">{errorMessage}</span>
-        ) : null}
+        {errorMessage ? <span className="font-medium text-danger">{errorMessage}</span> : null}
       </div>
       {emptyMessage ? <p className="text-sm text-danger">{emptyMessage}</p> : null}
     </div>

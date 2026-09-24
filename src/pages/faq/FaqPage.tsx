@@ -1,6 +1,6 @@
 import { FaqAccordion } from '@/components/faq/FaqAccordion'
-import faqContent from '@/resources/FAQ.md?raw'
 import { parseFaqMarkdown } from '@/lib/parseFaqMarkdown'
+import faqContent from '@/resources/FAQ.md?raw'
 
 const faqDocument = parseFaqMarkdown(faqContent)
 

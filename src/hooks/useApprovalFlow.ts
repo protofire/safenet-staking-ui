@@ -24,11 +24,9 @@ export function useApprovalFlow(parsedAmount: bigint) {
 
   const visibleApprovalType = isApproved || approvalError ? null : approvalType
 
-  const needsApproval =
-    allowance !== undefined && parsedAmount > 0n && allowance < parsedAmount
+  const needsApproval = allowance !== undefined && parsedAmount > 0n && allowance < parsedAmount
 
-  const isApprovalPending =
-    isSigningApproval || isConfirmingApproval || isSafeApprovalQueued
+  const isApprovalPending = isSigningApproval || isConfirmingApproval || isSafeApprovalQueued
 
   useEffect(() => {
     if (!isApproved) return

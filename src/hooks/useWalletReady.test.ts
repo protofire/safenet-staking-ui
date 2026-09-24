@@ -1,10 +1,9 @@
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+import { useWalletReady } from './useWalletReady'
 import { chain } from '@/config/chains'
 import { TEST_ACCOUNT } from '@/test/fixtures'
-
-import { useWalletReady } from './useWalletReady'
 
 const { useAccount } = vi.hoisted(() => ({ useAccount: vi.fn() }))
 

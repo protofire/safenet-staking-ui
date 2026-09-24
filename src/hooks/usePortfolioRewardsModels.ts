@@ -5,10 +5,7 @@ import { getMerkleDropAddress } from '@/config/contracts'
 import { useRewardProof } from '@/hooks/useRewardProof'
 import { useRewards } from '@/hooks/useRewards'
 
-export type PortfolioRewardsInfoNote =
-  | { kind: 'missing-config' }
-  | { kind: 'proof-error' }
-  | null
+export type PortfolioRewardsInfoNote = { kind: 'missing-config' } | { kind: 'proof-error' } | null
 
 export function usePortfolioRewardsModels() {
   const { address } = useAccount()

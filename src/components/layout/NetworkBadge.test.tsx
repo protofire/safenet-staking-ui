@@ -1,10 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+import { NetworkBadge } from './NetworkBadge'
 import { chain } from '@/config/chains'
 import { TEST_ACCOUNT } from '@/test/fixtures'
-
-import { NetworkBadge } from './NetworkBadge'
 
 const { useAccount } = vi.hoisted(() => ({ useAccount: vi.fn() }))
 
