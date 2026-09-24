@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "sortImports": {
+    "order": "asc",
+    "ignoreCase": true,
+    "newlinesBetween": true,
+    "sortSideEffects": false,
+    "groups": ["builtin", "external", ["internal", "parent", "sibling", "index"], "unknown"]
+  },
+  "ignorePatterns": [
+    "**/*.md",
+    "e2e/fixtures/**",
+    "public/**",
+    "coverage/**",
+    "pnpm-lock.yaml",
+    "*.tsbuildinfo"
+  ]
+}
