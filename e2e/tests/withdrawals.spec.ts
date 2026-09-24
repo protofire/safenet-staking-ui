@@ -51,3 +51,39 @@ test.describe('withdrawals', () => {
     expect(chain.state.tokenBalance).toBe(DEFAULT_CHAIN_STATE.tokenBalance + 300n * SAFE)
   })
 })
+
+test.describe('withdrawals with a batching wallet', () => {
+  test.beforeEach(async ({ page }) => {
+    await installMockWallet(page, {
+      account: E2E_ACCOUNT,
+      chainId: SEPOLIA_CHAIN_ID,
+      batching: true,
+    })
+    await installMockFeeds(page)
+  })
+
+  test('claims every matured withdrawal in one batch', async ({ page }) => {
+    const chain = await installMockRpc(page, {
+      ...DEFAULT_CHAIN_STATE,
+      pendingWithdrawals: [
+        { amount: 300n * SAFE, claimableAt: BLOCK_TIMESTAMP - 120n },
+        { amount: 200n * SAFE, claimableAt: BLOCK_TIMESTAMP - 60n },
+        { amount: 100n * SAFE, claimableAt: BLOCK_TIMESTAMP + 2n * DAY },
+      ],
+    })
+    await page.goto('/#/withdrawals')
+
+    await page.getByRole('button', { name: 'Claim 2 withdrawals' }).click()
+    const dialog = page.getByRole('dialog')
+    await expect(dialog.getByRole('heading', { name: 'Claim 2 withdrawals' })).toBeVisible()
+    await expect(dialog).toContainText('500')
+    await dialog.getByRole('button', { name: 'Claim 2 withdrawals' }).click()
+
+    await expect(dialog.getByText('Claimed 2 withdrawals (500 SAFE).')).toBeVisible()
+    expect(chain.sent.map((tx) => tx.functionName)).toEqual(['claimWithdrawal', 'claimWithdrawal'])
+    expect(chain.state.pendingWithdrawals).toEqual([
+      { amount: 100n * SAFE, claimableAt: BLOCK_TIMESTAMP + 2n * DAY },
+    ])
+    expect(chain.state.tokenBalance).toBe(DEFAULT_CHAIN_STATE.tokenBalance + 500n * SAFE)
+  })
+})

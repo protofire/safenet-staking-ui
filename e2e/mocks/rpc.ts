@@ -2,6 +2,7 @@ import type { Page, Route } from '@playwright/test'
 import {
   decodeFunctionData,
   encodeAbiParameters,
+  encodeErrorResult,
   keccak256,
   multicall3Abi,
   toHex,
@@ -17,6 +18,7 @@ import { merkleDropAbi } from '../../src/abi/merkleDropAbi'
 import { stakingAbi } from '../../src/abi/stakingAbi'
 import { RPC_FALLBACKS } from '../../src/config/rpcFallbacks'
 import { E2E_ACCOUNT, E2E_ENV, E2E_MERKLE_ROOT, E2E_VALIDATOR } from '../env'
+import { readRewardProof } from './feeds'
 
 const ABI: Abi = [...stakingAbi, ...merkleDropAbi, ...erc20Abi, ...multicall3Abi]
 const SEPOLIA_CHAIN_ID = 11155111
@@ -58,7 +60,24 @@ type JsonRpcRequest = {
   params?: unknown[]
 }
 
-class RevertError extends Error {}
+class RevertError extends Error {
+  readonly data: Hex | undefined
+
+  constructor(reason: string) {
+    super(reason)
+    this.data = encodeCustomError(reason)
+  }
+}
+
+function encodeCustomError(reason: string): Hex | undefined {
+  const errorName = /^(\w+)\(\)$/.exec(reason)?.[1]
+  if (!errorName) return undefined
+  try {
+    return encodeErrorResult({ abi: ABI, errorName })
+  } catch {
+    return undefined
+  }
+}
 
 function sameAddress(a: unknown, b: string): boolean {
   return typeof a === 'string' && a.toLowerCase() === b.toLowerCase()
@@ -137,6 +156,9 @@ function handleCall(data: Hex, state: ChainState): Hex {
     case 'claimWithdrawal':
       if (matureWithdrawalIndex(state) === -1) throw new RevertError('NoClaimableWithdrawal()')
       return '0x'
+    case 'claim':
+      verifyRewardClaim(args, state)
+      return '0x'
     case 'decimals':
       return encodeResult(fn, 18)
     case 'symbol':
@@ -151,6 +173,29 @@ function handleCall(data: Hex, state: ChainState): Hex {
 function matureWithdrawalIndex(state: ChainState): number {
   const head = state.pendingWithdrawals[0]
   return head && head.claimableAt <= BLOCK_TIMESTAMP ? 0 : -1
+}
+
+function verifyRewardClaim(args: readonly unknown[], state: ChainState) {
+  const [account, cumulativeAmount, expectedMerkleRoot, merkleProof] = args as [
+    Address,
+    bigint,
+    Hex,
+    readonly Hex[],
+  ]
+  if (expectedMerkleRoot !== state.merkleRoot) throw new RevertError('MerkleRootWasUpdated()')
+  const leaf = readRewardProof(account)
+  if (
+    !leaf ||
+    leaf.merkleRoot !== state.merkleRoot ||
+    BigInt(leaf.cumulativeAmount) !== cumulativeAmount ||
+    leaf.proof.length !== merkleProof.length ||
+    leaf.proof.some((node, i) => node !== merkleProof[i])
+  ) {
+    throw new RevertError('InvalidProof()')
+  }
+  if (!sameAddress(account, state.account) || cumulativeAmount <= state.cumulativeClaimed) {
+    throw new RevertError('NothingToClaim()')
+  }
 }
 
 function applyTransaction(data: Hex, state: ChainState) {
@@ -181,10 +226,34 @@ function applyTransaction(data: Hex, state: ChainState) {
       state.tokenBalance += claimed?.amount ?? 0n
       break
     }
+    case 'claim': {
+      const cumulativeAmount = values[1] as bigint
+      state.tokenBalance += cumulativeAmount - state.cumulativeClaimed
+      state.cumulativeClaimed = cumulativeAmount
+      break
+    }
   }
 }
 
-type SentTransaction = { hash: Hex; from: Address; to: Address; data: Hex; functionName: string }
+function snapshot(state: ChainState): ChainState {
+  return {
+    ...state,
+    pendingWithdrawals: state.pendingWithdrawals.map((entry) => ({ ...entry })),
+  }
+}
+
+type SentTransaction = {
+  hash: Hex
+  from: Address
+  to: Address
+  data: Hex
+  functionName: string
+  status: 'success' | 'reverted'
+}
+
+type BatchCall = { to: Address; data: Hex }
+
+export type NextTransactionOutcome = 'confirm' | 'reject' | 'revert'
 
 function receipt(tx: SentTransaction) {
   return {
@@ -200,7 +269,7 @@ function receipt(tx: SentTransaction) {
     contractAddress: null,
     logs: [],
     logsBloom: `0x${'00'.repeat(256)}`,
-    status: '0x1',
+    status: tx.status === 'success' ? '0x1' : '0x0',
     type: '0x2',
   }
 }
@@ -254,18 +323,20 @@ function block() {
   }
 }
 
-function handleRequest(
-  req: JsonRpcRequest,
-  chainId: number,
-  state: ChainState,
-  sent: SentTransaction[],
-) {
+function handleRequest(req: JsonRpcRequest, chainId: number, chain: MockChain) {
+  const { state, sent } = chain
   const ok = (result: unknown) => ({ jsonrpc: '2.0', id: req.id, result })
-  const fail = (code: number, message: string) => ({
+  const fail = (code: number, message: string, data?: Hex) => ({
     jsonrpc: '2.0',
     id: req.id,
-    error: { code, message },
+    error: { code, message, ...(data ? { data } : {}) },
   })
+  const revert = (err: RevertError) => fail(3, `execution reverted: ${err.message}`, err.data)
+  const takeOutcome = () => {
+    const outcome = chain.nextTransaction
+    chain.nextTransaction = 'confirm'
+    return outcome
+  }
 
   switch (req.method) {
     case 'eth_chainId':
@@ -283,7 +354,7 @@ function handleRequest(
       try {
         return ok(handleCall(data ?? input ?? '0x', state))
       } catch (err) {
-        if (err instanceof RevertError) return fail(3, `execution reverted: ${err.message}`)
+        if (err instanceof RevertError) return revert(err)
         throw err
       }
     }
@@ -296,16 +367,52 @@ function handleRequest(
         input?: Hex
       }
       const calldata = data ?? input ?? '0x'
+      const outcome = takeOutcome()
+      if (outcome === 'reject') return fail(4001, 'User rejected the request.')
       try {
-        applyTransaction(calldata, state)
+        if (outcome === 'confirm') applyTransaction(calldata, state)
       } catch (err) {
-        if (err instanceof RevertError) return fail(3, `execution reverted: ${err.message}`)
+        if (err instanceof RevertError) return revert(err)
         throw err
       }
       const hash = keccak256(toHex(`e2e-tx-${sent.length}`))
       const { functionName } = decodeFunctionData({ abi: ABI, data: calldata })
-      sent.push({ hash, from, to, data: calldata, functionName })
+      const status = outcome === 'revert' ? 'reverted' : 'success'
+      sent.push({ hash, from, to, data: calldata, functionName, status })
       return ok(hash)
+    }
+    case 'wallet_sendCalls': {
+      if (chainId !== SEPOLIA_CHAIN_ID) return fail(-32000, 'wrong chain')
+      const { from, calls } = (req.params?.[0] ?? {}) as { from: Address; calls: BatchCall[] }
+      const outcome = takeOutcome()
+      if (outcome === 'reject') return fail(4001, 'User rejected the request.')
+      const staged = snapshot(state)
+      try {
+        for (const call of calls) applyTransaction(call.data, staged)
+      } catch (err) {
+        if (err instanceof RevertError) return revert(err)
+        throw err
+      }
+      if (outcome === 'confirm') Object.assign(state, staged)
+      const hash = keccak256(toHex(`e2e-tx-${sent.length}`))
+      const status = outcome === 'revert' ? 'reverted' : 'success'
+      for (const call of calls) {
+        const { functionName } = decodeFunctionData({ abi: ABI, data: call.data })
+        sent.push({ hash, from, to: call.to, data: call.data, functionName, status })
+      }
+      return ok({ id: hash })
+    }
+    case 'wallet_getCallsStatus': {
+      const tx = sent.find((entry) => entry.hash === req.params?.[0])
+      if (!tx) return fail(5730, 'Unknown bundle id')
+      return ok({
+        version: '2.0.0',
+        id: tx.hash,
+        chainId: toHex(SEPOLIA_CHAIN_ID),
+        atomic: true,
+        status: tx.status === 'success' ? 200 : 500,
+        receipts: [receipt(tx)],
+      })
     }
     case 'eth_getTransactionReceipt':
     case 'eth_getTransactionByHash': {
@@ -343,17 +450,14 @@ function originsOf(urls: readonly string[]): Set<string> {
 export type MockChain = {
   state: ChainState
   sent: SentTransaction[]
+  nextTransaction: NextTransactionOutcome
 }
 
 export async function installMockRpc(
   page: Page,
   initial: ChainState = DEFAULT_CHAIN_STATE,
 ): Promise<MockChain> {
-  const state: ChainState = {
-    ...initial,
-    pendingWithdrawals: initial.pendingWithdrawals.map((entry) => ({ ...entry })),
-  }
-  const sent: SentTransaction[] = []
+  const chain: MockChain = { state: snapshot(initial), sent: [], nextTransaction: 'confirm' }
   const sepoliaOrigins = originsOf([E2E_ENV.VITE_RPC_URL, ...RPC_FALLBACKS['11155111']])
   const mainnetOrigins = originsOf(RPC_FALLBACKS['1'])
 
@@ -365,10 +469,10 @@ export async function installMockRpc(
       const body = route.request().postDataJSON() as JsonRpcRequest | JsonRpcRequest[] | null
       if (!body) return route.fulfill({ status: 400, body: 'expected a JSON-RPC body' })
       const response = Array.isArray(body)
-        ? body.map((req) => handleRequest(req, chainId, state, sent))
-        : handleRequest(body, chainId, state, sent)
+        ? body.map((req) => handleRequest(req, chainId, chain))
+        : handleRequest(body, chainId, chain)
       return route.fulfill({ json: response })
     },
   )
-  return { state, sent }
+  return chain
 }
