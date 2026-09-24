@@ -454,9 +454,7 @@ export default function Withdrawals() {
     <main className="mx-auto w-full max-w-[1240px] flex-1 px-6 py-8 pb-32 md:pb-8 lg:px-8">
       <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <header className="max-w-[540px]">
-          <h1 className="m-0 text-xl font-semibold tracking-tight text-text md:text-[28px] md:leading-tight">
-            Withdrawal queue
-          </h1>
+          <h1>Withdrawal queue</h1>
           <p className="mt-2 max-w-prose text-base leading-relaxed text-text-muted">
             Withdrawals are released after
             {cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown. The queue is FIFO —

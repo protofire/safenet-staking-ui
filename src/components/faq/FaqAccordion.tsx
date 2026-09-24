@@ -14,7 +14,7 @@ export function FaqAccordion({ document }: { document: FaqDocument }) {
     <div className="space-y-10">
       {document.sections.map((section) => (
         <section key={section.title}>
-          <h2 className="mb-2 text-xl font-semibold tracking-tight text-text">{section.title}</h2>
+          <h2>{section.title}</h2>
           <Accordion type="multiple" className="w-full">
             {section.items.map((item) => (
               <AccordionItem key={item.id} value={item.id} className="border-0">

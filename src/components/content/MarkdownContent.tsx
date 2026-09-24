@@ -17,12 +17,8 @@ const linkComponent: Components['a'] = ({ href, children }) => {
 
 const markdownComponents: Components = {
   a: linkComponent,
-  h1: ({ children }) => (
-    <h1 className="text-2xl font-semibold tracking-tight text-text lg:text-3xl">{children}</h1>
-  ),
-  h2: ({ children }) => (
-    <h2 className="mt-10 text-xl font-semibold tracking-tight text-text first:mt-0">{children}</h2>
-  ),
+  h1: ({ children }) => <h1>{children}</h1>,
+  h2: ({ children }) => <h2 className="mt-10 first:mt-0">{children}</h2>,
   p: ({ children }) => <p className="mt-4 text-base leading-relaxed text-text-muted">{children}</p>,
   strong: ({ children }) => <strong className="font-semibold text-text">{children}</strong>,
   ol: ({ children }) => (

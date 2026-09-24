@@ -5,7 +5,7 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   color-scheme: light;
@@ -69,62 +69,10 @@
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  color: var(--foreground);
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: 2.5rem;
-  line-height: 1.1;
-  margin: 2rem 0 1.25rem;
-}
-
-@media (max-width: 1024px) {
-  h1 {
-    font-size: 2rem;
-    margin: 1.25rem 0;
-  }
-}
-
-h2 {
-  font-size: 1.375rem;
-  line-height: 1.2;
-  margin: 0 0 0.5rem;
-}
-
-@media (max-width: 1024px) {
-  h2 {
-    font-size: 1.125rem;
-  }
-}
-
-p {
-  margin: 0;
-}
-
-code {
-  font-family: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
-  display: inline-flex;
-  border-radius: var(--r-sm);
-  color: var(--foreground);
-}
-
-code {
-  font-size: 0.9375rem;
-  line-height: 1.35;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
-
 @theme inline {
   --font-heading: var(--font-ui);
   --font-sans: var(--font-ui);
-  --font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
+  --font-mono: var(--font-code);
   --color-bg: var(--bg);
   --color-bg-sunken: var(--bg-sunken);
   --color-surface: var(--surface);
@@ -178,12 +126,104 @@ code {
     @apply border-border outline-ring/50;
   }
 
+  html {
+    @apply bg-background font-sans;
+  }
+
   body {
     @apply bg-background text-foreground;
   }
 
-  html {
-    @apply font-sans;
+  h1,
+  h2 {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--foreground);
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 2rem 0 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.375rem;
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+  }
+
+  @media (max-width: 1024px) {
+    h1 {
+      font-size: 2rem;
+      margin: 1.25rem 0;
+    }
+
+    h2 {
+      font-size: 1.125rem;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  code {
+    display: inline-flex;
+    padding: 4px 8px;
+    border-radius: var(--r-sm);
+    background: var(--code-bg);
+    color: var(--foreground);
+    font-family: var(--font-code);
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .home-hero-title {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: clamp(2rem, 9vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    text-wrap: balance;
+  }
+
+  .dark .home-hero-title {
+    background: linear-gradient(104deg, var(--text) 0%, var(--text) 44%, var(--brand) 116%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .home-hero-subtitle {
+    margin: 1rem 0 0;
+    max-width: 65ch;
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 1024px) {
+    .home-hero-subtitle {
+      margin-top: 1.125rem;
+    }
   }
 }
 

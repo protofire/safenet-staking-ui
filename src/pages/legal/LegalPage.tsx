@@ -8,7 +8,7 @@ export function LegalPage({ title, content }: { title?: string; content?: string
           <MarkdownContent content={content} />
         </article>
       ) : (
-        <h1 className="text-2xl font-semibold tracking-tight text-text">{title}</h1>
+        <h1>{title}</h1>
       )}
     </main>
   )

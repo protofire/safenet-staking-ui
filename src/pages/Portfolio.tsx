@@ -10,6 +10,7 @@ import { PortfolioRewardsShell } from '@/components/portfolio/PortfolioRewardsIn
 import { AddressMono } from '@/components/ui/address-mono'
 import { Button } from '@/components/ui/button'
 import { InfoStatSkeletonRow } from '@/components/ui/states'
+import { TableHead } from '@/components/ui/table'
 import { chain } from '@/config/chains'
 import { env } from '@/config/env'
 import { usePortfolioRewardsModels } from '@/hooks/usePortfolioRewardsModels'
@@ -19,8 +20,6 @@ import { useWalletReady } from '@/hooks/useWalletReady'
 import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
 import { chartSegmentColor, type ChartTheme } from '@/lib/chartColors'
 import { formatTokenAmount } from '@/lib/format'
-import { tableThClass } from '@/lib/table'
-import { cn } from '@/lib/utils'
 
 type PositionRow = {
   address: `0x${string}`
@@ -220,9 +219,7 @@ export default function Portfolio() {
   return (
     <main className="mx-auto min-w-0 w-full max-w-[1240px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       <header className="mb-5 sm:mb-6">
-        <h1 className="m-0 text-xl font-semibold tracking-tight text-text md:text-[28px] md:leading-tight">
-          Portfolio
-        </h1>
+        <h1>Portfolio</h1>
       </header>
 
       {!isConnected && (
@@ -402,8 +399,8 @@ export default function Portfolio() {
             <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,340px)_1fr]">
               <div className="min-w-0 overflow-hidden rounded-lg border border-border bg-surface">
                 <div className="flex items-center justify-between border-b border-border px-4 py-3 sm:px-5">
-                  <h2 className="text-sm font-semibold text-text">Stake distribution</h2>
-                  <span className="eyebrow text-data-secondary">{positions.length} validators</span>
+                  <h2>Stake distribution</h2>
+                  <span className="eyebrow">{positions.length} validators</span>
                 </div>
                 <div className="flex flex-col items-center gap-5 px-4 py-6">
                   <StakeDistributionDonut
@@ -441,7 +438,7 @@ export default function Portfolio() {
 
               <div className="min-w-0 overflow-hidden rounded-lg border border-border bg-surface">
                 <div className="border-b border-border px-4 py-3 sm:px-5">
-                  <h2 className="text-sm font-semibold text-text">Validators with your stake</h2>
+                  <h2>Validators with your stake</h2>
                 </div>
                 <div className="md:hidden">
                   <ul className="divide-y divide-border">
@@ -489,30 +486,18 @@ export default function Portfolio() {
                   <table className="w-full border-collapse text-left text-sm">
                     <thead>
                       <tr className="border-b border-border bg-bg-sunken">
-                        <th scope="col" className={cn(tableThClass, 'w-10 text-left')}>
-                          #
-                        </th>
-                        <th scope="col" className={cn(tableThClass, 'w-[1%] text-left')}>
-                          Validator
-                        </th>
-                        <th scope="col" className={cn(tableThClass, 'text-right')}>
-                          Tokens
-                        </th>
-                        <th
-                          scope="col"
-                          className={cn(tableThClass, 'w-px whitespace-nowrap text-right')}
-                        >
+                        <TableHead className="w-10 text-left">#</TableHead>
+                        <TableHead className="w-[1%] text-left">Validator</TableHead>
+                        <TableHead className="text-right">Tokens</TableHead>
+                        <TableHead className="w-px whitespace-nowrap text-right">
                           Commission
-                        </th>
-                        <th
-                          scope="col"
-                          className={cn(tableThClass, 'w-px whitespace-nowrap text-right')}
-                        >
+                        </TableHead>
+                        <TableHead className="w-px whitespace-nowrap text-right">
                           Part. 14d
-                        </th>
-                        <th scope="col" className={cn(tableThClass, 'w-px whitespace-nowrap')}>
+                        </TableHead>
+                        <TableHead className="w-px whitespace-nowrap">
                           <span className="sr-only">Actions</span>
-                        </th>
+                        </TableHead>
                       </tr>
                     </thead>
                     <tbody>

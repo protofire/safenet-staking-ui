@@ -228,26 +228,12 @@ export function ValidatorTableSkeletonRows({ count = 6 }: { count?: number }) {
   )
 }
 
-function SlashedZero() {
-  return (
-    <span className="relative inline-block">
-      0
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
-      >
-        <span className="h-px w-[0.82em] -rotate-[38deg] bg-current" />
-      </span>
-    </span>
-  )
-}
-
 export function NotFoundPage() {
   return (
     <AppShell>
       <main className="mx-auto flex w-full max-w-[540px] flex-1 flex-col justify-center px-6 py-16">
         <h1 className="m-0 font-semibold leading-none tracking-[-0.04em] text-foreground [font-size:clamp(4.5rem,18vw,7.5rem)]">
-          4<SlashedZero />4
+          404
         </h1>
         <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground lg:text-[0.9375rem]">
           The page you requested doesn&apos;t exist on this interface. The route may have moved, or

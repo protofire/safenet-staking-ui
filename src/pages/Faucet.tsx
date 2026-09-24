@@ -24,7 +24,7 @@ const SEPOLIA_CHAIN_ID = sepolia.id
 function FaucetUnavailable() {
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 px-6 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight">Faucet</h1>
+      <h1>Faucet</h1>
       <Card size="sm" className="gap-0">
         <CardHeader>
           <CardTitle className="text-base">Sepolia only</CardTitle>
@@ -199,7 +199,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col gap-6 px-6 py-12">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Faucet</h1>
+        <h1>Faucet</h1>
         <p className="text-sm text-text-muted">Sepolia testnet</p>
       </div>
 

@@ -42,6 +42,7 @@
   --r-pill: 999px;
 
   --font-ui: 'Onest Variable', 'Onest', system-ui, sans-serif;
+  --font-code: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
 }
 
 .dark {
@@ -75,64 +76,4 @@
   --danger: oklch(0.635 0.205 27);
 
   --modal-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7);
-}
-
-html,
-body {
-  background: var(--bg);
-  color: var(--text);
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-ui);
-  font-feature-settings: 'ss01';
-  font-size: var(--font-size-base, 16px);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-.eyebrow {
-  font-family: 'Geist Mono Variable', 'Geist Mono', monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.home-hero-title {
-  margin: 0;
-  font-family: var(--font-ui);
-  font-size: clamp(2rem, 9vw, 3.5rem);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  text-wrap: balance;
-}
-
-.dark .home-hero-title {
-  background: linear-gradient(104deg, var(--text) 0%, var(--text) 44%, var(--brand) 116%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-}
-
-.home-hero-subtitle {
-  margin: 1rem 0 0;
-  max-width: 65ch;
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
-@media (min-width: 1024px) {
-  .home-hero-subtitle {
-    margin-top: 1.125rem;
-  }
 }

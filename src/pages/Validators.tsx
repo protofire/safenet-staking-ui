@@ -13,13 +13,12 @@ import {
   ValidatorMobileSkeletonList,
   ValidatorTableSkeletonRows,
 } from '@/components/ui/states'
+import { TableHead } from '@/components/ui/table'
 import { ValidatorFilterBar } from '@/components/validators/ValidatorFilterBar'
 import { useUserStakesOnValidators, useValidatorTotalStakes } from '@/hooks/useStakingReads'
 import { useValidators } from '@/hooks/useValidators'
 import { useWalletReady } from '@/hooks/useWalletReady'
 import { formatTokenAmount } from '@/lib/format'
-import { tableThClass } from '@/lib/table'
-import { cn } from '@/lib/utils'
 import {
   applyValidatorSearch,
   applyValidatorSort,
@@ -175,7 +174,7 @@ export default function Validators() {
     <main className="mx-auto w-full max-w-[1240px] flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-8">
       <header className="mb-6 hidden items-end justify-between gap-6 md:flex">
         <div>
-          <h1 className="m-0 text-[22px] font-semibold tracking-tight text-text">Validators</h1>
+          <h1>Validators</h1>
         </div>
         {!isPending && data && (
           <span className="shrink-0 font-mono text-[11px] tracking-[0.12em] text-text-subtle uppercase">
@@ -335,30 +334,16 @@ export default function Validators() {
         <table className="min-w-full border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-border bg-bg-sunken">
-              <th scope="col" className={cn(tableThClass, 'w-10 text-left')}>
-                #
-              </th>
-              <th scope="col" className={cn(tableThClass, 'w-[1%] text-left')}>
-                Validator
-              </th>
-              <th scope="col" className={cn(tableThClass, 'w-px whitespace-nowrap text-right')}>
-                Commission
-              </th>
-              <th scope="col" className={cn(tableThClass, 'w-px whitespace-nowrap text-right')}>
-                Part. 14d
-              </th>
-              <th scope="col" className={cn(tableThClass, 'text-right')}>
-                Total
-              </th>
-              <th scope="col" className={cn(tableThClass, 'w-px whitespace-nowrap text-right')}>
-                Status
-              </th>
-              <th scope="col" className={cn(tableThClass, 'text-right')}>
-                Your tokens staked
-              </th>
-              <th scope="col" className={cn(tableThClass, 'w-px whitespace-nowrap')}>
+              <TableHead className="w-10 text-left">#</TableHead>
+              <TableHead className="w-[1%] text-left">Validator</TableHead>
+              <TableHead className="w-px whitespace-nowrap text-right">Commission</TableHead>
+              <TableHead className="w-px whitespace-nowrap text-right">Part. 14d</TableHead>
+              <TableHead className="text-right">Total</TableHead>
+              <TableHead className="w-px whitespace-nowrap text-right">Status</TableHead>
+              <TableHead className="text-right">Your tokens staked</TableHead>
+              <TableHead className="w-px whitespace-nowrap">
                 <span className="sr-only">Actions</span>
-              </th>
+              </TableHead>
             </tr>
           </thead>
           <tbody aria-busy={isPending} aria-label={isPending ? 'Loading validators' : undefined}>
