@@ -70,6 +70,7 @@ export function TxDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         className="gap-0 p-0"
+        aria-describedby={undefined}
         showCloseButton={false}
         sheetDismissible={!dismissLocked}
         onPointerDownOutside={(e) => dismissLocked && e.preventDefault()}
