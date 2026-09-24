@@ -1,14 +1,37 @@
 # Safenet Staking UI
 
-Single-page app built with **TypeScript**, **Vite**, and **React** (strict compiler settings, ESM, `react-jsx`). It is a static deployment target for a SAFE-token staking dApp. Contract integration, the full routing map, ABIs, compliance gating, and product branding are intentionally deferred to follow-up work.
+Single-page app built with **TypeScript**, **Vite**, and **React** (strict compiler settings, ESM, `react-jsx`). It is a static deployment target for a SAFE-token staking dApp.
+
+Current version: **0.2.0**.
+
+## Pages
+
+| Route | Description |
+| ----- | ----------- |
+| `/` | Overview and staking stats |
+| `/validators` | Validator list with filters; stake / undelegate |
+| `/portfolio` | Your delegations and rewards (rewards UI only when `VITE_MERKLE_DROP_ADDRESS` is set) |
+| `/withdrawals` | Pending and claimable withdrawals |
+| `/faucet` | Test SAFE faucet (only when `VITE_FAUCET_CONTRACT_ADDRESS` is set) |
+| `/faq`, `/imprint`, `/terms`, `/privacy`, `/cookies` | FAQ and legal pages |
 
 ## Stack
 
-- **TypeScript** (strict) · **Vite 7** · **React 19** · pnpm
-- Tailwind CSS 4 and shadcn/ui (Radix), Recharts via shadcn chart
+- **TypeScript 6** (strict) · **Vite 7** · **React 19** · pnpm 10 · Node 22 (see [`.nvmrc`](./.nvmrc))
+- Tailwind CSS 4 and shadcn/ui (Radix)
 - React Router v7 with `HashRouter` (IPFS and path-prefix friendly)
 - TanStack Query, wagmi v2, viem v2, ConnectKit, Safe Apps SDK
 - Vitest + Testing Library + MSW; Playwright for E2E
+- ESLint for linting, [oxfmt](https://oxc.rs/docs/guide/usage/formatter) for formatting
+
+## Getting started
+
+```sh
+nvm use
+pnpm install
+cp .env.example .env
+pnpm dev
+```
 
 ## Environment
 
@@ -33,25 +56,31 @@ Copy [`.env.example`](./.env.example) to `.env` before `pnpm dev` or `pnpm build
 
 ## Scripts
 
-| Script        | Description                                      |
-| ------------- | ------------------------------------------------ |
-| `pnpm dev`    | Vite dev server                                  |
-| `pnpm build`  | Typecheck (project references) + production build |
-| `pnpm preview`| Serve `dist/` locally                            |
-| `pnpm typecheck` | `tsc --noEmit`                               |
-| `pnpm lint`   | ESLint, zero warnings                            |
-| `pnpm test`   | Vitest (unit/component tests)                    |
-| `pnpm test:watch` | Vitest watch mode                          |
-| `pnpm test:e2e` | Playwright (uses `vite preview` via config)   |
+| Script              | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `pnpm dev`          | Vite dev server                                   |
+| `pnpm build`        | Typecheck (project references) + production build |
+| `pnpm preview`      | Serve `dist/` locally                             |
+| `pnpm typecheck`    | `tsc -b --noEmit`                                 |
+| `pnpm lint`         | ESLint, zero warnings                             |
+| `pnpm format`       | Format sources with oxfmt                         |
+| `pnpm format:check` | Check formatting without writing                  |
+| `pnpm test`         | Vitest (unit/component tests)                     |
+| `pnpm test:watch`   | Vitest watch mode                                 |
+| `pnpm test:e2e`     | Playwright (uses `vite preview` via config)       |
+
+## Formatting
+
+Formatting is handled by **oxfmt** (pinned to `0.67.0`), configured in [`.oxfmtrc.json`](./.oxfmtrc.json): 100-column width, no semicolons, single quotes, trailing commas, LF line endings, and sorted imports (builtin → external → internal/relative). Markdown, `e2e/fixtures/`, `public/` and the lockfile are ignored. Run `pnpm format` before committing.
 
 ## Supply chain
 
-[`./.npmrc`](./.npmrc) sets a **minimum release age** of 14 days (`minimum-release-age=20160`, in minutes) and **strict peer dependencies**. The `pnpm.onlyBuiltDependencies` field in [`package.json`](./package.json) is an empty list, so dependency install scripts do not run unless you explicitly allow them. The `shadcn` CLI is a dev dependency only; nothing from it ships in the production bundle.
+[`./.npmrc`](./.npmrc) sets a **minimum release age** of 14 days (`minimum-release-age=20160`, in minutes) and **strict peer dependencies**. The `pnpm.onlyBuiltDependencies` field in [`package.json`](./package.json) is an empty list, so dependency install scripts do not run unless you explicitly allow them. `shadcn` is a dev dependency: its CLI adds components, and `src/index.css` imports `shadcn/tailwind.css` (Tailwind variants, accordion keyframes, a `no-scrollbar` utility). Only that compiled CSS ships; no shadcn JavaScript is in the production bundle.
 
 If a dependency legitimately needs an install script (e.g. native addons), use `pnpm approve-builds` and follow pnpm’s prompts to allow-list that package. **This project does not define `postinstall`, `prepare`, or other lifecycle scripts** in `package.json`.
 
 ## E2E / CI
 
-Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. There is no CI workflow in this repository yet; run `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening a pull request.
+Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. There is no CI workflow in this repository yet; run `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening a pull request.
 
 E2E tests never touch a real wallet or chain. [`e2e/mocks/`](./e2e/mocks) provides an injected EIP-1193 wallet stub, a JSON-RPC mock that decodes `eth_call` (including multicall) against the app's ABIs, and route interception for the validator feed and the reward proofs in [`e2e/fixtures/`](./e2e/fixtures). Nothing in `e2e/` ships in the production bundle.
