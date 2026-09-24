@@ -78,7 +78,6 @@ function WithdrawalQueueRow({
   now,
   withdrawDelayBn,
   maturePrefix,
-  walletSupportsAtomicBatch,
   isBusyClaim,
   isBusyBatch,
   onClaimSingle,
@@ -90,7 +89,6 @@ function WithdrawalQueueRow({
   now: bigint
   withdrawDelayBn: bigint
   maturePrefix: number
-  walletSupportsAtomicBatch: boolean | undefined
   isBusyClaim: boolean
   isBusyBatch: boolean
   onClaimSingle: () => void
@@ -108,14 +106,8 @@ function WithdrawalQueueRow({
     statusLine = 'Awaiting earlier queue items'
   }
 
-  const useBatchHint =
-    maturePrefix >= 2 && walletSupportsAtomicBatch === true && isHead && timeReady
-  const showRowClaim =
-    isHead &&
-    timeReady &&
-    maturePrefix >= 1 &&
-    !(maturePrefix >= 2 && walletSupportsAtomicBatch === true) &&
-    !isBusyBatch
+  const showRowClaim = isHead && timeReady && maturePrefix >= 1
+  const rowClaimDisabled = isBusyClaim || isBusyBatch
 
   const initiated = initiatedTimestamp(w.claimableAt, withdrawDelayBn)
 
@@ -178,13 +170,11 @@ function WithdrawalQueueRow({
               variant="default"
               size="sm"
               className="h-11 w-full font-medium md:h-8"
-              disabled={isBusyClaim}
+              disabled={rowClaimDisabled}
               onClick={onClaimSingle}
             >
               {isBusyClaim ? 'Claiming…' : 'Claim'}
             </Button>
-          ) : useBatchHint ? (
-            <span className="text-xs text-text-muted">Use batch above</span>
           ) : !timeReady ? (
             <span className="text-xs text-text-muted">—</span>
           ) : !isHead ? (
@@ -250,13 +240,11 @@ function WithdrawalQueueRow({
               variant="default"
               size="sm"
               className="h-8 font-medium"
-              disabled={isBusyClaim}
+              disabled={rowClaimDisabled}
               onClick={onClaimSingle}
             >
               {isBusyClaim ? 'Claiming…' : 'Claim'}
             </Button>
-          ) : useBatchHint ? (
-            <span className="text-xs text-text-muted">Use batch above</span>
           ) : !timeReady ? (
             <span className="text-xs text-text-muted">—</span>
           ) : !isHead ? (
@@ -457,8 +445,7 @@ export default function Withdrawals() {
           <h1>Withdrawal queue</h1>
           <p className="mt-2 max-w-prose text-base leading-relaxed text-text-muted">
             Withdrawals are released after
-            {cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown. The queue is FIFO —
-            only the head withdrawal can be claimed at a time.
+            {cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown.
           </p>
         </header>
         <div className="hidden shrink-0 flex-col items-start gap-1.5 md:flex md:items-end">
@@ -521,7 +508,6 @@ export default function Withdrawals() {
                 now={block.timestamp}
                 withdrawDelayBn={withdrawDelayBn}
                 maturePrefix={maturePrefix}
-                walletSupportsAtomicBatch={walletSupportsAtomicBatch}
                 isBusyClaim={isBusyClaim}
                 isBusyBatch={isBusyBatch}
                 onClaimSingle={() => openClaimDialog('single')}
