@@ -1,6 +1,14 @@
 import { ChevronDown, Search } from 'lucide-react'
 import { useId } from 'react'
 
+import {
+  Select,
+  SelectContent,
+  SelectIcon,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import type { ValidatorSort, ValidatorStatusFilter } from '@/lib/validators'
 
@@ -35,44 +43,37 @@ function SortControl({
   onSortChange: (sort: ValidatorSort) => void
   compact?: boolean
 }) {
-  const sortId = useId()
-
   return (
-    <label
-      htmlFor={sortId}
-      className={cn(
-        'relative flex h-[38px] shrink-0 items-center rounded-md border border-input-border focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/30',
-        compact
-          ? 'gap-1 bg-surface px-3 hover:bg-surface-hover'
-          : 'bg-bg-sunken hover:bg-surface-hover',
-      )}
-    >
-      {!compact && <span className="eyebrow pl-3 pr-2 text-text-subtle">Sort</span>}
-      {compact && <span className="text-sm font-medium text-text">Sort</span>}
-      <select
-        id={sortId}
-        value={sort}
-        onChange={(e) => onSortChange(e.target.value as ValidatorSort)}
+    <Select value={sort} onValueChange={(value) => onSortChange(value as ValidatorSort)}>
+      <SelectTrigger
         aria-label="Sort validators"
         className={cn(
-          'cursor-pointer appearance-none border-0 bg-transparent text-sm text-text outline-none',
-          compact ? 'absolute inset-0 opacity-0' : 'h-[36px] pr-8 pl-0',
+          'flex h-[38px] shrink-0 cursor-pointer items-center rounded-md border border-input-border text-sm text-text outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring/30',
+          compact
+            ? 'gap-1 bg-surface px-3 hover:bg-surface-hover'
+            : 'gap-2 bg-bg-sunken px-3 hover:bg-surface-hover',
         )}
       >
-        {SORTS.map((s) => (
-          <option key={s.id} value={s.id}>
-            {s.label}
-          </option>
-        ))}
-      </select>
-      <ChevronDown
-        className={cn(
-          'size-3 text-text-muted',
-          compact ? 'pointer-events-none' : 'pointer-events-none absolute right-3',
+        {compact ? (
+          <span className="font-medium">Sort</span>
+        ) : (
+          <>
+            <span className="eyebrow text-text-subtle">Sort</span>
+            <SelectValue />
+          </>
         )}
-        aria-hidden
-      />
-    </label>
+        <SelectIcon asChild>
+          <ChevronDown className="size-3 text-text-muted" aria-hidden />
+        </SelectIcon>
+      </SelectTrigger>
+      <SelectContent>
+        {SORTS.map((s) => (
+          <SelectItem key={s.id} value={s.id}>
+            {s.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }
 
