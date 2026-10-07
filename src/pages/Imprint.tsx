@@ -1,5 +1,5 @@
 import { LegalPage } from './legal/LegalPage'
-import imprintContent from '@/legal/Imprint.md?raw'
+import imprintContent from '@/resources/legal/Imprint.md?raw'
 
 export default function Imprint() {
   return <LegalPage content={imprintContent} />
