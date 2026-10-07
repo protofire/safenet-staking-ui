@@ -6,6 +6,10 @@ Safenet Staking UI by Protofire is an alternative interface for staking SAFE on 
 
 This is an independent project and not an official Safe product. It uses the same Safenet staking and rewards contracts as the official Safenet Staking app, so on-chain behavior (staking, unstaking, withdrawals, Merkle reward claims) is the same.
 
+## Acknowledgements
+
+Parts of this codebase (staking, rewards and withdrawal hooks and related logic) are derived from the official [Safenet Staking UI](https://github.com/safe-fndn/safenet-staking-ui) by Safe Foundation, licensed under MIT. The original copyright notice is retained in [`LICENSE`](./LICENSE).
+
 ## About
 
 Single-page app built with **TypeScript**, **Vite**, and **React** (strict compiler settings, ESM, `react-jsx`). It is a static deployment target for a SAFE-token staking dApp.
@@ -82,7 +86,7 @@ Formatting is handled by **oxfmt** (pinned to `0.67.0`), configured in [`.oxfmtr
 
 [`./.npmrc`](./.npmrc) sets a **minimum release age** of 14 days (`minimum-release-age=20160`, in minutes) and **strict peer dependencies**. The `pnpm.onlyBuiltDependencies` field in [`package.json`](./package.json) is an empty list, so dependency install scripts do not run unless you explicitly allow them. `shadcn` is a dev dependency: its CLI adds components, and `src/index.css` imports `shadcn/tailwind.css` (Tailwind variants, accordion keyframes, a `no-scrollbar` utility). Only that compiled CSS ships; no shadcn JavaScript is in the production bundle.
 
-If a dependency legitimately needs an install script (e.g. native addons), use `pnpm approve-builds` and follow pnpm’s prompts to allow-list that package. **This project does not define `postinstall`, `prepare`, or other lifecycle scripts** in `package.json`.
+If a dependency legitimately needs an install script (e.g. native addons), use `pnpm approve-builds` and follow pnpm’s prompts to allow-list that package. The only lifecycle script this project defines is `prepare: husky`, which installs the local Git hooks in `.husky/` when you run `pnpm install`. There is no `postinstall` or other install-time script, and nothing runs for consumers of the built app.
 
 ## E2E / CI
 
