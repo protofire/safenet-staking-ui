@@ -2,8 +2,8 @@ import { getDefaultConfig } from 'connectkit'
 import { type CreateConfigParameters, createConfig } from 'wagmi'
 import { injected, safe, walletConnect } from 'wagmi/connectors'
 
-import { getWagmiTransports, wagmiChains } from './chains'
-import { env } from './env'
+import { getWagmiTransports, wagmiChains } from '@/config/chains'
+import { env } from '@/config/env'
 import { SAFE_ALLOWED_DOMAINS } from '@/lib/safe'
 
 function buildConnectors(): NonNullable<CreateConfigParameters['connectors']> {

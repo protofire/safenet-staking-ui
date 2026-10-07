@@ -39,7 +39,7 @@ vi.mock('wagmi', () => ({
   useCallsStatus,
   useCapabilities,
 }))
-vi.mock('@/config/queryClient', () => ({ queryClient: { invalidateQueries } }))
+vi.mock('@/lib/queryClient', () => ({ queryClient: { invalidateQueries } }))
 vi.mock('sonner', () => ({ toast: { info: toastInfo } }))
 vi.mock('@/config/chains', () => ({ chain: { id: 11155111 } }))
 

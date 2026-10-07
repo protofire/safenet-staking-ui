@@ -5,7 +5,7 @@ import { useState, type ReactNode } from 'react'
 import { MemoryRouter } from 'react-router'
 import { WagmiProvider } from 'wagmi'
 
-import { wagmiConfig } from '@/config/wagmi'
+import { wagmiConfig } from '@/lib/wagmi'
 
 export function createTestQueryClient() {
   return new QueryClient({

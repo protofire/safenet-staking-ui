@@ -18,8 +18,8 @@ import {
 } from 'wagmi'
 
 import { chain } from '@/config/chains'
-import { queryClient } from '@/config/queryClient'
 import { isUserRejection } from '@/lib/contractErrors'
+import { queryClient } from '@/lib/queryClient'
 import { callsPollInterval } from '@/lib/txPolling'
 
 export type TxInvalidation = {

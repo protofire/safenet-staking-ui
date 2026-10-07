@@ -9,9 +9,9 @@ import App from './App.tsx'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { SafeAppAutoConnect } from './components/SafeAppAutoConnect'
 import { Toaster } from './components/ui/sonner'
-import { queryClient } from './config/queryClient'
-import { wagmiConfig } from './config/wagmi'
 import { isFrameAncestorAllowed, renderFrameBlockedNotice } from './lib/frameGuard'
+import { queryClient } from './lib/queryClient'
+import { wagmiConfig } from './lib/wagmi'
 import './index.css'
 
 const rootElement = document.getElementById('root')
