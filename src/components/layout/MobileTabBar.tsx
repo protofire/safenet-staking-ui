@@ -93,9 +93,8 @@ export function MobileTabBar({ className }: { className?: string }) {
     <nav
       role="tablist"
       aria-label="Primary"
-      style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 4px)' }}
       className={cn(
-        'fixed inset-x-0 bottom-0 z-30',
+        'fixed inset-x-0 bottom-0 z-30 pb-mobile-tab-bar-safe-area',
         'flex w-full flex-row',
         'border-t border-border bg-bg',
         'lg:hidden',
@@ -119,7 +118,7 @@ export function MobileTabBar({ className }: { className?: string }) {
           >
             {on ? <span className="absolute top-0 right-[20%] left-[20%] h-px bg-primary" /> : null}
             {t.icon}
-            <span className="font-mono text-[9px] tracking-[0.12em] uppercase">{t.label}</span>
+            <span className="font-mono text-4xs tracking-caps uppercase">{t.label}</span>
           </button>
         )
       })}

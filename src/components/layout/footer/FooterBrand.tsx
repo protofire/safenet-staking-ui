@@ -9,7 +9,7 @@ export function FooterBrand({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2.5 text-[15px] font-semibold tracking-tight text-text">
+      <div className="flex items-center gap-2.5 text-md font-semibold tracking-tight text-text">
         <img
           src={LOGO_SRC}
           alt=""
@@ -20,7 +20,7 @@ export function FooterBrand({
         />
         <span>{brandName}</span>
       </div>
-      <p className="m-0 max-w-[320px] text-[13px] leading-relaxed text-text-muted [text-wrap:pretty]">
+      <p className="m-0 max-w-80 text-caption leading-relaxed text-text-muted [text-wrap:pretty]">
         {description}
       </p>
     </div>

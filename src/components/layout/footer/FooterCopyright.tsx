@@ -26,10 +26,10 @@ export function FooterCopyright({
   if (stacked) {
     return (
       <div className={cn('flex min-w-0 flex-col gap-1', className)}>
-        <span className="font-mono text-[11px] leading-snug tracking-wide text-text-subtle">
+        <span className="font-mono text-2xs leading-snug tracking-wide text-text-subtle">
           {copyright}
         </span>
-        <span className="font-mono text-[11px] leading-snug tracking-wide text-text-subtle">
+        <span className="font-mono text-2xs leading-snug tracking-wide text-text-subtle">
           Supported by {protofireLink}
         </span>
       </div>
@@ -37,7 +37,7 @@ export function FooterCopyright({
   }
 
   return (
-    <span className={cn('font-mono text-[11px] tracking-wide text-text-subtle', className)}>
+    <span className={cn('font-mono text-2xs tracking-wide text-text-subtle', className)}>
       {copyright} Supported by {protofireLink}
     </span>
   )

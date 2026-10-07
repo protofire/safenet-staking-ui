@@ -29,7 +29,7 @@ export function ConnectWalletButton({
             className={cn(
               'shrink-0 gap-1 font-mono text-xs tabular-nums',
               isCompact
-                ? 'h-7 max-w-[132px] border-input-border bg-transparent px-2'
+                ? 'h-7 max-w-33 border-input-border bg-transparent px-2'
                 : 'h-8 border-input-border bg-transparent px-3 text-text hover:bg-muted/50',
               className,
             )}

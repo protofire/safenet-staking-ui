@@ -28,11 +28,11 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <main
           role="alert"
-          className="mx-auto flex w-full max-w-[540px] flex-1 flex-col justify-center px-6 py-16 text-text"
+          className="mx-auto flex w-full max-w-narrow flex-1 flex-col justify-center px-6 py-16 text-text"
         >
           <span className="eyebrow">Error</span>
           <h1>Something went wrong</h1>
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-text-muted lg:text-[0.9375rem]">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-text-muted lg:text-md">
             This part of the interface hit an unexpected error. No transaction was sent. You can
             retry, or reload the page if the problem persists.
           </p>

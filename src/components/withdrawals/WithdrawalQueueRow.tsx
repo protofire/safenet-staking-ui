@@ -131,12 +131,7 @@ export function WithdrawalQueueRow({
         <div className="pt-1">{claimAction('h-11 w-full font-medium md:h-8')}</div>
       </div>
 
-      <div
-        className="hidden items-center gap-5 md:grid"
-        style={{
-          gridTemplateColumns: '52px minmax(0,1fr) minmax(0,1fr) minmax(0,2fr) 140px',
-        }}
-      >
+      <div className="hidden grid-cols-withdrawal-queue items-center gap-5 md:grid">
         {position('text-base')}
         {amount}
         {times}

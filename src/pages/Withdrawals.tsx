@@ -53,9 +53,9 @@ export default function Withdrawals() {
   )
 
   return (
-    <main className="mx-auto w-full max-w-[1240px] flex-1 px-6 py-8 pb-32 md:pb-8 lg:px-8">
+    <main className="mx-auto w-full max-w-page flex-1 px-6 py-8 pb-32 md:pb-8 lg:px-8">
       <div className="mb-8 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <header className="max-w-[540px]">
+        <header className="max-w-narrow">
           <h1>Withdrawal queue</h1>
           <p className="mt-2 max-w-prose text-base leading-relaxed text-text-muted">
             Withdrawals are released after
@@ -122,7 +122,7 @@ export default function Withdrawals() {
 
       {isConnected ? (
         <div className="fixed inset-x-0 bottom-mobile-tab-bar z-20 border-t border-border bg-bg/95 px-4 py-3 backdrop-blur-sm md:hidden">
-          <div className="mx-auto flex max-w-[1240px] flex-col items-stretch gap-1.5">
+          <div className="mx-auto flex max-w-page flex-col items-stretch gap-1.5">
             {claimHeaderActions}
           </div>
         </div>

@@ -91,14 +91,14 @@ export function BottomSheet({
         style={{
           height,
           transform: `translateY(${dragY}px)`,
-          transition: dragY === 0 ? 'transform 220ms cubic-bezier(.2,.8,.2,1)' : 'none',
-          paddingBottom: safeAreaBottom ? 'max(env(safe-area-inset-bottom), 16px)' : undefined,
         }}
         className={cn(
           'absolute right-0 bottom-0 left-0',
           'flex flex-col',
           'rounded-t-2xl border-t border-border-strong bg-surface-raised shadow-modal',
+          dragY === 0 ? 'transition-transform duration-220 ease-sheet' : 'transition-none',
           'motion-reduce:transition-none',
+          safeAreaBottom && 'pb-safe-4',
           className,
         )}
       >

@@ -33,13 +33,13 @@ export default function Validators() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-[1240px] flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-8">
+    <main className="mx-auto w-full max-w-page flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-8">
       <header className="mb-6 hidden items-end justify-between gap-6 md:flex">
         <div>
           <h1>Validators</h1>
         </div>
         {!isPending && data && (
-          <span className="shrink-0 font-mono text-[11px] tracking-[0.12em] text-text-subtle uppercase">
+          <span className="shrink-0 font-mono text-2xs tracking-caps text-text-subtle uppercase">
             {list.networkSummary.active} ACTIVE {list.networkSummary.inactive} INACTIVE
           </span>
         )}

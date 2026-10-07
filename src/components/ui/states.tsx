@@ -11,7 +11,7 @@ function infoStatShellClass() {
 function InfoStatSkeleton() {
   return (
     <div className={infoStatShellClass()} aria-hidden>
-      <Skeleton className="h-[clamp(0.875rem,3.6vw,1.375rem)] w-24" />
+      <Skeleton className="h-stat w-24" />
       <Skeleton className="h-3 w-32" />
     </div>
   )
@@ -42,7 +42,7 @@ export function InfoStatSkeletonRow({
               aria-hidden
             >
               <Skeleton className="h-3 w-20" />
-              <Skeleton className="h-[clamp(0.875rem,3.6vw,1.375rem)] w-24" />
+              <Skeleton className="h-stat w-24" />
               <Skeleton className="h-3 w-32" />
             </div>
           ))}
@@ -90,12 +90,7 @@ function WithdrawalRowSkeleton({ isLast = false }: { isLast?: boolean }) {
         <Skeleton className="h-11 w-full rounded-md" />
       </div>
 
-      <div
-        className="hidden items-center gap-5 md:grid"
-        style={{
-          gridTemplateColumns: '52px minmax(0,1fr) minmax(0,1fr) minmax(0,2fr) 140px',
-        }}
-      >
+      <div className="hidden grid-cols-withdrawal-queue items-center gap-5 md:grid">
         <Skeleton className="h-5 w-8" />
         <Skeleton className="ml-auto h-4 w-24" />
         <div className="flex flex-col gap-1">
@@ -231,11 +226,11 @@ export function ValidatorTableSkeletonRows({ count = 6 }: { count?: number }) {
 export function NotFoundPage() {
   return (
     <AppShell>
-      <main className="mx-auto flex w-full max-w-[540px] flex-1 flex-col justify-center px-6 py-16">
+      <main className="mx-auto flex w-full max-w-narrow flex-1 flex-col justify-center px-6 py-16">
         <h1 className="m-0 font-semibold leading-none tracking-[-0.04em] text-foreground [font-size:clamp(4.5rem,18vw,7.5rem)]">
           404
         </h1>
-        <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground lg:text-[0.9375rem]">
+        <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground lg:text-md">
           The page you requested doesn&apos;t exist on this interface. The route may have moved, or
           the link may be malformed.
         </p>

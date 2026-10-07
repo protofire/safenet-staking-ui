@@ -47,6 +47,8 @@
   --mobile-tab-bar-safe-area: max(env(safe-area-inset-bottom), 4px);
   --mobile-tab-bar-offset: calc(var(--mobile-tab-bar-height) + var(--mobile-tab-bar-safe-area));
 
+  --withdrawal-queue-columns: 52px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr) 140px;
+
   --code-bg: var(--bg-sunken);
 }
 
@@ -96,6 +98,21 @@
   --color-data-tertiary: var(--data-tertiary);
   --color-data-tertiary-soft: var(--data-tertiary-soft);
   --shadow-modal: var(--modal-shadow);
+  --shadow-banner: var(--banner-shadow);
+  --text-4xs: var(--fs-4xs);
+  --text-3xs: var(--fs-3xs);
+  --text-2xs: var(--fs-2xs);
+  --text-caption: var(--fs-caption);
+  --text-md: var(--fs-md);
+  --text-stat: var(--fs-stat);
+  --spacing-stat: var(--fs-stat);
+  --tracking-caps-sm: var(--ls-caps-sm);
+  --tracking-caps: var(--ls-caps);
+  --tracking-caps-lg: var(--ls-caps-lg);
+  --container-page: var(--w-page);
+  --container-footer: var(--w-footer);
+  --container-narrow: var(--w-narrow);
+  --ease-sheet: var(--sheet-ease);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -235,6 +252,18 @@
   .bottom-mobile-tab-bar {
     bottom: var(--mobile-tab-bar-offset);
   }
+
+  .pb-mobile-tab-bar-safe-area {
+    padding-bottom: var(--mobile-tab-bar-safe-area);
+  }
+
+  .grid-cols-withdrawal-queue {
+    grid-template-columns: var(--withdrawal-queue-columns);
+  }
+}
+
+@utility pb-safe-* {
+  padding-bottom: max(--spacing(--value(integer)), env(safe-area-inset-bottom));
 }
 
 @media (min-width: 1024px) {

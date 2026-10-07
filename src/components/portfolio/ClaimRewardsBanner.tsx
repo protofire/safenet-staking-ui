@@ -27,7 +27,7 @@ export function ClaimRewardsBanner({
       className="flex items-center gap-4 rounded-md border border-border bg-card px-5 py-4"
     >
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[15px] font-medium text-text">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-md font-medium text-text">
           <span className="font-mono tabular-nums">
             {formatTokenAmount(claimableWei)}{' '}
             <span className="font-sans font-medium text-text-muted">SAFE</span>

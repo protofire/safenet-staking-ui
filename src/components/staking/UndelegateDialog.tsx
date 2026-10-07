@@ -191,11 +191,9 @@ function UnstakeDisclosureStripCell({
 }) {
   return (
     <div className={'px-3.5 py-2.5 ' + (last ? '' : 'border-r border-border-faint')}>
-      <div className="font-mono text-[9px] uppercase tracking-[0.16em] text-text-subtle">{k}</div>
+      <div className="font-mono text-4xs uppercase tracking-caps-lg text-text-subtle">{k}</div>
       <div
-        className={
-          'mt-1 font-mono text-[15px] tabular-nums ' + (warn ? 'text-warning' : 'text-text')
-        }
+        className={'mt-1 font-mono text-md tabular-nums ' + (warn ? 'text-warning' : 'text-text')}
       >
         {v}
       </div>

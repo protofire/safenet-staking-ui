@@ -228,7 +228,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
             <p
               className={cn(
                 'rounded-md border px-3 py-2 text-sm',
-                'border-[var(--warning)]/55 bg-[var(--warning-soft)] text-[var(--text)]',
+                'border-warning/55 bg-warning-soft text-text',
               )}
             >
               Faucet pool is empty. Try again later or contact the operator.
@@ -238,7 +238,7 @@ function FaucetSepoliaPanel({ faucetAddr }: { faucetAddr: `0x${string}` }) {
             <p
               className={cn(
                 'rounded-md border px-3 py-2 text-sm',
-                'border-[var(--warning)]/55 bg-[var(--warning-soft)] text-[var(--text)]',
+                'border-warning/55 bg-warning-soft text-text',
               )}
             >
               Pool balance is less than one full drip. Try again later or contact the operator.

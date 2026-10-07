@@ -335,7 +335,7 @@ export function StakeDialog({ validator, open, onOpenChange }: StakeDialogProps)
       ) : null}
 
       <div className="border-t border-border">
-        <div className="pt-3 pb-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-text-subtle">
+        <div className="pt-3 pb-0.5 font-mono text-3xs font-medium uppercase tracking-caps-lg text-text-subtle">
           Before you stake
         </div>
         <StakeDisclosureTerm

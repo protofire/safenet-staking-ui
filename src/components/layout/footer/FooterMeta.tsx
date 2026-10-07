@@ -9,9 +9,9 @@ export function FooterMeta({
   className?: string
 }) {
   return (
-    <div className={cn('text-[11px] text-text-muted', className)}>
+    <div className={cn('text-2xs text-text-muted', className)}>
       <span className="inline-flex items-center">
-        <span className="mr-[5px] font-mono text-[9px] uppercase tracking-wider text-text-subtle">
+        <span className="mr-[5px] font-mono text-4xs uppercase tracking-wider text-text-subtle">
           v{version}
         </span>
       </span>

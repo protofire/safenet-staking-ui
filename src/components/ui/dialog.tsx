@@ -115,7 +115,7 @@ function DialogContent({
             >
               {children}
               {showCloseButton ? (
-                <div className="sticky bottom-0 z-10 border-t border-border-faint bg-surface px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+                <div className="sticky bottom-0 z-10 border-t border-border-faint bg-surface px-5 py-3 pb-safe-3">
                   <DialogPrimitive.Close asChild>
                     <Button type="button" variant="outline" className="w-full">
                       Close

@@ -20,7 +20,7 @@ export function NetworkBadge({ variant = 'badge', className }: NetworkBadgeProps
       <span title={title}>
         <Pill
           tone={wrongNetwork ? 'warning' : 'default'}
-          className={cn('h-6 max-w-[160px] truncate px-2 text-xs', className)}
+          className={cn('h-6 max-w-40 truncate px-2 text-xs', className)}
         >
           {label}
         </Pill>

@@ -32,7 +32,7 @@ export function BetaBanner() {
   return (
     <div
       role="status"
-      className="border-b border-brand/25 bg-brand-soft px-3 py-2 text-text shadow-[inset_0_-1px_0_rgba(0,0,0,0.04)] dark:border-brand/35 dark:shadow-none"
+      className="border-b border-brand/25 bg-brand-soft px-3 py-2 text-text shadow-banner dark:border-brand/35"
     >
       <div className="mx-auto flex w-full max-w-7xl items-center gap-2 lg:px-12">
         <p className="min-w-0 flex-1 text-center text-sm leading-snug sm:text-left">
@@ -45,9 +45,7 @@ export function BetaBanner() {
           type="button"
           variant="ghost"
           size="icon-sm"
-          className={cn(
-            'shrink-0 text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]',
-          )}
+          className={cn('shrink-0 text-text-muted hover:bg-surface-hover hover:text-text')}
           aria-label="Dismiss beta notice"
           onClick={dismiss}
         >

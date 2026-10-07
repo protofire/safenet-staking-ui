@@ -25,7 +25,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-pill border border-current px-2 py-0.5 font-mono text-xs font-medium uppercase tracking-[0.16em]',
+        'inline-flex items-center gap-1 rounded-pill border border-current px-2 py-0.5 font-mono text-xs font-medium uppercase tracking-caps-lg',
         toneClass[tone],
         className,
       )}

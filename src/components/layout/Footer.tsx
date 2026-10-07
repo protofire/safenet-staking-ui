@@ -34,12 +34,12 @@ export function Footer({
 
   return (
     <footer className={cn('border-t border-border bg-bg-sunken pb-mobile-tab-bar', className)}>
-      <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-10 px-7 pb-8 pt-10 md:grid-cols-[1.3fr_2fr] md:gap-14">
+      <div className="mx-auto grid max-w-footer grid-cols-1 gap-10 px-7 pb-8 pt-10 md:grid-cols-[1.3fr_2fr] md:gap-14">
         <FooterBrand brandName={brandName} description={description} />
         <FooterColumns columns={columns} />
       </div>
 
-      <div className="mx-auto flex max-w-[1180px] flex-col gap-3 border-t border-border px-4 py-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-7 sm:py-[18px]">
+      <div className="mx-auto flex max-w-footer flex-col gap-3 border-t border-border px-4 py-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-7 sm:py-[18px]">
         <div className="flex min-w-0 flex-col gap-1">
           <div className="flex items-center justify-between gap-3 sm:justify-start">
             <FooterCopyright copyright={copyright} />
@@ -63,7 +63,7 @@ export function FooterBar({
 }) {
   return (
     <footer className={cn('border-t border-border bg-bg pb-mobile-tab-bar', className)}>
-      <div className="mx-auto max-w-[1180px] px-4 py-3 sm:px-7 sm:py-4">
+      <div className="mx-auto max-w-footer px-4 py-3 sm:px-7 sm:py-4">
         <div className="flex flex-col gap-4 sm:hidden">
           <div className="flex items-start justify-between gap-3">
             <FooterCopyright copyright={copyright} stacked className="min-w-0" />
@@ -75,7 +75,7 @@ export function FooterBar({
           />
         </div>
 
-        <div className="hidden items-center justify-between gap-6 text-[11px] leading-none sm:flex">
+        <div className="hidden items-center justify-between gap-6 text-2xs leading-none sm:flex">
           <div className="flex min-w-0 items-center gap-4">
             <FooterCopyright copyright={copyright} className="shrink-0" />
             <span className="h-3.5 w-px shrink-0 bg-border" aria-hidden="true" />

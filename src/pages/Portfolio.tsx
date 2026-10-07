@@ -41,7 +41,7 @@ export default function Portfolio() {
   }
 
   return (
-    <main className="mx-auto min-w-0 w-full max-w-[1240px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+    <main className="mx-auto min-w-0 w-full max-w-page flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       <header className="mb-5 sm:mb-6">
         <h1>Portfolio</h1>
       </header>

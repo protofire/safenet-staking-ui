@@ -2,7 +2,7 @@ const BRAND_HUE = 62
 
 export type ChartTheme = 'light' | 'dark'
 
-const BRAND_SEGMENT = 'oklch(0.768 0.184 62)'
+const BRAND_SEGMENT = 'var(--brand)'
 
 const CHART_L_C: Record<ChartTheme, { l: number; c: number }> = {
   light: { l: 0.7, c: 0.23 },

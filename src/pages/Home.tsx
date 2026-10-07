@@ -97,7 +97,7 @@ export default function Home() {
   const protocolStatsLoading = totalStakedPending || withdrawDelayPending
 
   return (
-    <main className="mx-auto flex w-full max-w-[540px] flex-1 flex-col justify-start px-6 pt-14 pb-16 lg:pt-28 lg:pb-32">
+    <main className="mx-auto flex w-full max-w-narrow flex-1 flex-col justify-start px-6 pt-14 pb-16 lg:pt-28 lg:pb-32">
       <section aria-labelledby="home-hero-heading" className="flex w-full flex-col items-start">
         <h1 id="home-hero-heading" className="home-hero-title w-full">
           <span className="block">Stake SAFE.</span>
@@ -109,7 +109,7 @@ export default function Home() {
           after{cooldownPhrase ? ` a ${cooldownPhrase}` : ''} unstaking cooldown.
         </p>
 
-        <div className="mt-7 flex w-full max-w-[480px] flex-col gap-2.5 lg:mt-8">
+        <div className="mt-7 flex w-full max-w-120 flex-col gap-2.5 lg:mt-8">
           <div className="grid w-full grid-cols-2 gap-2.5">
             {protocolStatsLoading ? (
               <InfoStatSkeletonRow count={2} />

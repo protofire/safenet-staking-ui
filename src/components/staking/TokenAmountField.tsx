@@ -62,7 +62,7 @@ export function TokenAmountField({
         <button
           type="button"
           disabled={maxDisabled || maxAmount === undefined}
-          className="shrink-0 rounded-sm border border-primary px-2 py-1 font-mono text-xs font-medium uppercase tracking-[0.16em] text-primary hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          className="shrink-0 rounded-sm border border-primary px-2 py-1 font-mono text-xs font-medium uppercase tracking-caps-lg text-primary hover:bg-brand-soft focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50"
           onClick={() => maxAmount !== undefined && onChange(formatUnits(maxAmount, 18))}
         >
           MAX
