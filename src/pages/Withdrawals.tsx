@@ -1,299 +1,26 @@
-import { useCallback, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router'
-import { toast } from 'sonner'
+import { useMemo } from 'react'
 import { useBlock } from 'wagmi'
 
 import { ConnectWalletPrompt } from '@/components/layout/ConnectWalletPrompt'
-import { Button } from '@/components/ui/button'
-import { Pill } from '@/components/ui/pill'
-import { ProgressBar } from '@/components/ui/progress-bar'
 import { WithdrawalQueueSkeleton } from '@/components/ui/states'
+import { ClaimHeaderActions } from '@/components/withdrawals/ClaimHeaderActions'
 import { ClaimWithdrawalDialog } from '@/components/withdrawals/ClaimWithdrawalDialog'
+import { WithdrawalQueueEmpty } from '@/components/withdrawals/WithdrawalQueueEmpty'
+import { WithdrawalQueueRow } from '@/components/withdrawals/WithdrawalQueueRow'
 import { chain } from '@/config/chains'
-import { useResetOnWalletChange } from '@/hooks/useResetOnWalletChange'
-import { useSafeQueuedToast } from '@/hooks/useSafeQueuedToast'
 import { useWithdrawDelay } from '@/hooks/useStakingReads'
-import {
-  useBatchClaimWithdrawals,
-  useClaimWithdrawal,
-  useClaimWithdrawalSimulation,
-} from '@/hooks/useStakingWrites'
-import { useTxErrorToast } from '@/hooks/useTxErrorToast'
-import { IDLE_SIMULATION } from '@/hooks/useTxSimulation'
-import { useTxSuccessNotify } from '@/hooks/useTxSuccessNotify'
 import { useWalletReady } from '@/hooks/useWalletReady'
+import { useWithdrawalClaims } from '@/hooks/useWithdrawalClaims'
 import { useUserPendingWithdrawals } from '@/hooks/useWithdrawals'
-import {
-  formatCooldownForBlurb,
-  formatCountdown,
-  formatTokenAmount,
-  formatTxHashShort,
-} from '@/lib/format'
-import { cn } from '@/lib/utils'
-
-type QueueEntry = { amount: bigint; claimableAt: bigint }
-
-function consecutiveMatureCount(queue: QueueEntry[], nowSec: bigint): number {
-  let k = 0
-  while (k < queue.length) {
-    const entry = queue[k]
-    if (!entry || nowSec < entry.claimableAt) break
-    k += 1
-  }
-  return k
-}
-
-function cooldownProgressPct(
-  claimableAt: bigint,
-  nowSec: bigint,
-  withdrawDelaySec: bigint,
-): number {
-  if (withdrawDelaySec <= 0n) return 100
-  if (nowSec >= claimableAt) return 100
-  const start = claimableAt - withdrawDelaySec
-  if (nowSec <= start) return 0
-  const elapsed = Number(nowSec - start)
-  const total = Number(withdrawDelaySec)
-  return Math.max(0, Math.min(100, Math.round((elapsed / total) * 100)))
-}
-
-function formatClaimableAt(ts: bigint): string {
-  const ms = Number(ts) * 1000
-  if (!Number.isFinite(ms)) return '—'
-  return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short' }).format(
-    new Date(ms),
-  )
-}
-
-function initiatedTimestamp(claimableAt: bigint, withdrawDelaySec: bigint): bigint {
-  if (withdrawDelaySec <= 0n) return claimableAt
-  return claimableAt - withdrawDelaySec
-}
-
-function WithdrawalQueueRow({
-  w,
-  idx,
-  isHead,
-  isLast,
-  now,
-  withdrawDelayBn,
-  maturePrefix,
-  isBusyClaim,
-  isBusyBatch,
-  onClaimSingle,
-}: {
-  w: QueueEntry
-  idx: number
-  isHead: boolean
-  isLast: boolean
-  now: bigint
-  withdrawDelayBn: bigint
-  maturePrefix: number
-  isBusyClaim: boolean
-  isBusyBatch: boolean
-  onClaimSingle: () => void
-}) {
-  const timeReady = now >= w.claimableAt
-  const claimable = isHead && timeReady && maturePrefix >= 1
-  const pct = cooldownProgressPct(w.claimableAt, now, withdrawDelayBn)
-  let statusLine: string
-  if (!timeReady) {
-    const remainingSec = Math.max(0, Number(w.claimableAt - now))
-    statusLine = formatCountdown(remainingSec)
-  } else if (isHead) {
-    statusLine = 'Ready to claim'
-  } else {
-    statusLine = 'Awaiting earlier queue items'
-  }
-
-  const showRowClaim = isHead && timeReady && maturePrefix >= 1
-  const rowClaimDisabled = isBusyClaim || isBusyBatch
-
-  const initiated = initiatedTimestamp(w.claimableAt, withdrawDelayBn)
-
-  return (
-    <div
-      className={cn(
-        'border-l-2 px-4 py-4 md:px-5',
-        !isLast && 'border-b border-border-faint',
-        claimable ? 'border-l-primary bg-brand-soft' : 'border-l-transparent',
-      )}
-    >
-      <div className="flex flex-col gap-3 md:hidden">
-        <div className="flex items-baseline justify-between gap-2">
-          <span
-            className={cn(
-              'font-mono text-sm font-medium tabular-nums',
-              isHead ? 'text-text' : 'text-text-muted',
-            )}
-            aria-label={`Queue position ${idx + 1}`}
-          >
-            #{idx + 1}
-          </span>
-          <div className="min-w-0 text-right font-mono text-sm tabular-nums text-text">
-            <span className="whitespace-nowrap">{formatTokenAmount(w.amount)}</span>
-            <span className="ml-1 font-normal text-text-muted">SAFE</span>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-0.5">
-          <span className="eyebrow">Initiated</span>
-          <span className="font-mono text-xs tabular-nums text-text">
-            {formatClaimableAt(initiated)}
-          </span>
-          <span className="font-mono text-xs tabular-nums text-text-muted">
-            Claimable {formatClaimableAt(w.claimableAt)}
-          </span>
-        </div>
-
-        <div className="flex min-w-0 flex-col gap-1.5">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-xs text-text-muted">{statusLine}</span>
-            <span className="whitespace-nowrap font-mono text-xs tabular-nums text-text-muted">
-              {pct}%
-            </span>
-          </div>
-          <ProgressBar pct={pct} ready={timeReady} />
-          <div>
-            {timeReady ? (
-              <Pill tone="success">Ready</Pill>
-            ) : (
-              <Pill tone="warning">Cooling down</Pill>
-            )}
-          </div>
-        </div>
-
-        <div className="pt-1">
-          {showRowClaim ? (
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="h-11 w-full font-medium md:h-8"
-              disabled={rowClaimDisabled}
-              onClick={onClaimSingle}
-            >
-              {isBusyClaim ? 'Claiming…' : 'Claim'}
-            </Button>
-          ) : !timeReady ? (
-            <span className="text-xs text-text-muted">—</span>
-          ) : !isHead ? (
-            <span className="text-xs text-text-muted">Claim previous first</span>
-          ) : (
-            <span className="text-xs text-text-muted">—</span>
-          )}
-        </div>
-      </div>
-
-      <div
-        className="hidden items-center gap-5 md:grid"
-        style={{
-          gridTemplateColumns: '52px minmax(0,1fr) minmax(0,1fr) minmax(0,2fr) 140px',
-        }}
-      >
-        <span
-          className={cn(
-            'font-mono text-base font-medium tabular-nums',
-            isHead ? 'text-text' : 'text-text-muted',
-          )}
-          aria-label={`Queue position ${idx + 1}`}
-        >
-          #{idx + 1}
-        </span>
-
-        <div className="min-w-0 text-right font-mono text-sm tabular-nums text-text">
-          <span className="whitespace-nowrap">{formatTokenAmount(w.amount)}</span>
-          <span className="ml-1 font-normal text-text-muted">SAFE</span>
-        </div>
-
-        <div className="flex flex-col gap-0.5">
-          <span className="eyebrow">Initiated</span>
-          <span className="font-mono text-xs tabular-nums text-text">
-            {formatClaimableAt(initiated)}
-          </span>
-          <span className="font-mono text-xs tabular-nums text-text-muted">
-            Claimable {formatClaimableAt(w.claimableAt)}
-          </span>
-        </div>
-
-        <div className="flex min-w-0 flex-col gap-1.5">
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-xs text-text-muted">{statusLine}</span>
-            <span className="whitespace-nowrap font-mono text-xs tabular-nums text-text-muted">
-              {pct}%
-            </span>
-          </div>
-          <ProgressBar pct={pct} ready={timeReady} />
-          <div>
-            {timeReady ? (
-              <Pill tone="success">Ready</Pill>
-            ) : (
-              <Pill tone="warning">Cooling down</Pill>
-            )}
-          </div>
-        </div>
-
-        <div className="text-right">
-          {showRowClaim ? (
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              className="h-8 font-medium"
-              disabled={rowClaimDisabled}
-              onClick={onClaimSingle}
-            >
-              {isBusyClaim ? 'Claiming…' : 'Claim'}
-            </Button>
-          ) : !timeReady ? (
-            <span className="text-xs text-text-muted">—</span>
-          ) : !isHead ? (
-            <span className="text-xs text-text-muted">Claim previous first</span>
-          ) : (
-            <span className="text-xs text-text-muted">—</span>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
+import { formatCooldownForBlurb } from '@/lib/format'
+import { consecutiveMatureCount } from '@/lib/withdrawals'
 
 export default function Withdrawals() {
-  const navigate = useNavigate()
   const { isConnected, address } = useWalletReady()
-  const [claimDialogOpen, setClaimDialogOpen] = useState(false)
-  const [claimDialogMode, setClaimDialogMode] = useState<'single' | 'batch' | null>(null)
-  const closeClaimDialog = useCallback(() => {
-    setClaimDialogOpen(false)
-    setClaimDialogMode(null)
-  }, [])
   const { data: block } = useBlock({ chainId: chain.id, watch: true })
 
   const { data: withdrawDelay } = useWithdrawDelay()
   const { data: rawQueue, isPending, isFetching, isError, error } = useUserPendingWithdrawals()
-
-  const {
-    claimWithdrawal,
-    isSigningTx: isClaimSigning,
-    isConfirmingTx: isClaimConfirming,
-    isSuccess: isClaimOk,
-    isSafeQueued: isClaimSafeQueued,
-    error: claimError,
-    reset: resetClaim,
-    txHash: claimTxHash,
-  } = useClaimWithdrawal()
-
-  const {
-    batchClaimWithdrawals,
-    supportsBatching: walletSupportsAtomicBatch,
-    isSigningTx: isBatchSigning,
-    isConfirmingTx: isBatchConfirming,
-    isSuccess: isBatchOk,
-    isSafeQueued: isBatchSafeQueued,
-    error: batchError,
-    reset: resetBatch,
-    txHash: batchTxHash,
-  } = useBatchClaimWithdrawals()
 
   const queue = useMemo(() => {
     if (!rawQueue?.length) return []
@@ -306,136 +33,23 @@ export default function Withdrawals() {
     if (!queue.length || block?.timestamp === undefined) return 0
     return consecutiveMatureCount(queue, block.timestamp)
   }, [queue, block])
-  useSafeQueuedToast(isClaimSafeQueued)
 
-  useResetOnWalletChange(() => {
-    resetClaim()
-    resetBatch()
-    closeClaimDialog()
+  const claims = useWithdrawalClaims({
+    queue,
+    maturePrefix,
+    canClaim: isConnected && !!address,
   })
-
-  useTxSuccessNotify(isClaimOk, () => {
-    toast.success('Withdrawal received', {
-      description: claimTxHash ? formatTxHashShort(claimTxHash) : undefined,
-    })
-  })
-
-  useTxSuccessNotify(isBatchOk, () => {
-    toast.success('Withdrawals received', {
-      description: batchTxHash ? formatTxHashShort(batchTxHash) : undefined,
-    })
-  })
-
-  useTxErrorToast(claimError, 'Withdrawal claim did not go through')
-  useTxErrorToast(batchError, 'Batch withdrawal claim did not go through')
 
   const cooldownPhrase = withdrawDelayBn ? formatCooldownForBlurb(withdrawDelayBn) : null
 
-  const isBusyClaim = isClaimSigning || isClaimConfirming
-  const isBusyBatch = isBatchSigning || isBatchConfirming
-
-  const claimDialogTotalWei = useMemo(() => {
-    if (!claimDialogMode || maturePrefix < 1) return 0n
-    if (claimDialogMode === 'single') return queue[0]?.amount ?? 0n
-    let s = 0n
-    for (let i = 0; i < maturePrefix && i < queue.length; i++) s += queue[i]!.amount
-    return s
-  }, [claimDialogMode, maturePrefix, queue])
-
-  const [claimSnapshot, setClaimSnapshot] = useState({ totalWei: 0n, count: 0 })
-
-  const claimDialogSigning =
-    claimDialogMode === 'single'
-      ? isClaimSigning
-      : claimDialogMode === 'batch'
-        ? isBatchSigning
-        : false
-  const claimDialogConfirming =
-    claimDialogMode === 'single'
-      ? isClaimConfirming
-      : claimDialogMode === 'batch'
-        ? isBatchConfirming
-        : false
-  const claimDialogTxHash =
-    claimDialogMode === 'single'
-      ? claimTxHash
-      : claimDialogMode === 'batch'
-        ? batchTxHash
-        : undefined
-
-  const claimDialogSucceeded =
-    claimDialogMode === 'single' ? isClaimOk : claimDialogMode === 'batch' ? isBatchOk : false
-
-  const claimDialogSuccessDescription = claimDialogSucceeded
-    ? claimDialogMode === 'batch'
-      ? `Claimed ${claimSnapshot.count} withdrawals (${formatTokenAmount(claimSnapshot.totalWei)} SAFE).`
-      : `Claimed ${formatTokenAmount(claimSnapshot.totalWei)} SAFE to your wallet.`
-    : undefined
-
-  const openClaimDialog = (mode: 'single' | 'batch') => {
-    setClaimDialogMode(mode)
-    setClaimDialogOpen(true)
-  }
-
-  const handleClaimDialogOpenChange = (next: boolean) => {
-    if (!next) {
-      resetClaim()
-      resetBatch()
-      setClaimDialogOpen(false)
-      setClaimDialogMode(null)
-    } else {
-      setClaimDialogOpen(true)
-    }
-  }
-
-  const prefersBatchClaim = maturePrefix >= 2 && walletSupportsAtomicBatch === true
-
-  const batchButtonDisabled =
-    !isConnected ||
-    !address ||
-    maturePrefix < 2 ||
-    walletSupportsAtomicBatch !== true ||
-    isBusyClaim ||
-    isBusyBatch
-
-  const singleHeaderDisabled =
-    !isConnected || !address || maturePrefix === 0 || isBusyClaim || isBusyBatch
-
-  const claimDialogSafeQueued = claimDialogMode === 'single' ? isClaimSafeQueued : isBatchSafeQueued
-  const claimSimulation = useClaimWithdrawalSimulation(
-    claimDialogOpen && claimDialogMode === 'single' && !isBusyClaim && !claimDialogSucceeded,
-  )
-
   const claimHeaderActions = (
-    <>
-      {prefersBatchClaim ? (
-        <Button
-          type="button"
-          variant="default"
-          className="h-11 w-full px-5 text-sm font-semibold tracking-tight md:w-auto"
-          disabled={batchButtonDisabled}
-          onClick={() => openClaimDialog('batch')}
-        >
-          Claim {maturePrefix} withdrawals
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          variant={maturePrefix > 0 ? 'default' : 'secondary'}
-          className={cn(
-            'h-11 w-full px-5 text-sm font-semibold tracking-tight md:w-auto',
-            maturePrefix === 0 && 'pointer-events-none opacity-60',
-          )}
-          disabled={singleHeaderDisabled}
-          onClick={() => openClaimDialog('single')}
-        >
-          {maturePrefix > 0 ? 'Claim withdrawal' : 'No matured withdrawals'}
-        </Button>
-      )}
-      {maturePrefix >= 2 && walletSupportsAtomicBatch === true && (
-        <span className="eyebrow">Batch EIP-5792 supported</span>
-      )}
-    </>
+    <ClaimHeaderActions
+      maturePrefix={maturePrefix}
+      prefersBatchClaim={claims.prefersBatchClaim}
+      batchDisabled={claims.batchDisabled}
+      singleDisabled={claims.singleDisabled}
+      onClaim={claims.openClaimDialog}
+    />
   )
 
   return (
@@ -468,20 +82,7 @@ export default function Withdrawals() {
       )}
 
       {isConnected && queue.length === 0 && !isPending && !isError && (
-        <div className="flex flex-col items-center rounded-lg border border-border bg-surface px-6 py-12 text-center md:py-14">
-          <p className="text-sm font-semibold text-text">Your withdrawal queue is empty.</p>
-          <p className="mt-6 max-w-prose text-center text-base text-balance text-text-muted">
-            Initiate a withdrawal from any validator to start the cooldown
-            {cooldownPhrase ? ` (about ${cooldownPhrase})` : ''}.
-          </p>
-          <Button
-            type="button"
-            className="mt-6 font-semibold"
-            onClick={() => navigate('/validators')}
-          >
-            Explore validators
-          </Button>
-        </div>
+        <WithdrawalQueueEmpty cooldownPhrase={cooldownPhrase} />
       )}
 
       {isConnected &&
@@ -508,37 +109,16 @@ export default function Withdrawals() {
                 now={block.timestamp}
                 withdrawDelayBn={withdrawDelayBn}
                 maturePrefix={maturePrefix}
-                isBusyClaim={isBusyClaim}
-                isBusyBatch={isBusyBatch}
-                onClaimSingle={() => openClaimDialog('single')}
+                isBusyClaim={claims.isBusyClaim}
+                isBusyBatch={claims.isBusyBatch}
+                onClaimSingle={() => claims.openClaimDialog('single')}
               />
             </div>
           ))}
         </div>
       )}
-      {claimDialogMode ? (
-        <ClaimWithdrawalDialog
-          open={claimDialogOpen}
-          onOpenChange={handleClaimDialogOpenChange}
-          mode={claimDialogMode}
-          matureCount={claimDialogSucceeded ? claimSnapshot.count : maturePrefix}
-          totalAmountWei={claimDialogSucceeded ? claimSnapshot.totalWei : claimDialogTotalWei}
-          isSigning={claimDialogSigning}
-          isConfirming={claimDialogConfirming}
-          isSafeQueued={claimDialogSafeQueued}
-          showSuccess={claimDialogSucceeded}
-          {...(claimDialogSuccessDescription !== undefined
-            ? { successDescription: claimDialogSuccessDescription }
-            : {})}
-          txHash={claimDialogTxHash}
-          simulation={claimDialogMode === 'single' ? claimSimulation : IDLE_SIMULATION}
-          onSubmit={() => {
-            setClaimSnapshot({ totalWei: claimDialogTotalWei, count: maturePrefix })
-            if (claimDialogMode === 'single') claimWithdrawal()
-            else batchClaimWithdrawals(maturePrefix)
-          }}
-        />
-      ) : null}
+
+      {claims.dialogProps ? <ClaimWithdrawalDialog {...claims.dialogProps} /> : null}
 
       {isConnected ? (
         <div className="fixed inset-x-0 bottom-mobile-tab-bar z-20 border-t border-border bg-bg/95 px-4 py-3 backdrop-blur-sm md:hidden">

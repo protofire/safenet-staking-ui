@@ -5,6 +5,7 @@ import {
   applyValidatorSort,
   applyValidatorStatusFilter,
   countValidatorsByStatus,
+  getValidatorRowState,
 } from './validators'
 import { buildValidator } from '@/test/fixtures'
 
@@ -83,5 +84,39 @@ describe('applyValidatorSort', () => {
 
   it('keeps order when no totals are provided', () => {
     expect(applyValidatorSort(all, 'stake-desc')).toEqual(all)
+  })
+})
+
+describe('getValidatorRowState', () => {
+  const idle = { isConnected: true, totalsPending: false, stakesPending: false }
+
+  it('disables stake for inactive validators', () => {
+    const row = { validator: beta, delegatedWei: 1n, totalWei: 1n }
+    expect(getValidatorRowState(row, idle).stakeDisabled).toBe(true)
+  })
+
+  it('disables unstake without a delegation or while stakes load', () => {
+    const row = { validator: alpha, delegatedWei: 0n, totalWei: 1n }
+    expect(getValidatorRowState(row, idle).unstakeDisabled).toBe(true)
+    expect(
+      getValidatorRowState({ ...row, delegatedWei: 5n }, { ...idle, stakesPending: true })
+        .unstakeDisabled,
+    ).toBe(true)
+    expect(getValidatorRowState({ ...row, delegatedWei: 5n }, idle).unstakeDisabled).toBe(false)
+  })
+
+  it('keeps actions enabled and nothing pending when disconnected', () => {
+    const row = { validator: alpha, delegatedWei: undefined, totalWei: 1n }
+    const state = getValidatorRowState(row, { ...idle, isConnected: false, stakesPending: true })
+    expect(state.unstakeDisabled).toBe(false)
+    expect(state.delegatedPending).toBe(false)
+  })
+
+  it('marks totals pending only until a value arrives', () => {
+    const row = { validator: alpha, delegatedWei: 1n, totalWei: undefined }
+    expect(getValidatorRowState(row, { ...idle, totalsPending: true }).totalPending).toBe(true)
+    expect(
+      getValidatorRowState({ ...row, totalWei: 2n }, { ...idle, totalsPending: true }).totalPending,
+    ).toBe(false)
   })
 })

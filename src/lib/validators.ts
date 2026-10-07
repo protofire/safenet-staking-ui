@@ -4,6 +4,12 @@ export type ValidatorStatusFilter = 'active' | 'inactive' | 'all'
 
 export type ValidatorSort = 'default' | 'stake-desc' | 'stake-asc'
 
+export type ValidatorRow = {
+  validator: ValidatorInfo
+  delegatedWei: bigint | undefined
+  totalWei: bigint | undefined
+}
+
 export function countValidatorsByStatus(items: ValidatorInfo[]) {
   let active = 0
   let inactive = 0
@@ -56,4 +62,21 @@ export function applyValidatorSort(
       break
   }
   return out
+}
+
+export function getValidatorRowState(
+  { validator, delegatedWei, totalWei }: ValidatorRow,
+  {
+    isConnected,
+    totalsPending,
+    stakesPending,
+  }: { isConnected: boolean; totalsPending: boolean; stakesPending: boolean },
+) {
+  const hasDelegated = delegatedWei !== undefined && delegatedWei > 0n
+  return {
+    stakeDisabled: !validator.isActive,
+    unstakeDisabled: isConnected && (stakesPending || !hasDelegated),
+    totalPending: totalsPending && totalWei === undefined,
+    delegatedPending: isConnected && (stakesPending || delegatedWei === undefined),
+  }
 }
