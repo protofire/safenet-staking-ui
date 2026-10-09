@@ -7,6 +7,7 @@ import { Footer, FooterBar } from './Footer'
 import { MobileTabBar } from './MobileTabBar'
 import { MobileTopBar } from './MobileTopBar'
 import { WrongNetworkBar } from './WrongNetworkBar'
+import { env } from '@/config/env'
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation()
@@ -18,7 +19,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <AppHeader />
       </div>
       <MobileTopBar />
-      <BetaBanner />
+      {env.VITE_CHAIN_ID !== '1' && <BetaBanner />}
       <WrongNetworkBar />
       <div className="flex flex-1 flex-col">
         <div className="flex flex-1 flex-col pb-mobile-tab-bar">{children}</div>
