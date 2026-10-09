@@ -3,7 +3,7 @@ import { chain } from '@/config/chains'
 import { getStakingContractAddress } from '@/config/contracts'
 import { getExplorerAddressUrl } from '@/lib/explorer'
 
-const HELP_SUPPORT_HREF = 'https://safe-support.protofire.io/'
+const HELP_SUPPORT_HREF = 'mailto:safenet-staking-support@protofire.io'
 const GITHUB_HREF = 'https://github.com/protofire/safenet-staking-ui'
 const STAKING_CONTRACT_HREF = getExplorerAddressUrl(getStakingContractAddress(chain.id))
 const STAKING_CONTRACT_LINKS: FooterLink[] =
