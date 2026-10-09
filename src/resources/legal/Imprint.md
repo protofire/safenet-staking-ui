@@ -12,17 +12,17 @@ Contact: [legal@protofire.io](mailto:legal@protofire.io)
 
 This staking interface (the "Interface") is developed, operated, and maintained solely by Altoros LLC (dba Protofire DAO) ("Protofire", "we", "us").
 
-**The Interface is NOT operated by the Safe Ecosystem Foundation, Safe Labs, or any of their affiliates.** The Safe Ecosystem Foundation does not operate any interface to access Safenet Beta and is not involved in the operation of this Interface in any capacity. Protofire operates this Interface independently, in its own name and under its own responsibility, as one of several independent operators supporting the decentralisation of Safenet Beta staking infrastructure.
+**The Interface is NOT operated by the Safe Ecosystem Foundation, Safe Labs, or any of their affiliates.** The Safe Ecosystem Foundation does not operate any interface to access Safenet Aegis and is not involved in the operation of this Interface in any capacity. Protofire operates this Interface independently, in its own name and under its own responsibility, as one of several independent operators supporting the decentralisation of Safenet Aegis staking infrastructure.
 
 Development and operation of this Interface is supported by a grant from the Safe Ecosystem Foundation. The grant does not establish any agency, partnership, joint venture, or employment relationship between Protofire and the Safe Ecosystem Foundation, and does not make the Foundation responsible for this Interface or its operation.
 
 ## Nature of the Service
 
-The Interface is a non-custodial, open-source web application that allows users to interact directly with the publicly deployed Safenet Beta Staking smart contracts from their own self-custodial wallets. We do not provide any regulated services in any jurisdiction (e.g. custody, storage or transmission of virtual currencies, exchange services, or investment services). We never hold, control, or have access to user funds, tokens, private keys, or recovery phrases.
+The Interface is a non-custodial, open-source web application that allows users to interact directly with the publicly deployed Safenet Aegis Staking smart contracts from their own self-custodial wallets. We do not provide any regulated services in any jurisdiction (e.g. custody, storage or transmission of virtual currencies, exchange services, or investment services). We never hold, control, or have access to user funds, tokens, private keys, or recovery phrases.
 
 ## Accountability for use
 
-The Interface interacts with smart contracts, blockchain networks, and data sources (including validator information and rewards data) that are developed, deployed, operated, or published by third parties, including the Safe ecosystem. We do not control these third-party components. When you access or use them through the Interface, you accept that there are risks in doing so and that you alone assume any such risks. We are not liable for any errors or omissions of such third parties or for any damages or loss you might suffer through interacting with them. Interaction with Safenet Beta is also subject to the Safe Ecosystem Foundation's Safenet Beta Disclaimer ([https://safefoundation.org/beta-disclaimer](https://safefoundation.org/beta-disclaimer)).
+The Interface interacts with smart contracts, blockchain networks, and data sources (including validator information and rewards data) that are developed, deployed, operated, or published by third parties, including the Safe ecosystem. We do not control these third-party components. When you access or use them through the Interface, you accept that there are risks in doing so and that you alone assume any such risks. We are not liable for any errors or omissions of such third parties or for any damages or loss you might suffer through interacting with them. Rewards from the former Safenet Beta phase are also subject to the Safe Ecosystem Foundation's Safenet Beta Disclaimer ([https://safefoundation.org/beta-disclaimer](https://safefoundation.org/beta-disclaimer)).
 
 ## Accountability for content
 

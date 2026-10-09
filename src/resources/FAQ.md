@@ -1,14 +1,14 @@
-# FAQ \- Safenet Beta Staking Interface
+# FAQ \- Safenet Aegis Staking Interface
 
 ## About this Interface
 
 **Who operates this interface?**
 
-This interface is developed, operated, and maintained by **Altoros LLC (dba Protofire DAO)** ("Protofire"), an independent operator. It is **not** operated by the Safe Ecosystem Foundation or Safe Labs. Protofire is one of several independent operators supported by a grant from the Safe Ecosystem Foundation to strengthen the resilience and decentralisation of Safenet Beta staking infrastructure. See our Imprint for full details.
+This interface is developed, operated, and maintained by **Altoros LLC (dba Protofire DAO)** ("Protofire"), an independent operator. It is **not** operated by the Safe Ecosystem Foundation or Safe Labs. Protofire is one of several independent operators supported by a grant from the Safe Ecosystem Foundation to strengthen the resilience and decentralisation of Safenet Aegis staking infrastructure. See our Imprint for full details.
 
-**What is Safenet Beta?**
+**What is Safenet Aegis?**
 
-Safenet Beta is a transaction security network in the Safe ecosystem: a validator-based network that enforces transaction security guarantees on-chain. SAFE token holders can support the network by staking tokens to validators. Safenet Beta is in a **beta (development and testing) phase** — see the Safe Ecosystem Foundation's Safenet Beta Disclaimer for details.
+Safenet Aegis is a transaction security network in the Safe ecosystem: a validator-based network that enforces transaction security guarantees on-chain. SAFE token holders can support the network by staking tokens to validators. Safenet Aegis succeeds the Safenet Beta phase, which ended on October 5, 2026.
 
 **Is this interface custodial?**
 
@@ -34,7 +34,7 @@ Connect a Web3 wallet, choose a validator, and enter an amount. The interface wi
 
 **What is a validator, and how do I choose one?**
 
-Validators are independent third parties that perform transaction checks in Safenet Beta. The interface displays publicly available validator information, but **Protofire does not operate, endorse, or recommend any validator**. Choosing a validator is your decision alone \- do your own research.
+Validators are independent third parties that perform transaction checks in Safenet Aegis. The interface displays publicly available validator information, but **Protofire does not operate, endorse, or recommend any validator**. Choosing a validator is your decision alone \- do your own research.
 
 **Can I stake any amount?**
 
@@ -62,7 +62,7 @@ Tokens in the withdrawal queue are no longer actively staked. Their treatment is
 
 **How are rewards calculated?**
 
-Reward amounts are determined by the Safenet Beta protocol and published periodically (per **epoch**) by the Safe ecosystem as signed data files (**Merkle proofs**). This interface reads and displays that data; **Protofire does not calculate, fund, or control rewards**.
+Reward amounts are determined by the Safenet Aegis protocol and published periodically (per **epoch**) by the Safe ecosystem as signed data files (**Merkle proofs**). This interface reads and displays that data; **Protofire does not calculate, fund, or control rewards**.
 
 **How do I claim rewards?**
 
@@ -88,7 +88,7 @@ Protofire does not charge fees for using this interface. You pay only the blockc
 
 **Is staking risky?**
 
-Yes \- all blockchain interactions carry risk, including smart contract bugs, token price volatility, protocol changes, and user error (transactions are irreversible). Safenet Beta is beta software provided "as is". Only stake what you can afford to lock up and potentially lose. See our Terms of Use for a full risk statement.
+Yes \- all blockchain interactions carry risk, including smart contract bugs, token price volatility, protocol changes, and user error (transactions are irreversible). Safenet Aegis is provided "as is". Only stake what you can afford to lock up and potentially lose. See our Terms of Use for a full risk statement.
 
 **Is this financial advice?**
 

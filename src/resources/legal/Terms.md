@@ -1,20 +1,20 @@
 # Terms of Use
 
-Effective Date: September 15, 2026
+Effective Date: October 9, 2026
 
-These Terms of Use ("Terms") constitute a binding agreement between you ("User", "you", or "your") and Altoros LLC (dba Protofire DAO), a Puerto Rico limited liability company under register number 416164, with its principal office at 1607 Ponce de Leon Avenue, GM-06, San Juan, PR, 00909-1803 ("Protofire", "we", "us", or "our"), governing your access to and use of this Safenet Beta staking web interface (the "Interface").
+These Terms of Use ("Terms") constitute a binding agreement between you ("User", "you", or "your") and Altoros LLC (dba Protofire DAO), a Puerto Rico limited liability company under register number 416164, with its principal office at 1607 Ponce de Leon Avenue, GM-06, San Juan, PR, 00909-1803 ("Protofire", "we", "us", or "our"), governing your access to and use of this Safenet Aegis staking web interface (the "Interface").
 
 Please read these Terms carefully before using the Interface. By accessing or using the Interface, you agree to be bound by these Terms. If you do not agree, you may not access or use the Interface.
 
 ## 1\. Overview
 
-The Interface is a non-custodial, open-source, web-based application that enables Users to interact, from their own self-custodial wallets, with the Safenet Beta staking smart contracts deployed on public blockchain networks (the "Staking Contracts"). Through the Interface, Users may submit transactions to stake SAFE tokens to validators, initiate and execute withdrawals, and claim staking rewards.
+The Interface is a non-custodial, open-source, web-based application that enables Users to interact, from their own self-custodial wallets, with the Safenet Aegis staking smart contracts deployed on public blockchain networks (the "Staking Contracts"). Through the Interface, Users may submit transactions to stake SAFE tokens to validators, initiate and execute withdrawals, and claim staking rewards.
 
-The Interface does not custody user funds, execute transactions on behalf of users, or control any on-chain functionality. It is provided solely as a convenience to allow interaction with public, permissionless smart contracts. Protofire does not operate or control the Staking Contracts, the SAFE token, the Safenet Beta network, any validator, or any blockchain.
+The Interface does not custody user funds, execute transactions on behalf of users, or control any on-chain functionality. It is provided solely as a convenience to allow interaction with public, permissionless smart contracts. Protofire does not operate or control the Staking Contracts, the SAFE token, the Safenet Aegis network, any validator, or any blockchain.
 
-**Operator independence.** This Interface is developed and operated solely by Protofire, in its own name and at its own responsibility. It is NOT operated by the Safe Ecosystem Foundation, Safe Labs, or their affiliates. The Safe Ecosystem Foundation does not operate any interface to access Safenet Beta. Your use of the Interface creates a relationship only between you and Protofire; you are not engaging with the Safe Ecosystem Foundation in any capacity. 
+**Operator independence.** This Interface is developed and operated solely by Protofire, in its own name and at its own responsibility. It is NOT operated by the Safe Ecosystem Foundation, Safe Labs, or their affiliates. The Safe Ecosystem Foundation does not operate any interface to access Safenet Aegis. Your use of the Interface creates a relationship only between you and Protofire; you are not engaging with the Safe Ecosystem Foundation in any capacity. 
 
-**Beta software.** Safenet Beta and the Staking Contracts are in a development and testing phase and are provided "as is" and "as available". For further information on Safenet Beta, including its limitations and risks, see the Safe Ecosystem Foundation's Safenet Beta Disclaimer ([https://safefoundation.org/beta-disclaimer](https://safefoundation.org/beta-disclaimer)).
+**"As is" basis.** Safenet Aegis and the Staking Contracts are provided "as is" and "as available", without warranties of any kind. Rewards from the former Safenet Beta phase remain subject to the Safe Ecosystem Foundation's Safenet Beta Disclaimer ([https://safefoundation.org/beta-disclaimer](https://safefoundation.org/beta-disclaimer)).
 
 ## 2\. Eligibility
 
@@ -26,8 +26,8 @@ By using the Interface, you represent and warrant that you meet all of these req
 
 - "Interface" refers to this staking front-end application.  
 - "User" or "you" refers to any person or entity interacting with the Interface via a supported Web3 wallet.  
-- "Staking Contracts" refers to the Safenet Beta staking, token, and rewards distribution smart contracts, which operate independently on public blockchains and are not developed, deployed, or controlled by Protofire.  
-- "Validator" refers to an independent third party participating in Safenet Beta's validator set. Validators are not operated, endorsed, supervised, or vetted by Protofire.  
+- "Staking Contracts" refers to the Safenet Aegis staking, token, and rewards distribution smart contracts, which operate independently on public blockchains and are not developed, deployed, or controlled by Protofire.  
+- "Validator" refers to an independent third party participating in Safenet Aegis's validator set. Validators are not operated, endorsed, supervised, or vetted by Protofire.  
 - "Rewards Data" refers to validator information, reward amounts, and cryptographic (Merkle) proofs published by the Safe ecosystem or other third parties, which the Interface reads and displays but does not create, verify, or control.
 
 ## 4\. Access and Wallet Responsibility
@@ -44,7 +44,7 @@ All transactions are initiated, authorized, and broadcast by you, and you bear a
 
 ## 6\. Staking-Specific Terms
 
-- **No guarantee of rewards.** Reward rates, if any, are determined by the Safenet Beta protocol and the behavior of validators and other stakers — not by Protofire. Any displayed reward figures are estimates derived from third-party Rewards Data and may be inaccurate, delayed, or changed at any time. Past rewards are not indicative of future rewards, and rewards may be zero.  
+- **No guarantee of rewards.** Reward rates, if any, are determined by the Safenet Aegis protocol and the behavior of validators and other stakers — not by Protofire. Any displayed reward figures are estimates derived from third-party Rewards Data and may be inaccurate, delayed, or changed at any time. Past rewards are not indicative of future rewards, and rewards may be zero.  
 - **Withdrawal cooldown.** Unstaking is subject to a protocol-level withdrawal delay enforced by the Staking Contracts. Protofire cannot accelerate, waive, or modify this delay. During the cooldown, your tokens remain locked by the protocol and may not be transferable.  
 - **Rewards claims.** Reward claims depend on Rewards Data (including Merkle proofs) published by third parties. If such data is unavailable, delayed, or inconsistent with the on-chain state, claiming may be temporarily impossible. Protofire is not responsible for the correctness or availability of Rewards Data.  
 - **Validator risk.** Delegating stake to a validator is your decision alone. Protofire does not recommend validators and is not responsible for validator performance, downtime, misbehavior, or any protocol penalty that may be introduced.  
@@ -56,7 +56,7 @@ Nothing on the Interface constitutes legal, financial, investment, accounting, o
 
 ## 8\. Assumption of Risk
 
-By accessing or using the Interface, you acknowledge and accept that interacting with blockchain technologies, staking protocols, and beta software involves significant risks, including without limitation: smart contract bugs or vulnerabilities (including in the Staking Contracts, which have not been audited by Protofire); irreversible transactions; loss of funds due to user error; volatility and potential total loss of token value; unavailability or inaccuracy of third-party infrastructure (RPC nodes, data sources, Rewards Data); regulatory uncertainty affecting staking activities in your jurisdiction; and network congestion or elevated gas fees. You voluntarily accept and assume all such risks, and you agree that Protofire will not be held liable for any losses arising out of or relating to them.
+By accessing or using the Interface, you acknowledge and accept that interacting with blockchain technologies and staking protocols involves significant risks, including without limitation: smart contract bugs or vulnerabilities (including in the Staking Contracts, which have not been audited by Protofire); irreversible transactions; loss of funds due to user error; volatility and potential total loss of token value; unavailability or inaccuracy of third-party infrastructure (RPC nodes, data sources, Rewards Data); regulatory uncertainty affecting staking activities in your jurisdiction; and network congestion or elevated gas fees. You voluntarily accept and assume all such risks, and you agree that Protofire will not be held liable for any losses arising out of or relating to them.
 
 ## 9\. No Warranties
 
@@ -81,7 +81,7 @@ You agree to defend, indemnify, and hold harmless Protofire, its affiliates, lic
 ## 14\. Limitation of Liability
 
 To the maximum extent permitted by applicable law, Protofire and its affiliates, officers, directors, employees, agents, and contractors shall not be liable for any: loss of funds or digital assets; loss of staking rewards or expected yield; direct, indirect, incidental, special, punitive, or consequential damages; errors, bugs, or security issues in the Interface; failures or vulnerabilities in any protocol, token, validator, or blockchain; user error; or reliance on data presented in the Interface.   
-For the avoidance of doubt, Protofire shall have no liability whatsoever for any loss or damage caused by errors, bugs, vulnerabilities, or failures in the Staking Contracts or the Safenet Beta protocol, which are developed, deployed, and operated by third parties independent of Protofire. Protofire does not audit, verify, or warrant the security or functionality of any smart contract.   
+For the avoidance of doubt, Protofire shall have no liability whatsoever for any loss or damage caused by errors, bugs, vulnerabilities, or failures in the Staking Contracts or the Safenet Aegis protocol, which are developed, deployed, and operated by third parties independent of Protofire. Protofire does not audit, verify, or warrant the security or functionality of any smart contract.   
 Notwithstanding any other provision of these Terms, Protofire's aggregate liability to you for all claims arising out of or relating to your use of the Interface shall not exceed USD 100 (one hundred US dollars).   
 In jurisdictions where liability limitations are not allowed, our liability will be limited to the maximum extent permitted by law. 
 

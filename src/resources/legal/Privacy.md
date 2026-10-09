@@ -1,8 +1,8 @@
 # Privacy Policy
 
-Last updated: September 15, 2026
+Last updated: October 9, 2026
 
-This Privacy Policy explains how Altoros LLC (dba Protofire DAO) ("Protofire", "we", "us", or "our") approaches privacy  in connection with your use of this Safenet Beta staking web interface (the "Interface"). This Interface is designed to operate without collecting personal data.
+This Privacy Policy explains how Altoros LLC (dba Protofire DAO) ("Protofire", "we", "us", or "our") approaches privacy  in connection with your use of this Safenet Aegis staking web interface (the "Interface"). This Interface is designed to operate without collecting personal data.
 
 By accessing or using the Interface, you agree to the terms of this Privacy Policy.
 

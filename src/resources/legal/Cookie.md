@@ -1,8 +1,8 @@
 # Cookie Policy
 
-Last updated: September 15, 2026
+Last updated: October 9, 2026
 
-This Cookie Policy applies to this Safenet Beta staking web interface operated by Altoros LLC (dba Protofire DAO) ("we", "us") at [safenet-staking.protofire.io](https://safenet-staking.protofire.io) and sets out how and why we use cookies and similar technologies. For general web browsing of this Interface, your personal data is not revealed to us.
+This Cookie Policy applies to this Safenet Aegis staking web interface operated by Altoros LLC (dba Protofire DAO) ("we", "us") at [safenet-staking.protofire.io](https://safenet-staking.protofire.io) and sets out how and why we use cookies and similar technologies. For general web browsing of this Interface, your personal data is not revealed to us.
 
 By using the Interface, you consent to the storage of and access to cookies and similar technologies on your device in accordance with this Cookie Policy.
 
