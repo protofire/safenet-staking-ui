@@ -1,7 +1,7 @@
 {
-  "name": "protofire-staking-ui",
-  "private": true,
-  "version": "0.2.0",
+  "name": "protofire-safenet-staking-ui",
+  "version": "1.0.0",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
