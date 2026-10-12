@@ -90,6 +90,6 @@ If a dependency legitimately needs an install script (e.g. native addons), use `
 
 ## E2E / CI
 
-Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. There is no CI workflow in this repository yet; run `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening a pull request. The Husky pre-commit hook runs `lint`, `format:check` and `test`.
+Playwright is configured at the app root (`playwright.config.ts`) with `testDir: e2e/tests` and a `webServer` hook that builds the app with the env in [`e2e/env.ts`](./e2e/env.ts) and serves it with `pnpm preview`. CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml)) runs `typecheck`, `lint`, `format:check` and `test` on pushes to `main` and `staging`. It does not run on pull requests, so run `pnpm format:check`, `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm test:e2e` locally before opening one. E2E tests are not part of CI. The Husky pre-commit hook runs `typecheck`, `lint`, `format:check` and `test`.
 
 E2E tests never touch a real wallet or chain. [`e2e/mocks/`](./e2e/mocks) provides an injected EIP-1193 wallet stub, a JSON-RPC mock that decodes `eth_call` (including multicall) against the app's ABIs, and route interception for the validator feed and the reward proofs in [`e2e/fixtures/`](./e2e/fixtures). Nothing in `e2e/` ships in the production bundle.
