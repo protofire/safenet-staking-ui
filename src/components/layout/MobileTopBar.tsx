@@ -20,7 +20,7 @@ export function MobileTopBar({ className }: { className?: string }) {
           className="size-6 shrink-0"
         />
         <span className="truncate text-sm font-semibold tracking-tight text-text">
-          SafeNet Staking
+          Safenet Staking
         </span>
       </div>
 

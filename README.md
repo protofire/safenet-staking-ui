@@ -14,7 +14,7 @@ Parts of this codebase (staking, rewards and withdrawal hooks and related logic)
 
 Single-page app built with **TypeScript**, **Vite**, and **React** (strict compiler settings, ESM, `react-jsx`). It is a static deployment target for a SAFE-token staking dApp.
 
-Current version: **1.0.0**.
+Current version: **1.0.1**.
 
 ## Pages
 

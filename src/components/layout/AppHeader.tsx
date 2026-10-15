@@ -26,7 +26,7 @@ export function AppHeader() {
             className="size-8 shrink-0"
           />
           <div className="flex items-baseline gap-1.5">
-            <span className="text-sm font-bold tracking-tight text-text">SafeNet Staking UI</span>
+            <span className="text-sm font-bold tracking-tight text-text">Safenet Staking UI</span>
             <span className="font-mono text-xs tabular-nums text-text-muted">v{APP_VERSION}</span>
           </div>
         </div>
