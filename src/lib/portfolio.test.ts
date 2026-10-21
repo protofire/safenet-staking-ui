@@ -80,4 +80,13 @@ describe('buildPositions', () => {
   it('skips zero stakes', () => {
     expect(buildPositions([a], [{ status: 'success', result: 0n }], 'dark')).toEqual([])
   })
+
+  it('carries a missing participation rate through as null', () => {
+    const rows = buildPositions(
+      [buildValidator({ participationRate14d: null })],
+      [{ status: 'success', result: 1n }],
+      'dark',
+    )
+    expect(rows[0]?.participationPct).toBeNull()
+  })
 })

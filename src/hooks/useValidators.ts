@@ -9,7 +9,7 @@ const validatorEntrySchema = z.object({
   commission: z.number(),
   is_active: z.boolean(),
   label: z.string(),
-  participation_rate_14d: z.number(),
+  participation_rate_14d: z.number().nullable(),
 })
 
 export type ValidatorInfo = {
@@ -17,7 +17,7 @@ export type ValidatorInfo = {
   commission: number
   isActive: boolean
   label: string
-  participationRate14d: number
+  participationRate14d: number | null
 }
 
 const responseSchema = z.array(validatorEntrySchema)
