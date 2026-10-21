@@ -4,7 +4,8 @@ import { getStakingContractAddress } from '@/config/contracts'
 import { getExplorerAddressUrl } from '@/lib/explorer'
 
 const HELP_SUPPORT_HREF = 'mailto:safenet-staking-support@protofire.io'
-const GITHUB_HREF = 'https://github.com/protofire/safenet-staking-ui'
+const INCIDENT_LOG_HREF =
+  'https://github.com/protofire/safenet-staking-ui/blob/main/docs/INCIDENTS.md'
 const STAKING_CONTRACT_HREF = getExplorerAddressUrl(getStakingContractAddress(chain.id))
 const STAKING_CONTRACT_LINKS: FooterLink[] =
   STAKING_CONTRACT_HREF === undefined
@@ -49,7 +50,11 @@ export function buildFooterColumns(): FooterColumn[] {
     },
     {
       head: 'Resources',
-      links: [...RESOURCE_LINKS, { label: 'Github', href: GITHUB_HREF }, ...STAKING_CONTRACT_LINKS],
+      links: [
+        ...RESOURCE_LINKS,
+        { label: 'GitHub Incident Log', href: INCIDENT_LOG_HREF },
+        ...STAKING_CONTRACT_LINKS,
+      ],
     },
     {
       head: 'Legal',
