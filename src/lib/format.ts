@@ -4,6 +4,7 @@ const LOCALE = 'en-US'
 const FLOOR_DECIMALS = 5
 const DISPLAY_FLOOR_LABEL = '< 0.00001'
 const COMPACT_THRESHOLD = 1_000_000
+const EMPTY_VALUE = '—'
 
 type TierDecimals = 5 | 4 | 2
 
@@ -53,6 +54,15 @@ export function formatTokenAmount(amount: bigint, decimals = 18, precision?: num
   const tier = tierDecimals(amount, scale)
   const n = Number(roundToPrecision(amount, decimals, tier))
   return n >= COMPACT_THRESHOLD ? compactNumberFormat.format(n) : tierNumberFormats[tier].format(n)
+}
+
+export function formatPercent(pct: number | null, fractionDigits = 2): string {
+  if (pct === null) return EMPTY_VALUE
+  return `${pct.toFixed(fractionDigits)}%`
+}
+
+export function formatPercentFromRate(rate: number | null, fractionDigits = 2): string {
+  return formatPercent(rate === null ? null : rate * 100, fractionDigits)
 }
 
 export function sanitizeAmountInput(value: string): string {

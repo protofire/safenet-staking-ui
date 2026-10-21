@@ -5,6 +5,8 @@ import {
   formatCooldownForBlurb,
   formatCountdown,
   formatDurationFromSeconds,
+  formatPercent,
+  formatPercentFromRate,
   formatTokenAmount,
   formatTokenAmountPrecise,
   formatTxHashShort,
@@ -67,6 +69,28 @@ describe('formatTokenAmount', () => {
 
   it('routes explicit precision to the precise formatter', () => {
     expect(formatTokenAmount(1_239_000_000_000_000_000n, 18, 2)).toBe('1.24')
+  })
+})
+
+describe('formatPercent', () => {
+  it('formats a percent value with the requested precision', () => {
+    expect(formatPercent(98.123)).toBe('98.12%')
+    expect(formatPercent(5, 1)).toBe('5.0%')
+  })
+
+  it('renders a dash for a missing value', () => {
+    expect(formatPercent(null)).toBe('—')
+  })
+})
+
+describe('formatPercentFromRate', () => {
+  it('scales a ratio to percent', () => {
+    expect(formatPercentFromRate(0.98)).toBe('98.00%')
+    expect(formatPercentFromRate(1)).toBe('100.00%')
+  })
+
+  it('renders a dash for a missing rate', () => {
+    expect(formatPercentFromRate(null)).toBe('—')
   })
 })
 

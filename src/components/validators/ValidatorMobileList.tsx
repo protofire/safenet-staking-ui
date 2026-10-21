@@ -6,6 +6,7 @@ import {
   ValidatorActions,
   type ValidatorListViewProps,
 } from '@/components/validators/ValidatorRowParts'
+import { formatPercentFromRate } from '@/lib/format'
 import { getValidatorRowState } from '@/lib/validators'
 
 export function ValidatorMobileList(props: ValidatorListViewProps) {
@@ -40,7 +41,7 @@ export function ValidatorMobileList(props: ValidatorListViewProps) {
                 </dd>
                 <dt className="text-text-muted">Part. 14d</dt>
                 <dd className="text-right font-mono tabular-nums text-text-muted">
-                  {(v.participationRate14d * 100).toFixed(2)}%
+                  {formatPercentFromRate(v.participationRate14d)}
                 </dd>
                 <dt className="text-text-muted">Total staked</dt>
                 <dd className="text-right font-mono tabular-nums text-text">

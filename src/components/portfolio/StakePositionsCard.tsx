@@ -1,7 +1,7 @@
 import { AddressMono } from '@/components/ui/address-mono'
 import { Button } from '@/components/ui/button'
 import { TableHead } from '@/components/ui/table'
-import { formatTokenAmount } from '@/lib/format'
+import { formatPercent, formatTokenAmount } from '@/lib/format'
 import type { PositionRow } from '@/lib/portfolio'
 
 const numericCell = 'w-px whitespace-nowrap px-5 py-3 text-right font-mono text-xs tabular-nums'
@@ -39,7 +39,7 @@ export function StakePositionsCard({
               </dd>
               <dt className="text-text-muted">Part. 14d</dt>
               <dd className="text-right font-mono tabular-nums text-text-muted">
-                {p.participationPct.toFixed(2)}%
+                {formatPercent(p.participationPct)}
               </dd>
             </dl>
             <Button
@@ -96,7 +96,7 @@ export function StakePositionsCard({
                     {p.commissionPct.toFixed(1)}%
                   </td>
                   <td className={`${numericCell} text-text-muted`}>
-                    {p.participationPct.toFixed(2)}%
+                    {formatPercent(p.participationPct)}
                   </td>
                   <td className="w-px whitespace-nowrap px-5 py-3 text-right">
                     <Button

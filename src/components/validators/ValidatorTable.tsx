@@ -7,7 +7,7 @@ import {
   ValidatorActions,
   type ValidatorListViewProps,
 } from '@/components/validators/ValidatorRowParts'
-import { formatTokenAmount } from '@/lib/format'
+import { formatPercentFromRate, formatTokenAmount } from '@/lib/format'
 import { getValidatorRowState } from '@/lib/validators'
 
 const numericCell = 'px-5 py-3 text-right font-mono text-xs tabular-nums'
@@ -58,7 +58,7 @@ export function ValidatorTable(props: ValidatorListViewProps) {
                     {(v.commission * 100).toFixed(1)}%
                   </td>
                   <td className={`w-px whitespace-nowrap ${numericCell} text-text-muted`}>
-                    {(v.participationRate14d * 100).toFixed(2)}%
+                    {formatPercentFromRate(v.participationRate14d)}
                   </td>
                   <td
                     className={`whitespace-nowrap ${numericCell} text-text`}

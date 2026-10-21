@@ -43,6 +43,15 @@ describe('useValidators', () => {
     expect(label).toHaveLength(64)
   })
 
+  it('accepts a null participation rate', async () => {
+    respondWith([buildRawValidator({ participation_rate_14d: null })])
+
+    const { result } = renderHookWithQuery(() => useValidators())
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true))
+    expect(result.current.data?.[0]?.participationRate14d).toBeNull()
+  })
+
   it('rejects a payload with an invalid address', async () => {
     respondWith([buildRawValidator({ address: '0x123' })])
 
