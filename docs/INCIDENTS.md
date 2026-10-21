@@ -85,10 +85,10 @@ Planned for release 1.2.
 
 | Field    | Value                                                                 |
 | -------- | --------------------------------------------------------------------- |
-| Status   | Fix pending publication                                               |
+| Status   | Resolved                                                              |
 | Severity | S1. Validator list, staking and portfolio unavailable. No funds at risk. |
 | Detected | 2026-10-21                                                            |
-| Resolved | Pending                                                               |
+| Resolved | 2026-10-21                                                            |
 | Version  | 1.0.2 and earlier (affected), 1.0.3 (fix)                             |
 
 ### Timeline
@@ -96,7 +96,8 @@ Planned for release 1.2.
 | Date       | Event                                                                                |
 | ---------- | ------------------------------------------------------------------------------------ |
 | 2026-10-21 | Detected: validators unavailable due to a `null` value from the data source; page shows "Failed to load validators: unexpected data format." |
-| 2026-10-21 | Fix implemented in 1.0.3; awaiting build and IPFS publication                        |
+| 2026-10-21 | Fix implemented in 1.0.3                                                             |
+| 2026-10-21 | Fixed build published: `bafybeiavc2jpuqo5rby7e3ga4mh27ybcqrld2o4v3sgr7teqb7cz3qyhd4` |
 
 <details>
 <summary>Details</summary>
@@ -140,7 +141,7 @@ All other fields are validated as before.
 | Build    | IPFS CID |
 | -------- | -------- |
 | Affected | `bafybeidzcog3z3cnuwcccb6dyrqzkpulnuyrlxhphisjukxetzy3zlxumi` |
-| Fixed    | Pending  |
+| Fixed    | `bafybeiavc2jpuqo5rby7e3ga4mh27ybcqrld2o4v3sgr7teqb7cz3qyhd4` |
 
 ### Follow-up
 
