@@ -52,7 +52,7 @@ export function buildFooterColumns(): FooterColumn[] {
       head: 'Resources',
       links: [
         ...RESOURCE_LINKS,
-        { label: 'GitHub Incident Log', href: INCIDENT_LOG_HREF },
+        { label: 'GitHub / Incident Log', href: INCIDENT_LOG_HREF },
         ...STAKING_CONTRACT_LINKS,
       ],
     },
