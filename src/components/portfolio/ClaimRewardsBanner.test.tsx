@@ -11,7 +11,6 @@ function renderBanner(overrides: Partial<ClaimRewardsBannerProps> = {}) {
       claimableWei={5_000n * SAFE}
       rootStale={false}
       rewardsEnabled
-      portfolioEmpty={false}
       onClaim={onClaim}
       {...overrides}
     />,
@@ -30,7 +29,6 @@ describe('ClaimRewardsBanner', () => {
 
   it.each([
     ['rewards are disabled', { rewardsEnabled: false }],
-    ['the portfolio is empty', { portfolioEmpty: true }],
     ['nothing is claimable', { claimableWei: 0n }],
     ['the merkle root is stale', { rootStale: true }],
   ])('renders nothing when %s', (_name, overrides) => {

@@ -27,13 +27,11 @@ export function PortfolioRewardsShell({
   claimOpen,
   setClaimOpen,
   rewardsUiEnabled,
-  portfolioEmpty,
 }: {
   model: ReturnType<typeof usePortfolioRewardsModels>
   claimOpen: boolean
   setClaimOpen: (v: boolean) => void
   rewardsUiEnabled: boolean
-  portfolioEmpty: boolean
 }) {
   const { merkleDrop, rewards, rewardsInfoNote } = model
 
@@ -56,7 +54,6 @@ export function PortfolioRewardsShell({
         claimableWei={rewards.claimable}
         rootStale={rewards.rootStale}
         rewardsEnabled={rewardsUiEnabled}
-        portfolioEmpty={portfolioEmpty}
         onClaim={() => setClaimOpen(true)}
       />
 
