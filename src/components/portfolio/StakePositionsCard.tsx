@@ -35,7 +35,7 @@ export function StakePositionsCard({
               </dd>
               <dt className="text-text-muted">Commission</dt>
               <dd className="text-right font-mono tabular-nums text-text-muted">
-                {p.commissionPct.toFixed(1)}%
+                {formatPercent(p.commissionPct, 1)}
               </dd>
               <dt className="text-text-muted">Part. 14d</dt>
               <dd className="text-right font-mono tabular-nums text-text-muted">
@@ -93,7 +93,7 @@ export function StakePositionsCard({
                     <span className="ml-1 font-normal text-text-muted">SAFE</span>
                   </td>
                   <td className={`${numericCell} text-text-muted`}>
-                    {p.commissionPct.toFixed(1)}%
+                    {formatPercent(p.commissionPct, 1)}
                   </td>
                   <td className={`${numericCell} text-text-muted`}>
                     {formatPercent(p.participationPct)}

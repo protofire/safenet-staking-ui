@@ -77,7 +77,6 @@ export default function Portfolio() {
                 claimOpen={claimOpen}
                 setClaimOpen={setClaimOpen}
                 rewardsUiEnabled={rewardsUiEnabled}
-                portfolioEmpty={positions.length === 0}
               />
             ) : null}
 

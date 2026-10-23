@@ -5,7 +5,6 @@ export type ClaimRewardsBannerProps = {
   claimableWei: bigint
   rootStale: boolean
   rewardsEnabled: boolean
-  portfolioEmpty: boolean
   onClaim: () => void
 }
 
@@ -13,11 +12,9 @@ export function ClaimRewardsBanner({
   claimableWei,
   rootStale,
   rewardsEnabled,
-  portfolioEmpty,
   onClaim,
 }: ClaimRewardsBannerProps) {
   if (!rewardsEnabled) return null
-  if (portfolioEmpty) return null
   if (claimableWei <= 0n) return null
   if (rootStale) return null
 
@@ -34,7 +31,7 @@ export function ClaimRewardsBanner({
           </span>
           <span className="text-text-muted">available to claim</span>
         </div>
-        <p className="mt-1 text-xs text-text-muted">Accrued after staking in validators</p>
+        <p className="mt-1 text-xs text-text-muted">Earned from your past stake with validators</p>
       </div>
       <Button type="button" size="sm" className="shrink-0 font-semibold" onClick={onClaim}>
         Claim

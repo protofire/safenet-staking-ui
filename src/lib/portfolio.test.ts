@@ -89,4 +89,13 @@ describe('buildPositions', () => {
     )
     expect(rows[0]?.participationPct).toBeNull()
   })
+
+  it('carries a missing commission through as null', () => {
+    const rows = buildPositions(
+      [buildValidator({ commission: null })],
+      [{ status: 'success', result: 1n }],
+      'dark',
+    )
+    expect(rows[0]?.commissionPct).toBeNull()
+  })
 })

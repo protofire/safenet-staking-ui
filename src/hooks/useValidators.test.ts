@@ -52,6 +52,15 @@ describe('useValidators', () => {
     expect(result.current.data?.[0]?.participationRate14d).toBeNull()
   })
 
+  it('accepts a null commission', async () => {
+    respondWith([buildRawValidator({ commission: null })])
+
+    const { result } = renderHookWithQuery(() => useValidators())
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true))
+    expect(result.current.data?.[0]?.commission).toBeNull()
+  })
+
   it('rejects a payload with an invalid address', async () => {
     respondWith([buildRawValidator({ address: '0x123' })])
 

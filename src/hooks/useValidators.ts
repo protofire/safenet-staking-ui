@@ -6,7 +6,7 @@ import { env } from '@/config/env'
 
 const validatorEntrySchema = z.object({
   address: z.string().refine((a) => isAddress(a), 'Invalid validator address'),
-  commission: z.number(),
+  commission: z.number().nullable(),
   is_active: z.boolean(),
   label: z.string(),
   participation_rate_14d: z.number().nullable(),
@@ -14,7 +14,7 @@ const validatorEntrySchema = z.object({
 
 export type ValidatorInfo = {
   address: `0x${string}`
-  commission: number
+  commission: number | null
   isActive: boolean
   label: string
   participationRate14d: number | null

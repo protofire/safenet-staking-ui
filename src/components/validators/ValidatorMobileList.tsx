@@ -37,7 +37,7 @@ export function ValidatorMobileList(props: ValidatorListViewProps) {
               <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-xs lg:text-sm">
                 <dt className="text-text-muted">Commission</dt>
                 <dd className="text-right font-mono tabular-nums text-text-muted">
-                  {(v.commission * 100).toFixed(1)}%
+                  {formatPercentFromRate(v.commission, 1)}
                 </dd>
                 <dt className="text-text-muted">Part. 14d</dt>
                 <dd className="text-right font-mono tabular-nums text-text-muted">
