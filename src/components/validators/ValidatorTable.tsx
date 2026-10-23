@@ -55,7 +55,7 @@ export function ValidatorTable(props: ValidatorListViewProps) {
                     </div>
                   </td>
                   <td className={`w-px whitespace-nowrap ${numericCell} text-text-muted`}>
-                    {(v.commission * 100).toFixed(1)}%
+                    {formatPercentFromRate(v.commission, 1)}
                   </td>
                   <td className={`w-px whitespace-nowrap ${numericCell} text-text-muted`}>
                     {formatPercentFromRate(v.participationRate14d)}

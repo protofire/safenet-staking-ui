@@ -4,7 +4,7 @@ import { chartSegmentColor, type ChartTheme } from '@/lib/chartColors'
 export type PositionRow = {
   address: `0x${string}`
   label: string
-  commissionPct: number
+  commissionPct: number | null
   participationPct: number | null
   stake: bigint
   color: string
@@ -58,7 +58,7 @@ export function buildPositions(
       {
         address: v.address,
         label: v.label,
-        commissionPct: v.commission * 100,
+        commissionPct: v.commission === null ? null : v.commission * 100,
         participationPct: v.participationRate14d === null ? null : v.participationRate14d * 100,
         stake: r.result,
       },
