@@ -36,7 +36,7 @@ These third parties may collect data (such as your IP address or wallet address)
 
 ## 6\. Cookies and Tracking Technologies
 
-The Interface's use of cookies and similar technologies is described in our [Cookie Policy](/cookies). You may adjust your browser settings to disable or manage cookies according to your preferences.
+The Interface's use of cookies and similar technologies is described in our [Cookie Policy](#/cookies). You may adjust your browser settings to disable or manage cookies according to your preferences.
 
 ## 7\. Non-Sharing of Data 
 
